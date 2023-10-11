@@ -7,7 +7,7 @@
     <h2 class="text-xl normal-case mt-10 font-bold">En las primeras etapas investigar las experiencias más importantes y los significados de las mismas</h2>
     <div class="border border-main-default rounded-xl px-4 w-[80%] mx-auto mt-4">
         <table class="w-full">
-            <tr v-for="item in tableContent">
+            <tr v-for="(item, index) in tableContent" :key="index">
                 <td class="w-1/3 text-center font-bold">{{ item.title }}</td>
                 <td class="w-1/2">
                     <div class="relative z-0 w-full group mb-4">
@@ -23,16 +23,16 @@
         </table>
     </div>
     <div class="flex flex-row justify-end mt-4">
-        <Button @click="showInfo(item)" class="p-3" variant="main" type="button">
+        <ButtonVue @click="showInfo(item)" class="p-3" variant="main" type="button">
             Más info
-        </Button>
+        </ButtonVue>
     </div>
 </template>
 
 <script setup>
-import Button from '@/components/Button.vue';
 import TextArea from './TextArea.vue';
 import { reactive } from 'vue';
+import ButtonVue from '../general_components/ButtonVue.vue';
 
 const props = defineProps({
     item: {

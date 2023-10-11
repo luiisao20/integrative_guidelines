@@ -30,7 +30,7 @@
         <div class="relative z-0 w-full mb-6 group">
             <input @input="updateForm(dataUser)" v-model="dataUser.id" type="text" name="floating_id" id="floating_id"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
-                placeholder=" "  />
+                placeholder=" " maxlength="10" />
             <label for="floating_id"
                 class="peer-focus:font-medium absolute text-sm text-black dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-main-default peer-focus:dark:text-main-default peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                 Número de cédula</label>
@@ -53,19 +53,14 @@
                 class="peer-focus:font-medium absolute text-sm text-black dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-main-default peer-focus:dark:text-main-default peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                 Lugar de nacimiento</label>
         </div>
-        <div class="relative z-0 w-full mb-6 group border-b-2 border-gray-300">
-            <div class="flex flex-row items-center">
-                <label for="" class="text-sm">Año de nacimiento</label>
-                <input @input="updateForm(dataUser)" v-model="dataUser.birthdayMonth" class="border-none text-center placeholder-black bg-background w-[20%]" type="text" maxlength="2" placeholder="mm">
-                <p>/</p>
-                <input @input="updateForm(dataUser)" v-model="dataUser.birthdayDay" class="border-none text-center placeholder-black bg-background w-[20%]" type="text" maxlength="2" placeholder="dd">
-                <p>/</p>
-                <input @input="updateForm(dataUser)" v-model="dataUser.birthdayYear" class="border-none text-center placeholder-black bg-background w-1/4" maxlength="4" type="text" placeholder="aaaa">
-            </div>
+        <div class="relative z-0 w-full mb-6 group">
+            <DatePretty
+                @update-date="updateBirthday"
+            />
         </div>
     </div>
     <div class="grid md:grid-cols-3 md:gap-1">
-        <div class="relative z-0 w-full mb-6 group" v-for="(item, index) in packs">
+        <div class="relative z-0 w-full mb-6 group" v-for="(item, index) in packs" :key="index">
             <input @input="updateForm(dataUser)" v-model="dataUser[item]" type="text" :name="`floating_${index}`" :id="`floating_${index}`"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
                 placeholder=" "  />
@@ -114,12 +109,13 @@
         <div class="w-full">
             <label for="underline_select" class="sr-only" >Underline select</label>
             <select @input="updateForm(dataUser)" v-model="dataUser.attentionType" id="underline_select" class="block py-2.5 px-0 w-full text-sm bg-transparent border-b-2 border-gray-300 text-black dark:text-gray-400 dark:border-gray-700 ">
-                <option disabled>Tipo de atención</option>
+                <option disabled>Tipo de atención </option>
                 <option class="text-black">Ambulatorio</option>
                 <option class="text-black">Hospitalizado</option>
                 <option class="text-black">Consulta privada</option>
                 <option value="other" class="text-black">Otros ¿Cuál?</option>
             </select>
+            <PopOver id-pop="1" variant="info" text-info="En caso de escoger 'Otros', deberás escribir el tipo de atención en el apartado 'Otro tipo de atención'" /> 
         </div>
         <div class="relative z-0 w-full mb-6 group">
             <input @input="updateForm(dataUser)" v-model="dataUser.otherAttention" :disabled="dataUser.attentionType !== 'other'" type="text" name="floating_attentionType" id="floating_attentionType"
@@ -136,6 +132,9 @@
 
 <script setup>
 import { reactive } from 'vue';
+import DatePretty from '../general_components/DatePretty.vue';
+import PopOver from '../general_components/PopOver.vue';
+
 const packs = [
     'Ciudad de residencia', 'Dirección', 'Celular',
     'Instrucción', 'Profesión', 'Ocupación',
@@ -150,9 +149,7 @@ const dataUser = reactive({
     id: '',
     email: '',
     birthPlace: '',
-    birthdayDay: '',
-    birthdayMonth: '',
-    birthdayYear: '',
+    birthday: '',
     'Ciudad de residencia': '', 'Dirección': '', 'Celular': '',
     'Instrucción': '', 'Profesión': '', 'Ocupación': '',
     'Grupo étnico': '', 'Género': '', 'Grupo socio-económico': '',
@@ -169,6 +166,11 @@ const emit = defineEmits(['update']);
 
 function updateForm(dataUser){
     emit('update', dataUser);
+}
+
+function updateBirthday(date){
+    dataUser.birthday = date;
+    updateForm(dataUser);
 }
 
 </script>

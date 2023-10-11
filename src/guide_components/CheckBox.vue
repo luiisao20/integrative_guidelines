@@ -3,7 +3,7 @@
         {{ item.title }}
     </h3>
     <ul class="flex flex-col items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-        <li v-for="(option, index) in item.options" class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+        <li v-for="(option, index) in item.options" :key="index" class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
             <div class="flex items-center pl-3">
                 <input @change="updateOptionsSelected(option, $event.target.checked)"
                     :id="`horizontal-list-checkbox-${item.title}${index}`" :type="typeInput" 
@@ -48,7 +48,6 @@ function updateOptionsSelected(option, isChecked) {
             }
         }
     } else {
-        console.log(option);
         props.optionSelected.selected = option;
     }
 }

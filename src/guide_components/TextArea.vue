@@ -5,17 +5,17 @@
             placeholder=" "  ></textarea>
         <label for="floating_brothers"
             class="peer-focus:font-medium capitalize absolute text-sm text-black dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-main-default peer-focus:dark:text-main-default peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-            {{ item.text }}</label>
+            {{ item[section] }}</label>
     </div>
     <div v-if="showBtnInfo" class="flex flex-row justify-end">
-        <Button @click="showModalInfo(item)" class="p-3" variant="main" type="button">
+        <ButtonVue @click="showModalInfo(item)" class="p-3" variant="main" type="button">
             Más info
-        </Button>
+        </ButtonVue>
     </div>
 </template>
 
 <script setup>
-import Button from '../Button.vue';
+import ButtonVue from '../general_components/ButtonVue.vue';
 
 const props = defineProps({
     item: {
@@ -28,6 +28,10 @@ const props = defineProps({
     },
     textValue: {
         required: true,
+        type: String
+    },
+    section: {
+        default: 'text',
         type: String
     }
 })

@@ -3,13 +3,16 @@
         v-bind="modalAlert"
         @close-mod="modalAlert.showModal = false; opacity = '1'"
     />
+    <SideBar
+        :options="content"
+    />
     <form class="py-10" :style="{ opacity: opacity }">
         <h1 class="text-2xl font-bold text-center">ANÁLISIS DE LA DEMANDA, EXPECTATIVAS Y MOTIVACIONES PREVIAS AL INICIO DEL PROCESO</h1>
         <p class="text-sm mt-10">Luego del primer contacto, telefónico o presencial, los datos iniciales de la ficha recogen datos del origen, el tipo de demanda, las demandas y expectativas en los ámbitos señalados</p>
         <p class="text-sm mt-10">Escoge por lo menos una opción en cada apartado</p>
         <h2 class="mt-10 text-center font-semibold text-gray-900 dark:text-white">DEMANDA PSICOLÓGICA</h2>
         <div class="flex flex-row gap-10 mt-2">
-            <div class="w-1/2" v-for="item in content.slice(0, 2)">
+            <div :id="item.title" class="w-1/2" v-for="(item, index) in content.slice(0, 2)" :key="index">
                 <CheckBox
                     v-model:options-selected="optionsSelected[`${item.title}`]"
                     :item="item"
@@ -18,25 +21,28 @@
         </div>
         <h2 class="mt-10 text-center font-semibold text-gray-900 dark:text-white">EXPECTATIVAS Y MOTIVACIONES</h2>
         <div class="flex flex-col gap-10 mt-2">
-            <div class="w-full md:w-[70%] mx-auto" v-for="item in content.slice(2)">
+            <div :id="item.title" class="w-full md:w-[70%] mx-auto" v-for="(item, index) in content.slice(2)" :key="index">
                 <CheckBox
                     v-model:options-selected="optionsSelected[`${item.title}`]"
                     :item="item"
                 />
             </div>
         </div>
-        <Button class="mt-10 p-2" type="submit" variant="info" @click.prevent="checkValues">
-            Enviar datos
-        </Button>
+        <div class="flex justify-end">
+            <ButtonVue class="mt-10 p-2" type="submit" variant="info" @click.prevent="checkValues">
+                Enviar datos
+            </ButtonVue>
+        </div>
     </form>
 </template>
 
 <script setup>
-import CheckBox from '../components/CheckBox.vue'
+import CheckBox from '../guide_components/CheckBox.vue'
 import { reactive, ref } from 'vue';
-import ModalAlert from '../components/ModalAlert.vue';
+import ModalAlert from '../general_components/ModalAlert.vue';
 import { useModal } from '@/composables/modal';
-import Button from '../components/Button.vue';
+import ButtonVue from '../general_components/ButtonVue.vue';
+import SideBar from '../guide_components/SideBar.vue'
 
 const content = [
     {

@@ -20,7 +20,7 @@
             </div>
             <!-- Modal body -->
             <div class="p-6 space-y-2">
-                <div v-for="item in content">
+                <div v-for="(item, index) in content" :key="index">
                     <h1 v-if="item.type === 'h'" class="text-sm font-extrabold leading-relaxed text-black dark:text-gray-400">
                         {{ item.subContent }}
                     </h1>

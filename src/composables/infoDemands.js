@@ -271,6 +271,29 @@ const infoRecomend = [
     },
 ];
 
+const infoEvlouc = [
+    {
+        type: 'p',
+        subContent: 'Apreciación subjetiva del paciente ASP 1………………………10'
+    },
+    {
+        type: 'li',
+        subContent: 'Anotar la fecha de cada sesión'
+    },
+    {
+        type: 'li',
+        subContent: 'La evolución considera el estado del paciente, sus avances, decrecimientos sintomáticos, recaídas, periodos estacionarios, cambios extra-terapéuticos, resultados que se obtienen con las técnicas utilizadas o las TIS'
+    },
+    {
+        type: 'li',
+        subContent: 'La ASP supone una evaluación subjetiva del paciente sobre su evolución durante el proceso. Se la efectúa en periodos de tiempo variables para incitar reflexiones sobre su estado'
+    },
+    {
+        type: 'li',
+        subContent: 'Las actividades consideran procedimientos de microtécnica o macrotécnica que se emplearon durante la sesión respectiva'
+    },
+];
+
 function getInfoContent(id){
     let infoContent = null;
     switch (id){
@@ -303,6 +326,9 @@ function getInfoContent(id){
             break;
         case '8':
             infoContent = infoRecomend;
+            break;
+        case 'guide-six':
+            infoContent = infoEvlouc;
             break;
     };
     return infoContent;

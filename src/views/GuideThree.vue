@@ -7,65 +7,80 @@
         v-bind="modalAlert"
         @close-mod="modalAlert.showModal = false; opacity = '1'"
     />
+    <SideBar 
+        :options="demands"
+        title="text"
+    />
     <form class="pt-10" :style="{ opacity: opacity }">
         <h1 class="text-2xl font-bold text-center">FICHA INTEGRATIVA DE EVALUACIÓN PSICOLÓGICA FIEPS</h1>
-        <UserData
-            @update="getInfoData"
-        />
+        <div :id="demands[0].text">
+            <UserData
+                @update="getInfoData"
+            />
+        </div>
         <!-- Sección 2 y 3 -->
-        <TextArea
-            v-for="item in demands.slice(0, 3)"
-            v-model:text-value="dataGuideThree.ohterSections[item.text]"
-            :item="item"
-            @showModalInfo="showInfo"
-        />
+        <div v-for="(item, index) in demands.slice(1, 4)" :id="item.text" :key="index">
+            <TextArea
+                v-model:text-value="dataGuideThree.ohterSections[item.text]"
+                :item="item"
+                @showModalInfo="showInfo"
+            />
+        </div>
         <!-- Sección 4 -->
-        <SectionFour 
-            @update="getInfoSectFour"
-            :item="demands[3]"
-            @show-info="showInfo"
-        />
-        <h2 class="text-xl mt-10 normal-case font-bold">Resultados de pruebas psicológicas</h2>
+        <div :id="demands[4].text">
+            <SectionFour 
+                @update="getInfoSectFour"
+                :item="demands[4]"
+                @show-info="showInfo"
+            />
+        </div>
+        <h2 :id="demands[5].text" class="text-xl mt-10 normal-case font-bold">Resultados de pruebas psicológicas</h2>
         <!-- Sección 5 -->
-        <TextArea
-            v-model:text-value="dataGuideThree.ohterSections[demands[4].text]"
-            :item="demands[4]"
-            @showModalInfo="showInfo"
-        />
+        <div>
+            <TextArea
+                section="title"
+                v-model:text-value="dataGuideThree.ohterSections[demands[5].text]"
+                :item="demands[5]"
+                @showModalInfo="showInfo"
+            />
+        </div>
         <h2 class="text-xl mt-10 normal-case font-bold">Conclusiones diagnósticas</h2>
         <!-- Sección 6 -->
-        <TextArea
-            v-for="item in demands.slice(5, 8)"
-            v-model:text-value="dataGuideThree.sectionSix[item.text]"
-            :item="item"
-            @showModalInfo="showInfo"
-        />
+        <div v-for="(item, index) in demands.slice(6, 9)" :id="item.text" :key="index">
+            <TextArea
+                v-model:text-value="dataGuideThree.sectionSix[item.text]"
+                :item="item"
+                @showModalInfo="showInfo"
+            />
+        </div>
         <!-- Sección 7 y 8 -->
-        <TextArea
-            v-for="item in demands.slice(8)"
-            v-model:text-value="dataGuideThree.ohterSections[item.text]"
-            :item="item"
-            @showModalInfo="showInfo"
-        />
-        <Button class="p-2 mb-10" variant="info" type="submit" @click.prevent="console.log('hola')">
+        <div v-for="(item, index) in demands.slice(9)" :key="index" :id="item.text">
+            <TextArea
+                v-model:text-value="dataGuideThree.ohterSections[item.text]"
+                :item="item"
+                @showModalInfo="showInfo"
+            />
+        </div>
+        <ButtonVue class="p-2 mb-10" variant="info" type="submit" @click.prevent="console.log('hola')">
             Guardar paciente
-        </Button>
-        <Button class="p-2 mb-10" variant="secondary" type="button" @click="showData">
+        </ButtonVue>
+        <ButtonVue class="p-2 mb-10" variant="secondary" type="button" @click="showData">
             Siguiente
-        </Button>
+        </ButtonVue>
     </form>
 </template>
 
 <script setup>
-import UserData from '../components/GuideThree/UserData.vue';
-import Button from '../components/Button.vue';
-import SectionFour from '../components/GuideThree/SectionFour.vue';
-import TextArea from '../components/GuideThree/TextArea.vue';
-import Modal from '../components/Modal.vue';
-import ModalAlert from '../components/ModalAlert.vue';
+import UserData from '../guide_components/UserData.vue';
+import SectionFour from '../guide_components/SectionFour.vue';
+import TextArea from '../guide_components/TextArea.vue';
+import Modal from '../general_components/Modal.vue';
+import ModalAlert from '../general_components/ModalAlert.vue';
 import { useModal } from '@/composables/modal';
 import { ref, reactive } from 'vue';
 import { getInfoContent } from '@/composables/infoDemands.js';
+import ButtonVue from '../general_components/ButtonVue.vue';
+import SideBar from '../guide_components/SideBar.vue';
 
 const { opacity, modal, showModal, modalAlert, showModalAlert } = useModal();
 const infoContent = ref({});
@@ -93,6 +108,10 @@ const dataGuideThree = reactive({
 })
 const demands = [
     {
+        code: '',
+        text: 'Datos informativos'
+    },
+    {
         code: '2.1',
         text: 'Demanda explícita'
     },
@@ -110,7 +129,8 @@ const demands = [
     },
     {
         code: '5',
-        text: 'Consignar los resultados de las pruebas psicológicas:'
+        title: 'Consignar los resultados de las pruebas psicológicas:',
+        text: 'Resultados de las pruebas psicológicas'
     },
     {
         code: '6.1',
@@ -218,13 +238,13 @@ function showData(){
     } else if (dataGuideThree.dataUser.attentionType === 'other' && dataGuideThree.dataUser.otherAttention.trim() === '' || dataGuideThree.dataUser.attentionType === 'Tipo de atención') {
         isEmpty.value = true;
         messageAlert.value = 'Para el tipo de atención: "Otros ¿Cuál?", debes llenar casilla "Otro tipo de atención."';
-    } else if(isNaN((new Date(`${dataGuideThree.dataUser.birthdayMonth}/${dataGuideThree.dataUser.birthdayDay}/${dataGuideThree.dataUser.birthdayYear}`)).getTime())){
+    } else if(isNaN((new Date(dataGuideThree.dataUser.birthday)).getTime()) || dataGuideThree.dataUser.birthday.length < 10){
         isEmpty.value = true;
         messageAlert.value = 'La fecha de nacimiento no es correcta, revisa el formato por favor.';
     } else {
         checkValues();
     } 
-    console.log(new Date(`${dataGuideThree.dataUser.birthdayMonth}/${dataGuideThree.dataUser.birthdayDay}/${dataGuideThree.dataUser.birthdayYear}`));
+
     if (isEmpty.value) {
         showModalAlert(messageAlert.value, false, {variant: 'danger'});
     } else {
@@ -232,7 +252,6 @@ function showData(){
     }
 }
 function showInfo(item){
-    console.log(dataGuideThree['Demanda explícita']);
     infoContent.value = getInfoContent(item.code);
     showModal(infoContent.value, item.text);
 }
