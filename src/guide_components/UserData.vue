@@ -1,7 +1,7 @@
 <template>
-    <h2 class="text-xl mt-10 font-bold">Datos informativos</h2>
+    <h2 class="text-xl mt-10 mb-4 font-bold">Datos informativos</h2>
     <div class="relative z-0 w-full mb-6 group">
-        <input @input="updateForm(dataUser)" v-model="dataUser.attentionPlace" type="text" name="floating_adress" id="floating_adress"
+        <input  v-model="dataUser['Lugar de atención']" type="text" name="floating_adress" id="floating_adress"
             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
             placeholder=" " />
         <label for="floating_adress"
@@ -10,7 +10,7 @@
     </div>
     <div class="grid md:grid-cols-2 md:gap-6">
         <div class="relative z-0 w-full mb-6 group">
-            <input @input="updateForm(dataUser)" v-model="dataUser.firstName" type="text" name="floating_first_name" id="floating_first_name"
+            <input  v-model="dataUser['Nombres']" type="text" name="floating_first_name" id="floating_first_name"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
                 placeholder=" "  />
             <label for="floating_first_name"
@@ -18,7 +18,7 @@
                 Nombres</label>
         </div>
         <div class="relative z-0 w-full mb-6 group">
-            <input @input="updateForm(dataUser)" v-model="dataUser.lastName" type="text" name="floating_last_name" id="floating_last_name"
+            <input  v-model="dataUser['Apellidos']" type="text" name="floating_last_name" id="floating_last_name"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
                 placeholder=" "  />
             <label for="floating_last_name"
@@ -28,7 +28,7 @@
     </div>
     <div class="grid md:grid-cols-2 md:gap-6">
         <div class="relative z-0 w-full mb-6 group">
-            <input @input="updateForm(dataUser)" v-model="dataUser.id" type="text" name="floating_id" id="floating_id"
+            <input  v-model="dataUser['Número de cédula']" type="text" name="floating_id" id="floating_id"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
                 placeholder=" " maxlength="10" />
             <label for="floating_id"
@@ -36,7 +36,7 @@
                 Número de cédula</label>
         </div>
         <div class="relative z-0 w-full mb-6 group">
-            <input @input="updateForm(dataUser)" v-model="dataUser.email" type="email" name="floating_email" id="floating_email"
+            <input  v-model="dataUser['Correo electrónico (opcional)']" type="email" name="floating_email" id="floating_email"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
                 placeholder=" " />
             <label for="floating_email"
@@ -46,7 +46,7 @@
     </div>
     <div class="grid md:grid-cols-2 md:gap-6">
         <div class="relative z-0 w-full mb-6 group">
-            <input @input="updateForm(dataUser)" v-model="dataUser.birthPlace" type="text" name="floating_birth_place" id="floating_birth_place"
+            <input  v-model="dataUser['Lugar de nacimiento']" type="text" name="floating_birth_place" id="floating_birth_place"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
                 placeholder=" "  />
             <label for="floating_birth_place" id="hola"
@@ -61,7 +61,7 @@
     </div>
     <div class="grid md:grid-cols-3 md:gap-1">
         <div class="relative z-0 w-full mb-6 group" v-for="(item, index) in packs" :key="index">
-            <input @input="updateForm(dataUser)" v-model="dataUser[item]" type="text" :name="`floating_${index}`" :id="`floating_${index}`"
+            <input  v-model="dataUser[item]" type="text" :name="`floating_${index}`" :id="`floating_${index}`"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
                 placeholder=" "  />
             <label :for="`floating_${index}`"
@@ -71,7 +71,7 @@
     </div>
     <div class="flex md:flex-row gap-6">
         <div class="relative z-0 w-full mb-6 group">
-            <textarea @input="updateForm(dataUser)" v-model="dataUser.brothersDecription" rows="4" name="floating_brothers" id="floating_brothers"
+            <textarea  v-model="dataUser['Hermanos, género y edad de cada uno de ellos']" rows="4" name="floating_brothers" id="floating_brothers"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
                 placeholder=" "  ></textarea>
             <label for="floating_brothers"
@@ -79,7 +79,7 @@
                 Hermanos, género y edad de cada uno de ellos</label>
         </div>
         <div class="relative z-0 w-[80%] mb-6 group">
-            <textarea @input="updateForm(dataUser)" v-model="dataUser.placeBrothers" type="text" name="floating_place_between" id="floating_place_between" rows="4"
+            <textarea  v-model="dataUser['Lugar que ocupa entre sus hermanos']" type="text" name="floating_place_between" id="floating_place_between" rows="4"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
                 placeholder=" "  ></textarea>
             <label for="floating_place_between"
@@ -89,7 +89,7 @@
     </div>
     <div class="grid md:grid-cols-2 md:gap-6">
         <div class="relative z-0 w-full mb-6 group">
-            <input @input="updateForm(dataUser)" v-model="dataUser.informer" type="text" name="floating_companion" id="floating_companion"
+            <input  v-model="dataUser['Informante']" type="text" name="floating_companion" id="floating_companion"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
                 placeholder=" "  />
             <label for="floating_companion"
@@ -97,7 +97,7 @@
                 Informante</label>
         </div>
         <div class="relative z-0 w-full mb-6 group">
-            <input @input="updateForm(dataUser)" v-model="dataUser.informerRelationship" type="text" name="floating_companion_parent" id="floating_companion_parent"
+            <input  v-model="dataUser['Parentesco']" type="text" name="floating_companion_parent" id="floating_companion_parent"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
                 placeholder=" "  />
             <label for="floating_companion_parent"
@@ -108,7 +108,7 @@
     <div class="grid md:grid-cols-2 md:gap-6 ">
         <div class="w-full">
             <label for="underline_select" class="sr-only" >Underline select</label>
-            <select @input="updateForm(dataUser)" v-model="dataUser.attentionType" id="underline_select" class="block py-2.5 px-0 w-full text-sm bg-transparent border-b-2 border-gray-300 text-black dark:text-gray-400 dark:border-gray-700 ">
+            <select  v-model="dataUser['Tipo de atención']" id="underline_select" class="block py-2.5 px-0 w-full text-sm bg-transparent border-b-2 border-gray-300 text-black dark:text-gray-400 dark:border-gray-700 ">
                 <option disabled>Tipo de atención </option>
                 <option class="text-black">Ambulatorio</option>
                 <option class="text-black">Hospitalizado</option>
@@ -118,7 +118,7 @@
             <PopOver id-pop="1" variant="info" text-info="En caso de escoger 'Otros', deberás escribir el tipo de atención en el apartado 'Otro tipo de atención'" /> 
         </div>
         <div class="relative z-0 w-full mb-6 group">
-            <input @input="updateForm(dataUser)" v-model="dataUser.otherAttention" :disabled="dataUser.attentionType !== 'other'" type="text" name="floating_attentionType" id="floating_attentionType"
+            <input  v-model="dataUser['Otro tipo de atención']" :disabled="dataUser.attentionType !== 'other'" type="text" name="floating_attentionType" id="floating_attentionType"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
                 placeholder=" " />
             <label for="floating_attentionType"
@@ -131,50 +131,28 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue';
 import DatePretty from '../general_components/DatePretty.vue';
 import PopOver from '../general_components/PopOver.vue';
+import { onBeforeRouteUpdate } from 'vue-router';
 
+const props = defineProps({
+    dataUser: {
+        required: true,
+        type: Object
+    }
+})
 const packs = [
+    'Estado Civil', 'Número de hijos', 'Religión',
     'Ciudad de residencia', 'Dirección', 'Celular',
     'Instrucción', 'Profesión', 'Ocupación',
     'Grupo étnico', 'Género', 'Grupo socio-económico',
     'Nombre del padre', 'Edad (padre)', 'Ocupación (padre)',
     'Nombre de la madre', 'Edad (madre)', 'Ocupación (madre)',
 ]
-const dataUser = reactive({
-    attentionPlace: '',
-    'firstName': '',
-    lastName: '',
-    id: '',
-    email: '',
-    birthPlace: '',
-    birthday: '',
-    'Ciudad de residencia': '', 'Dirección': '', 'Celular': '',
-    'Instrucción': '', 'Profesión': '', 'Ocupación': '',
-    'Grupo étnico': '', 'Género': '', 'Grupo socio-económico': '',
-    'Nombre del padre': '', 'Edad (padre)': '', 'Ocupación (padre)': '',
-    'Nombre de la madre': '', 'Edad (madre)': '', 'Ocupación (madre)': '',
-    brothersDecription: '',
-    placeBrothers: '',
-    informer: '',
-    informerRelationship: '',
-    attentionType: 'Tipo de atención',
-    otherAttention: ''
-})
 const emit = defineEmits(['update']);
 
-function updateForm(dataUser){
-    emit('update', dataUser);
-}
-
 function updateBirthday(date){
-    dataUser.birthday = date;
-    updateForm(dataUser);
+    props.dataUser['Fecha de nacimiento'] = date;
 }
 
 </script>
-
-<style scoped>
-
-</style>

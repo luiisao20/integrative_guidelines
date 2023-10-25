@@ -1,5 +1,5 @@
 <template>
-    <input @input="inputDate()" v-model="date" type="text" maxlength="10" name="floating_birth_place" id="floating_birth_place"
+    <input @input="inputDate(date)" v-model="date" type="text" maxlength="10" name="floating_birth_place" id="floating_birth_place"
         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
         />
         <span class="text-sm absolute pointer-events-none -translate-y-[160%]">{{ formatDateNew }}</span>

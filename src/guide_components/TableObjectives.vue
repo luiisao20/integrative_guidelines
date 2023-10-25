@@ -1,7 +1,7 @@
 <template>
-    <table class="text-sm w-full my-10 text-gray-500 rounded-xl dark:text-gray-400">
+    <table class="text-sm w-full my-10 text-black rounded-xl dark:text-black-400">
         <tbody>
-            <tr class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr class="text-xs text-black uppercase bg-gray-50 dark:bg-gray-700 dark:text-black-400">
                 <th scope="col" colspan="6" class="px-6 py-3">
                     {{ content[0].title }}
                 </th>
@@ -19,7 +19,7 @@
                     </div>
                 </td>
             </tr>
-            <tr class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr class="text-xs text-black uppercase bg-gray-50 dark:bg-gray-700 dark:text-black-400">
                 <th scope="col" colspan="6" class="px-6 py-3">
                     {{ content[1].title }}
                 </th>
@@ -37,7 +37,7 @@
                     </div>
                 </td>
             </tr>
-            <tr class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr class="text-xs text-black uppercase bg-gray-50 dark:bg-gray-700 dark:text-black-400">
                 <th scope="col" colspan="6" class="px-6 py-3">
                     {{ content[2].title }}
                 </th>
@@ -49,7 +49,7 @@
                 <td class="px-6 py-4 text-center text-black">
                     <div class="flex items-center justify-center">
                         <select v-model="data[item].rate"
-                            id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-main-default focus:border-main-default block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            id="countries" class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-main-default focus:border-main-default block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option selected disabled>Escoge</option>
                             <option v-for="(item, subindex) in selections" :key="subindex" :value="item">{{ item }}</option>
                         </select>
@@ -59,10 +59,10 @@
                     <div class="relative z-0 w-full mb-2 group">
                         <input v-model="data[item].observations"
                             name="floating_efect_records" id="floating_efect_records"
-                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
+                            class="block py-2.5 px-0 w-full text-sm text-black-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
                             placeholder=" "/>
                         <label for="floating_efect_records"
-                            class="peer-focus:font-medium absolute text-sm text-black dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] left-0 peer-focus:text-main-default peer-focus:dark:text-main-default peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            class="peer-focus:font-medium absolute text-sm text-black dark:text-black-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] left-0 peer-focus:text-main-default peer-focus:dark:text-main-default peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                             Observaciones</label>
                     </div>
                 </td>

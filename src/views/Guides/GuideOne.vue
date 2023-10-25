@@ -2,6 +2,8 @@
     <ModalAlert
         v-bind="modalAlert"
         @close-mod="modalAlert.showModal = false; opacity = '1'"
+        @send-data="sendData"
+        @go-route="router.push(`/${id}/guideone`)"
     />
     <SideBar
         :options="content"
@@ -37,12 +39,15 @@
 </template>
 
 <script setup>
-import CheckBox from '../guide_components/CheckBox.vue'
+import CheckBox from '@/guide_components/CheckBox.vue'
 import { reactive, ref } from 'vue';
-import ModalAlert from '../general_components/ModalAlert.vue';
+import ModalAlert from '@/general_components/ModalAlert.vue';
 import { useModal } from '@/composables/modal';
-import ButtonVue from '../general_components/ButtonVue.vue';
-import SideBar from '../guide_components/SideBar.vue'
+import ButtonVue from '@/general_components/ButtonVue.vue';
+import SideBar from '@/guide_components/SideBar.vue'
+import axios from 'axios';
+import { router } from '@/routes';
+import { onBeforeRouteLeave } from 'vue-router';
 
 const content = [
     {
@@ -103,6 +108,24 @@ const optionsSelected = reactive({
 const isEmpty = ref(false);
 const messageAlert = ref('');
 const { opacity, modalAlert, showModalAlert } = useModal();
+const props = defineProps(['id']);
+const isSafeToLeave = ref(false);
+
+onBeforeRouteLeave(() => {
+    if (isSafeToLeave.value) return true
+    else {
+        if (confirm("¿Estás seguro de salir del formulario sin haberlo completado?")) {
+            return true
+        } else {
+            return false
+        }
+    }
+})
+
+window.addEventListener('beforeunload', (event) => {
+    event.preventDefault();
+    event.returnValue = '';
+})
 
 function checkValues(){
     isEmpty.value = false;
@@ -117,10 +140,22 @@ function checkValues(){
 
     if (isEmpty.value) {
         showModalAlert(messageAlert.value, false, {variant: 'danger'});
-        console.log('empty');
     } else {
         showModalAlert('¿Estás seguro de enviar los datos?', true);
-        console.log('not empty');
+    }
+}
+
+async function sendData(){
+    try {
+        const res = await axios.post('http://localhost:3000/guideone', {
+            patient: props.id,
+            optionsSelected,
+            date: new Date()
+        })
+        showModalAlert('Eureka!!', false, {variant: 'success', showRoute: true});
+        isSafeToLeave.value = true;
+    } catch (error) {
+        showModalAlert(error, false, {variant: 'danger'})
     }
 }
 </script>

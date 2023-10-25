@@ -46,7 +46,7 @@
             <tr v-for="(item, index) in content" v-if="techniques"
                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                 <td class="px-6 py-4 text-black dark:text-white">
-                    {{ item }}
+                    {{ item.technique }}
                 </td>
                 <td class="px-6 py-4 text-center">
                     <input v-model="data[`${titleTable}.${index}`]" @input="showData(item, $event.target.value)" :id="`default-radio-${titleTable}.${index}`" type="radio" :value="`${titleHigh}`" :name="`default-${titleTable}.${index}`" class="w-4 h-4 text-main-default bg-gray-100 border-gray-300 focus:ring-main-default dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
@@ -156,7 +156,6 @@ const props = defineProps({
 })
 
 function showData(item, value){
-    console.log(item);
     if (item === 'Otros' && value === 'No'){
         props.data[`${item}`].content = '';
     }

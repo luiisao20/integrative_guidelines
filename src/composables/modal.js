@@ -15,7 +15,8 @@ function useModal(){
         showModal: false,
         title: '',
         showButtons: false,
-        textColor: 'info'
+        textColor: 'info',
+        showRoute: false
     });
 
     const opacity = ref('1');
@@ -27,11 +28,12 @@ function useModal(){
         opacity.value = '0.2';
     };
 
-    const showModalAlert = (title, buttons, options = {variant: 'info'}) => {
+    const showModalAlert = (title, buttons, options = {variant: 'info', showRoute: false}) => {
         modalAlert.showModal = true;
         modalAlert.title = title;
         modalAlert.variant = options.variant;
         modalAlert.showButtons = buttons;
+        modalAlert.showRoute = options.showRoute;
         opacity.value = '0.2';
     };
 

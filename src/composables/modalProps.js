@@ -10,7 +10,8 @@ function useClassAlert(props){
         const options = {
             danger: '#ED3B53',
             warning: '#FFFF00',
-            info: '#283C8C'
+            info: '#283C8C',
+            success: '#3A865E'
         };
         return options[props.variant];
     });
@@ -21,7 +22,7 @@ const colorProps = {
         required: false,
         default: 'danger',
         validator(value){
-            const options = ['danger', 'warning', 'info'];
+            const options = ['danger', 'warning', 'info', 'success'];
 
             return options.includes(value)
         }

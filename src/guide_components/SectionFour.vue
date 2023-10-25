@@ -1,6 +1,6 @@
 <template>
     <TextArea
-        v-model:text-value="dataSectionFour[content.text]"
+        :text-value="dataSectionFour"
         :item="content"
         :show-btn-info="false"
     />

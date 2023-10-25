@@ -112,7 +112,7 @@ function showSubItems(value, index){
     if(value === 'Sí'){
         inde.value.push(index);
         subItems.value = true;
-    } else {
+    } else if(inde.value.indexOf(index) !== -1) {
         inde.value.splice(inde.value.indexOf(index), 1);
     }
 }

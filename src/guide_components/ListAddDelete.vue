@@ -25,7 +25,7 @@
                 class="peer-focus:font-medium capitalize absolute text-sm text-black dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-main-default peer-focus:dark:text-main-default peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                 {{ titleTwo }}</label>
         </div>
-        <button @click="pushValues(data.objective, data.technique, title, data.date)" class="text-4xl text-success">
+        <button @click="pushValues(data.objective, data.technique, title, data.date); data.objective = ''; data.technique = ''" class="text-4xl text-success">
             <font-awesome-icon icon="fa-solid fa-circle-plus" />
         </button>
     </div>

@@ -2,6 +2,8 @@
     <ModalAlert
         v-bind="modalAlert"
         @close-mod="modalAlert.showModal = false; opacity = '1'"
+        @send-data="sendData"
+        @go-route="router.push(`/${id}/guideseven`)"
     />
     <SideBar :options="content" />
     <form action="" class="py-10">
@@ -72,15 +74,18 @@
 </template>
 
 <script setup>
-import ButtonVue from '../general_components/ButtonVue.vue';
-import DropDownTable from '../guide_components/DropDownTable.vue';
-import RadioBox from '../guide_components/RadioBox.vue';
-import TableGuideSeven from '../guide_components/TableGuideSeven.vue';
+import ButtonVue from '@/general_components/ButtonVue.vue';
+import DropDownTable from '@/guide_components/DropDownTable.vue';
+import RadioBox from '@/guide_components/RadioBox.vue';
+import TableGuideSeven from '@/guide_components/TableGuideSeven.vue';
 import { reactive, ref, computed } from 'vue';
 import { useModal } from '@/composables/modal';
-import ModalAlert from '../general_components/ModalAlert.vue';
-import SideBar from '../guide_components/SideBar.vue';
-import PopOver from '../general_components/PopOver.vue';
+import ModalAlert from '@/general_components/ModalAlert.vue';
+import SideBar from '@/guide_components/SideBar.vue';
+import PopOver from '@/general_components/PopOver.vue';
+import { router } from '../../routes';
+import axios from 'axios';
+import { onBeforeRouteLeave } from 'vue-router';
 
 const content = [
     {
@@ -246,8 +251,8 @@ const { opacity, showModalAlert, modalAlert } = useModal();
 const dataGuideSeven = reactive({
     dataTable: {
         'Características del consultorio': {
-            privacy: '',
-            quiet: ''
+            'Privacidad': '',
+            'Tranquilidad': ''
         },
         'Grabación de las sesiones': '',
         'Tipo de grabación': '',
@@ -371,18 +376,35 @@ const dataGuideSeven = reactive({
         'Derivación del paciente a otro terapeuta': '',
     },
 })
-
+const props = defineProps(['id']);
 const isEmpty = ref(false);
 const modalMessage = ref('');
-const keysExcluded = ['dataTable', 'dropDown', 'MANEJO DE LA TRANSFERENCIA']
+const keysExcluded = ['dataTable', 'dropDown', 'MANEJO DE LA TRANSFERENCIA'];
+const isSafeToLeave = ref(false);
+
+onBeforeRouteLeave(() => {
+    if (isSafeToLeave.value) return true
+    else {
+        if (confirm("¿Estás seguro de salir del formulario sin haberlo completado?")) {
+            return true
+        } else {
+            return false
+        }
+    }
+})
+
+window.addEventListener('beforeunload', (event) => {
+    event.preventDefault();
+    event.returnValue = '';
+})
 
 /**
  * Checa los valores de la primer tabla y retorna según condiciones
  */
 function checkTable() {
     const isEmptyFirst = computed(() => {
-        return dataGuideSeven.dataTable['Características del consultorio'].privacy.toString().trim() === '' ||
-        dataGuideSeven.dataTable['Características del consultorio'].quiet.toString().trim() === '' ? true : false;
+        return dataGuideSeven.dataTable['Características del consultorio'].Privacidad.toString().trim() === '' ||
+        dataGuideSeven.dataTable['Características del consultorio'].Tranquilidad.toString().trim() === '' ? true : false;
     })
 
     const isEmptyRecordings = computed(() => {
@@ -406,7 +428,7 @@ function checkTable() {
         modalMessage.value = 'Por favor llena la sección de condiciones ambientales';
         return 
     }
-    
+
     for (const key in dataGuideSeven){
         if (!keysExcluded.some(value => value === key)){
             for (const subkey in dataGuideSeven[key]){
@@ -497,4 +519,17 @@ function checkValues(){
     }
 }
 
+async function sendData() {
+    try {
+        const res = await axios.post('http://localhost:3000/guideseven', {
+            patient: props.id,
+            dataGuideSeven,
+            date: new Date()
+        })
+        showModalAlert('Eureka!!', false, {variant: 'success', showRoute: true});
+        isSafeToLeave.value = true;
+    } catch (error) {
+        showModalAlert(error, false, {variant: 'danger'})
+    }
+}
 </script>

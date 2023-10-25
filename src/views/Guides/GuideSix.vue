@@ -2,6 +2,8 @@
     <ModalAlert
         v-bind="modalAlert"
         @close-mod="modalAlert.showModal = false; opacity = '1'"
+        @send-data="sendData"
+        @go-route="router.push(`/${id}/guidesix`)"
     />
     <Modal 
         v-bind="modal"
@@ -30,13 +32,17 @@
 </template>
 
 <script setup>
-import ListAddDelete from '../guide_components/ListAddDelete.vue';
+import ListAddDelete from '@/guide_components/ListAddDelete.vue';
 import { ref } from 'vue';
-import ModalAlert from '../general_components/ModalAlert.vue';
+import ModalAlert from '@/general_components/ModalAlert.vue';
 import { useModal } from '@/composables/modal';
-import ButtonVue from '../general_components/ButtonVue.vue';
+import ButtonVue from '@/general_components/ButtonVue.vue';
 import { getInfoContent } from '@/composables/infoDemands.js';
-import Modal from '../general_components/Modal.vue';
+import Modal from '@/general_components/Modal.vue';
+import { formatDate } from '@/composables/formatDate';
+import { router } from '../../routes';
+import axios from 'axios';
+import { onBeforeRouteLeave } from 'vue-router';
 
 const content = {
     title: 'Ejecución y aplicación técnica',
@@ -44,19 +50,32 @@ const content = {
 }
 const { opacity, modalAlert, showModalAlert, modal, showModal } = useModal();
 const data = ref([]);
-const opciones = { year: 'numeric', month: 'short', day: 'numeric' };
 const infoContent = ref({});
+const props = defineProps(['id']);
+const isSafeToLeave = ref(false);
+
+onBeforeRouteLeave(() => {
+    if (isSafeToLeave.value) return true
+    else {
+        if (confirm("¿Estás seguro de salir del formulario sin haberlo completado?")) {
+            return true
+        } else {
+            return false
+        }
+    }
+})
 
 function pushObjTechn(objective, technique, ubication, date){
+    console.log(date);
     if(objective.toString().trim() === '' || technique.toString().trim() === '' || isNaN((new Date(date)).getTime())){
         showModalAlert('Debes llenar todos los datos, incluida la fecha.', false, {variant: 'danger'});
-    } else if(data.value.some(value => JSON.stringify(value) === JSON.stringify({objective: objective, technique: technique, date: new Date(date).toLocaleDateString('es-es', opciones)}))){
+    } else if(data.value.some(value => JSON.stringify(value) === JSON.stringify({objective: objective, technique: technique, date: formatDate(date)}))){
         showModalAlert('No puedes volver a repetir los mismos valores', false, {variant: 'danger'});
     } else {            
         data.value.push({
             objective: objective,
             technique: technique,
-            date: new Date(date).toLocaleDateString('es-es', opciones)
+            date: formatDate(date)
         })
     }
 }
@@ -64,5 +83,19 @@ function pushObjTechn(objective, technique, ubication, date){
 function showInfo(){
     infoContent.value = getInfoContent(content.code);
     showModal(infoContent.value, content.title);
+}
+
+async function sendData() {
+    try {
+        const res = await axios.post('http://localhost:3000/guidesix', {
+            patient: props.id,
+            data: data.value,
+            date: new Date()
+        })
+        showModalAlert('Eureka!!', false, {variant: 'success', showRoute: true});
+        isSafeToLeave.value = true;
+    } catch (error) {
+        showModalAlert(error, false, {variant: 'danger'})
+    }
 }
 </script>
