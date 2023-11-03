@@ -36,7 +36,7 @@ const props = defineProps({
     }
 })
 
-const emit = defineEmits(['showModalInfo', 'update:textValue']);
+const emit = defineEmits(['showModalInfo']);
 
 function showModalInfo(item){
     emit('showModalInfo', item);

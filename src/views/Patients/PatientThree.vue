@@ -1,6 +1,6 @@
 <template>
     <section v-if="!isLoading">
-        <h1 class="text-2xl font-bold text-center p-4 mt-4">FICHA INTEGRATIVA DE EVALUACIÓN PSICOLÓGICA FIEPS</h1>
+        <h1 class="text-2xl font-bold text-center">FICHA INTEGRATIVA DE EVALUACIÓN PSICOLÓGICA FIEPS</h1>
         <div v-if="dataCopy.length > 0" class="px-4">
             <div v-for="(item, index) in content.slice(0, 3)" :key="index">
                 <div v-if="item.toString().trim() !== ''" class="p-4">
@@ -48,7 +48,7 @@
             </div>
         </div>
         <div>
-            <CreateGuide guide="three" :id="id" />
+            <CreateGuide guide="three" :id="id" :process-id="processid"/>
         </div>
     </section>
 </template>
@@ -64,11 +64,7 @@ const props = defineProps({
         required: true,
         type: String
     },
-    data: {
-        required: true,
-        type: Object
-    },
-    createdAt: {
+    processid: {
         required: true,
         type: String
     }
@@ -94,9 +90,11 @@ const guideThreeData = reactive({
 
 onBeforeMount(async() => {
     isLoading.value = true;
-    const { data, error } = await useFetch(`guidethree?patient=${props.id}`);
+    const { data, error } = await useFetch(`guidethree?patient=${props.id}&process=${props.processid.toString()}`);
 
     dataCopy.value = [ ...data.value ];
+
+    console.log(dataCopy);
 
     if(dataCopy.value.length > 0){
         guideThreeData.otherSections = data.value[0].otherSections;

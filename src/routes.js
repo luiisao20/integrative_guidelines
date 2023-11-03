@@ -18,6 +18,9 @@ import PatientFive from './views/Patients/PatientFive.vue';
 import PatientSix from './views/Patients/PatientSix.vue';
 import PatientSeven from './views/Patients/PatientSeven.vue';
 import PatientEight from './views/Patients/PatientEight.vue';
+import PatientsList from './views/PatientsList.vue';
+import PatientProcesses from './views/Patients/PatientProcesses.vue';
+import PatientProcess from './views/Patients/PatientProcess.vue';
 
 const routes = [
     {
@@ -25,42 +28,42 @@ const routes = [
         component: CreatePatient
     },
     {
-        path: '/create/guidethree/:id',
+        path: '/create/guidethree/:id/:processid',
         component: GuideThree,
         props: true
     },
     {
-        path: '/create/guideOne/:id',
+        path: '/create/guideOne/:id/:processid',
         component: GuideOne,
         props: true
     },
     {
-        path: '/create/guidetwo/:id',
+        path: '/create/guidetwo/:id/:processid',
         component: GuideTwo,
         props: true
     },
     {
-        path: '/create/guidefour/:id',
+        path: '/create/guidefour/:id/:processid',
         component: GuideFour,
         props: true
     },
     {
-        path: '/create/guidefive/:id',
+        path: '/create/guidefive/:id/:processid',
         component: GuideFive,
         props: true
     },
     {
-        path: '/create/guidesix/:id',
+        path: '/create/guidesix/:id/:processid',
         component: GuideSix,
         props: true
     },
     {
-        path: '/create/guideseven/:id',
+        path: '/create/guideseven/:id/:processid',
         component: GuideSeven,
         props: true
     },
     {
-        path: '/create/guideeight/:id',
+        path: '/create/guideeight/:id/:processid',
         component: GuideEight,
         props: true
     },
@@ -74,39 +77,57 @@ const routes = [
                 component: PatientData,
             },
             {
-                path: 'guideone',
-                component: PatientOne,
+                path: 'processes',
+                component: PatientProcesses,
+                children: [
+                    {
+                        path: ':processid/guideone',
+                        component: PatientOne,
+                        props: true
+                    },
+                    {
+                        path: ':processid/guidetwo',
+                        component: PatientTwo,
+                        props: true
+                    },
+                    {
+                        path: ':processid/guidethree',
+                        component: PatientThree,
+                        props: true
+                    },
+                    {
+                        path: ':processid/guidefour',
+                        component: PatientFour,
+                        props: true
+                    },
+                    {
+                        path: ':processid/guidefive',
+                        component: PatientFive,
+                        props: true
+                    },
+                    {
+                        path: ':processid/guidesix',
+                        component: PatientSix,
+                        props: true
+                    },
+                    {
+                        path: ':processid/guideseven',
+                        component: PatientSeven,
+                        props: true
+                    },
+                    {
+                        path: ':processid/guideeight',
+                        component: PatientEight,
+                        props: true
+                    }
+                ]
             },
-            {
-                path: 'guidetwo',
-                component: PatientTwo,
-            },
-            {
-                path: 'guidethree',
-                component: PatientThree,
-            },
-            {
-                path: 'guidefour',
-                component: PatientFour,
-            },
-            {
-                path: 'guidefive',
-                component: PatientFive,
-            },
-            {
-                path: 'guidesix',
-                component: PatientSix,
-            },
-            {
-                path: 'guideseven',
-                component: PatientSeven,
-            },
-            {
-                path: 'guideeight',
-                component: PatientEight,
-            }
         ]
     },
+    {
+        path: '/patientslist',
+        component: PatientsList
+    }
 ]
 
 const router = createRouter({

@@ -1,6 +1,6 @@
 <template>
 
-    <div id="element-to-export" class="grid grid-cols-2 gap-4 items-center p-4">
+    <div id="element-to-export" class="grid grid-cols-2 gap-4 items-center my-4">
         <div v-for="(item, key) in dataCopy" :key="key" v-bind:class="{ activeAttention: key === 'Lugar de atención', activeBros: key === 'Hermanos, género y edad de cada uno de ellos' }">
             <div v-if="item.toString().trim() !== ''" class="flex justify-between items-center text-sm shadow-sm shadow-light p-2"
                 v-bind:class="{ activeSubAttention: key === 'Lugar de atención', activeSubBros: key === 'Hermanos, género y edad de cada uno de ellos' }">

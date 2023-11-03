@@ -15,14 +15,15 @@
             :data="dataGuideEight.tableOne"
         />
         <h1 class="text-2xl mb-4 font-bold text-center">TÉCNICAS EMPLEADAS Y GRADO DE EFICACIA</h1>
-        <div v-for="(item, key) in dataTechniques" :id="item.title" >
-            <RadioBox 
-                v-if="dataCopy[0].dataGuideFive[item].length > 0"
-                :techniques="true"
-                :title-table="key"
-                :content="dataCopy[0].dataGuideFive[item]"
-                :data="dataGuideEight.techniques[key]"
-            />
+        <div v-for="(item, key) in dataTechniques">
+            <div :id="key" v-if="dataCopy[0].dataGuideFive[item].length > 0">
+                <RadioBox 
+                    :techniques="true"
+                    :title-table="key"
+                    :content="dataCopy[0].dataGuideFive[item]"
+                    :data="dataGuideEight.techniques[key]"
+                />
+            </div>
         </div>
         <h1 :id="content[4].title" class="mt-10 text-2xl font-bold text-center">Interrogantes al finalizar el proceso</h1>
         <TableInterrogations

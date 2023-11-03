@@ -1,6 +1,6 @@
 <template>
     <section v-if="dataCopy.length > 0">
-        <h1 class="text-2xl font-bold p-4 my-4 text-center">EVALUACION FINAL DEL PROCESO PSICOTERAPÉUTICO</h1>
+        <h1 class="text-2xl font-bold text-center">EVALUACION FINAL DEL PROCESO PSICOTERAPÉUTICO</h1>
         <div class="mx-10">
             <div v-for="(item, key) in dataCopy[0].dataGuideEight.tableOne">
                 <div v-if="(typeof item === 'string')" class="flex gap-4 py-2">
@@ -61,18 +61,13 @@
 import { onBeforeMount, ref } from 'vue';
 import { useFetch } from '@/composables/fetch';
 import CreateGuide from '../../general_components/CreateGuide.vue';
-import TableInterrogations from '@/guide_components/TableInterrogations.vue';
 
 const props = defineProps({
     id: {
         required: true,
         type: String
     },
-    data: {
-        required: true,
-        type: Object
-    },
-    createdAt: {
+    processid: {
         required: true,
         type: String
     }
@@ -80,31 +75,6 @@ const props = defineProps({
 const isLoading = ref(false);
 const dataCopy = ref([]);
 const dataThreeCopy = ref([]);
-const content = {
-    title: 'Interrogantes al finalizar el proceso',
-    options: [
-        {
-            subtitle: 'Finalización del proceso',
-            options: []
-        },
-        {
-            subtitle: 'Cumplimiento de expectativas',
-            options: ['Paciente', 'Familiares', 'Instituciones', 'Otros', 'Terapeuta']
-        },
-        {
-            subtitle: 'Tratamiento mixto',
-            options: []
-        },
-        {
-            subtitle: 'Derivación del paciente a otro profesional',
-            options: []
-        },
-        {
-            subtitle: 'Deserción del paciente',
-            options: []
-        },
-    ]
-}
 const dataTechniques = {
     'Asesoramiento': 'Diagnóstico descriptivo y formulación dinámica del problema',
     'Sintomáticas': 'Diagnóstico descriptivo y formulación dinámica del trastorno',
@@ -113,9 +83,9 @@ const dataTechniques = {
 
 onBeforeMount(async() => {
     isLoading.value = true;
-    const { data, error } = await useFetch(`guideeight?patient=${props.id}`);
+    const { data, error } = await useFetch(`guideeight?patient=${props.id}&process=${props.processid}`);
 
-    useFetch(`guidefive?patient=${props.id}`)
+    useFetch(`guidefive?patient=${props.id}&process=${props.processid}`)
         .then((res) => {
             console.log(res);
             dataThreeCopy.value = res.data.value[0].dataGuideFive;

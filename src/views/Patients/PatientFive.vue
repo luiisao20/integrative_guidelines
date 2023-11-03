@@ -1,6 +1,6 @@
 <template>
     <section v-if="dataCopy.length > 0">
-        <h1 class="text-2xl font-bold text-center p-2 mt-4">PLANIFICACIÓN DEL PROCESO</h1>
+        <h1 class="text-2xl font-bold text-center">PLANIFICACIÓN DEL PROCESO</h1>
         <div v-if="!isLoading" v-for="(item, key) in dataCopy[0].dataGuideFive" :key="key">
             <div v-if="item.length > 0" class="p-2 text-sm">
                 <h2 class="font-bold p-4">{{ key }}: </h2>
@@ -39,11 +39,7 @@ const props = defineProps({
         required: true,
         type: String
     },
-    data: {
-        required: true,
-        type: Object
-    },
-    createdAt: {
+    processid: {
         required: true,
         type: String
     }
@@ -54,10 +50,9 @@ const dataThreeCopy = ref([]);
 
 onBeforeMount(async() => {
     isLoading.value = true;
-    const { data, error } = await useFetch(`guidefive?patient=${props.id}`);
-    useFetch(`guidethree?patient=${props.id}`)
+    const { data, error } = await useFetch(`guidefive?patient=${props.id}&process=${props.processid}`);
+    useFetch(`guidethree?patient=${props.id}&process=${props.processid}`)
         .then((res) => {
-            console.log(res);
             dataThreeCopy.value = res.data.value[0].sectionSix;
         })
         .catch((error) => console.log(error))

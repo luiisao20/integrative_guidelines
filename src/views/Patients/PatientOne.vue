@@ -1,5 +1,5 @@
 <template>
-    <h1 class="text-2xl font-bold text-center p-2 mt-4">ANÁLISIS DE LA DEMANDA, EXPECTATIVAS Y MOTIVACIONES PREVIAS AL INICIO DEL PROCESO</h1>
+    <h1 class="text-2xl font-bold text-center">ANÁLISIS DE LA DEMANDA, EXPECTATIVAS Y MOTIVACIONES PREVIAS AL INICIO DEL PROCESO</h1>
     <section v-if="!isLoading" class="">
         <h2 class="my-4 text-center font-semibold text-gray-900 dark:text-white">DEMANDA PSICOLÓGICA</h2>
         <div class="grid grid-cols-2 gap-4 w-[80%] mx-auto">
@@ -35,11 +35,7 @@ const props = defineProps({
         required: true,
         type: String
     },
-    data: {
-        required: true,
-        type: Object
-    },
-    createdAt: {
+    processid: {
         required: true,
         type: String
     }
@@ -52,7 +48,7 @@ onBeforeMount(async() => {
 
     isLoading.value = true;
 
-    const { data, error } = await useFetch(`guideone?patient=${props.id}`);
+    const { data, error } = await useFetch(`guideone?patient=${props.id}&process=${props.processid}`);
 
     dataCopy.value = [ ...data.value ];
 

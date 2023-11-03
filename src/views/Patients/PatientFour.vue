@@ -1,6 +1,6 @@
 <template>
     <section v-if="dataCopy.length > 0">
-        <h1 class="text-2xl font-bold text-center p-2 mt-4">DECISIONES SOBRE EL TRATAMIENTO PSICOTERAPÉUTICO</h1>
+        <h1 class="text-2xl font-bold text-center">DECISIONES SOBRE EL TRATAMIENTO PSICOTERAPÉUTICO</h1>
         <div class="w-[80%] mx-auto">
             <div v-for="(item, key) in dataCopy[0].dataGuideFour" class="flex justify-between pl-10 gap-4 my-4 text-sm items-center">
                 <p class="font-semibold text-gray-900 dark:text-white w-1/2">
@@ -30,11 +30,7 @@ const props = defineProps({
         required: true,
         type: String
     },
-    data: {
-        required: true,
-        type: Object
-    },
-    createdAt : {
+    processid: {
         required: true,
         type: String
     }
@@ -44,7 +40,7 @@ const dataCopy = ref([]);
 
 onBeforeMount(async() => {
     isLoading.value = true;
-    const { data, error } = await useFetch(`guidefour?patient=${props.id}`);
+    const { data, error } = await useFetch(`guidefour?patient=${props.id}&process=${props.processid}`);
 
     dataCopy.value = [ ...data.value ];
 

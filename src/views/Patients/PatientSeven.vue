@@ -1,6 +1,6 @@
 <template>
-    <section class="px-2" v-if="dataCopy.length > 0">
-        <h1 class="text-2xl font-bold text-center p-2 mt-4">FENÓMENOS DEL VÍNCULO TERAPÉUTICO</h1>
+    <section v-if="dataCopy.length > 0">
+        <h1 class="text-2xl font-bold text-center">FENÓMENOS DEL VÍNCULO TERAPÉUTICO</h1>
         <div>
             <h2 class="my-4 text-center font-bold text-black dark:text-white">CONDICIONES AMBIENTALES EXTERNAS</h2>
             <div class="my-4 flex flex-col gap-2 pl-10">
@@ -102,11 +102,7 @@ const props = defineProps({
         required: true,
         type: String
     },
-    data: {
-        required: true,
-        type: Object
-    },
-    createdAt: {
+    processid: {
         required: true,
         type: String
     }
@@ -131,11 +127,9 @@ const keysExcluded = ['dataTable', 'dropDown', 'MANEJO DE LA TRANSFERENCIA'];
 
 onBeforeMount(async() => {
     isLoading.value = true;
-    const { data, error } = await useFetch(`guideseven?patient=${props.id}`);
+    const { data, error } = await useFetch(`guideseven?patient=${props.id}&process=${props.processid}`);
 
     dataCopy.value = [ ...data.value ];
-
-    console.log(dataCopy.value);
 
     isLoading.value = false;
 })

@@ -1,6 +1,6 @@
 <template>
     <TextArea
-        :text-value="dataSectionFour"
+        :text-value="data"
         :item="content"
         :show-btn-info="false"
     />
@@ -11,7 +11,7 @@
                 <td class="w-1/3 text-center font-bold">{{ item.title }}</td>
                 <td class="w-1/2">
                     <div class="relative z-0 w-full group mb-4">
-                        <input @input="update(dataSectionFour)" v-model="dataSectionFour.table[item.title]" type="text" name="floating_last_name" id="floating_last_name"
+                        <input v-model="data.table[item.title]" type="text" name="floating_last_name" id="floating_last_name"
                             class="block py-5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
                             placeholder=" "  />
                         <label for="floating_last_name"
@@ -36,6 +36,10 @@ import ButtonVue from '../general_components/ButtonVue.vue';
 
 const props = defineProps({
     item: {
+        required: true,
+        type: Object
+    },
+    data: {
         required: true,
         type: Object
     }
@@ -74,25 +78,9 @@ const tableContent = [
         input: 'Valores familiares, religiosos y culturales'
     },
 ]
-const dataSectionFour = reactive({
-    'Biografía psicológica personal y familiar': '',
-    table: {
-        'Estilos disciplinarios': '',
-        'Tipo de apego': '',
-        'Sociabilidad': '',
-        'Pérdidas afectivas': '',
-        'Experiencias de aprendizaje': '',
-        'Sobrestimulación': '',
-        'Concienciación': '',
-    }
-})
 const emit = defineEmits(['showInfo', 'update']);
 
 function showInfo(item){
     emit('showInfo', item);
-}
-
-function update(data){
-    emit('update', data);
 }
 </script>

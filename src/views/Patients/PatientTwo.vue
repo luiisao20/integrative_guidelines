@@ -1,7 +1,7 @@
 <template>
     <section v-if="dataCopy.length > 0">
 
-        <div class="flex justify-center gap-4 my-4 p-4">
+        <div class="flex justify-center gap-4">
             <h3 class="text-center font-semibold text-gray-900 dark:text-white">
                 Tipo de primera entrevista:
             </h3>        
@@ -76,11 +76,7 @@ const props = defineProps({
         required: true,
         type: String
     },
-    data: {
-        required: true,
-        type: Object
-    },
-    createdAt: {
+    processid: {
         required: true,
         type: String
     }
@@ -182,11 +178,9 @@ const content = [
 
 onBeforeMount(async() => {
     isLoading.value = true;
-    const { data, error } = await useFetch(`guidetwo?patient=${props.id}`);
+    const { data, error } = await useFetch(`guidetwo?patient=${props.id}&process=${props.processid}`);
 
     dataCopy.value = [ ...data.value ];
-
-    console.log(dataCopy.value[0]);
 
     isLoading.value = false;
 })

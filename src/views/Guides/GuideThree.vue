@@ -7,6 +7,7 @@
         v-bind="modalAlert"
         @close-mod="modalAlert.showModal = false; opacity = '1'"
         @send-data="sendData"
+        @go-route="router.push(`/${id}/processes/${processid}`)"
     />
     <SideBar 
         :options="demands"
@@ -27,6 +28,7 @@
             <SectionFour 
                 @update="getInfoSectFour"
                 :item="demands[3]"
+                :data="dataGuideThree.sectionFour"
                 @show-info="showInfo"
             />
         </div>
@@ -75,6 +77,8 @@ import ButtonVue from '@/general_components/ButtonVue.vue';
 import SideBar from '@/guide_components/SideBar.vue';
 import axios from 'axios';
 import { onBeforeRouteLeave } from 'vue-router';
+import { useFetch } from '@/composables/fetch';
+import { router } from '../../routes';
 
 const { opacity, modal, showModal, modalAlert, showModalAlert } = useModal();
 const infoContent = ref({});
@@ -89,7 +93,15 @@ const dataGuideThree = reactive({
     },
     sectionFour: {
         'Biografía psicológica personal y familiar': '',
-        table:{}
+        table:{
+            'Estilos disciplinarios': '',
+            'Tipo de apego': '',
+            'Sociabilidad': '',
+            'Pérdidas afectivas': '',
+            'Experiencias de aprendizaje': '',
+            'Sobrestimulación': '',
+            'Concienciación': '',
+        }
     },
     sectionSix: {
         'Diagnóstico descriptivo y formulación dinámica del problema': '',
@@ -143,6 +155,7 @@ const demands = [
 const isEmpty = ref(false);
 const messageAlert = ref('');
 const isSafeToLeave = ref(false);
+const props = defineProps(['id', 'processid'])
 
 onBeforeRouteLeave(() => {
     if (isSafeToLeave.value) return true
@@ -217,13 +230,32 @@ function checkValues(){
 
 async function sendData(){
 
-    try {            
-        const res = await axios.post('api/guidethree', {
-            patient: dataGuideThree.dataUser['Número de cédula'],
+    try {      
+        
+        const { data, error } = await useFetch(`clients/${props.id}`);
+        const existingData = data.value
+
+        const newBiography = {
+            date: new Date(),
+            biography: dataGuideThree.sectionFour['Biografía psicológica personal y familiar'],
+            process: props.processid
+        }
+
+        if (!existingData.biography || !Array.isArray(existingData.biography)) existingData.biography = [];
+
+        existingData.biography.push(newBiography);
+
+        const res = await axios.post('http://localhost:3000/guidethree', {
+            patient: props.id,
             otherSections: dataGuideThree.otherSections,
             sectionFour: dataGuideThree.sectionFour,
             sectionSix: dataGuideThree.sectionSix,
-            date: new Date()
+            date: new Date(),
+            process: props.processid
+        })
+        const resSecond = await axios.patch(`http://localhost:3000/clients/${props.id}`, {
+            biography: existingData.biography
+            
         })
         showModalAlert('Eureka!!', false, {variant: 'success', showRoute: true});
         isSafeToLeave.value = true;

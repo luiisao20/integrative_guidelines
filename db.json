@@ -73,11 +73,440 @@
         "Otro tipo de atención": ""
       },
       "createdAt": "2023-10-21T17:25:34.466Z"
+    },
+    {
+      "id": "9876543210",
+      "dataPatient": {
+        "Lugar de atención": "Guayaquil",
+        "Nombres": "Maria",
+        "Apellidos": "Gomez Rodriguez",
+        "Número de cédula": "9876543210",
+        "Correo electrónico (opcional)": "maria.gomez@example.com",
+        "Lugar de nacimiento": "Cuenca",
+        "Fecha de nacimiento": "09/15/1980",
+        "Estado Civil": "Casada",
+        "Número de hijos": "2",
+        "Religión": "Católica",
+        "Ciudad de residencia": "Guayaquil",
+        "Dirección": "Las Orquídeas, Guayaquil, Ecuador.",
+        "Celular": "0987654321",
+        "Instrucción": "Universidad",
+        "Profesión": "Enfermera",
+        "Ocupación": "Enfermera",
+        "Grupo étnico": "Mestizo",
+        "Género": "Femenino",
+        "Grupo socio-económico": "Clase media",
+        "Nombre del padre": "Juan Gomez",
+        "Edad (padre)": "62",
+        "Ocupación (padre)": "Ingeniero",
+        "Nombre de la madre": "Ana Rodriguez",
+        "Edad (madre)": "58",
+        "Ocupación (madre)": "Profesora",
+        "Hermanos, género y edad de cada uno de ellos": "Carlos Gomez - Masculino - 35 años",
+        "Lugar que ocupa entre sus hermanos": "Hermana mayor",
+        "Informante": "No aplica",
+        "Parentesco": "No aplica",
+        "Tipo de atención": "Hospitalizado",
+        "Otro tipo de atención": ""
+      },
+      "createdAt": "2023-10-22T10:15:22.789Z",
+      "biography": [
+        {
+          "date": "2023-11-03T00:29:17.915Z",
+          "biography": "biografia 1 Gomez Rodriguez Maria\n",
+          "process": "7"
+        }
+      ]
+    },
+    {
+      "id": "1234567890",
+      "dataPatient": {
+        "Lugar de atención": "Cuenca",
+        "Nombres": "Ana",
+        "Apellidos": "Pérez Molina",
+        "Número de cédula": "1234567890",
+        "Correo electrónico (opcional)": "ana.perez@example.com",
+        "Lugar de nacimiento": "Loja",
+        "Fecha de nacimiento": "03/10/1988",
+        "Estado Civil": "Casada",
+        "Número de hijos": "3",
+        "Religión": "Católica",
+        "Ciudad de residencia": "Cuenca",
+        "Dirección": "Barrio San Sebastián, Cuenca, Ecuador.",
+        "Celular": "0998765432",
+        "Instrucción": "Universidad",
+        "Profesión": "Médica",
+        "Ocupación": "Médica",
+        "Grupo étnico": "Mestizo",
+        "Género": "Femenino",
+        "Grupo socio-económico": "Clase alta",
+        "Nombre del padre": "Carlos Pérez",
+        "Edad (padre)": "63",
+        "Ocupación (padre)": "Abogado",
+        "Nombre de la madre": "Sofía Molina",
+        "Edad (madre)": "59",
+        "Ocupación (madre)": "Dentista",
+        "Hermanos, género y edad de cada uno de ellos": "Juan Pérez - Masculino - 28 años",
+        "Lugar que ocupa entre sus hermanos": "Hermana mayor",
+        "Informante": "No aplica",
+        "Parentesco": "No aplica",
+        "Tipo de atención": "Hospitalizado",
+        "Otro tipo de atención": ""
+      },
+      "createdAt": "2023-10-23T09:45:13.221Z"
+    },
+    {
+      "id": "9876123405",
+      "dataPatient": {
+        "Lugar de atención": "Ambato",
+        "Nombres": "Pedro",
+        "Apellidos": "Fernández Lopez",
+        "Número de cédula": "9876123405",
+        "Correo electrónico (opcional)": "p.fernandez@example.com",
+        "Lugar de nacimiento": "Quito",
+        "Fecha de nacimiento": "12/05/1982",
+        "Estado Civil": "Casado",
+        "Número de hijos": "2",
+        "Religión": "Cristiano",
+        "Ciudad de residencia": "Ambato",
+        "Dirección": "Av. Principal, Ambato, Ecuador.",
+        "Celular": "0987612340",
+        "Instrucción": "Universidad",
+        "Profesión": "Ingeniero Civil",
+        "Ocupación": "Ingeniero Civil",
+        "Grupo étnico": "Mestizo",
+        "Género": "Masculino",
+        "Grupo socio-económico": "Clase media",
+        "Nombre del padre": "Javier Fernández",
+        "Edad (padre)": "58",
+        "Ocupación (padre)": "Arquitecto",
+        "Nombre de la madre": "María Lopez",
+        "Edad (madre)": "56",
+        "Ocupación (madre)": "Profesora",
+        "Hermanos, género y edad de cada uno de ellos": "Luis Fernández - Masculino - 31 años",
+        "Lugar que ocupa entre sus hermanos": "Hermano mayor",
+        "Informante": "No aplica",
+        "Parentesco": "No aplica",
+        "Tipo de atención": "Hospitalizado",
+        "Otro tipo de atención": ""
+      },
+      "createdAt": "2023-10-24T15:20:57.158Z",
+      "biography": [
+        {
+          "date": "2023-11-03T00:03:22.901Z",
+          "biography": "biografia 1 fernandez lopez pedro\nhola",
+          "process": "1"
+        }
+      ]
+    },
+    {
+      "id": "5432109876",
+      "dataPatient": {
+        "Lugar de atención": "Manta",
+        "Nombres": "Isabel",
+        "Apellidos": "González Arévalo",
+        "Número de cédula": "5432109876",
+        "Correo electrónico (opcional)": "isabelg@example.com",
+        "Lugar de nacimiento": "Portoviejo",
+        "Fecha de nacimiento": "07/18/1990",
+        "Estado Civil": "Soltera",
+        "Número de hijos": "0",
+        "Religión": "Agnóstica",
+        "Ciudad de residencia": "Manta",
+        "Dirección": "Playa El Murciélago, Manta, Ecuador.",
+        "Celular": "0543210987",
+        "Instrucción": "Universidad",
+        "Profesión": "Diseñadora Gráfica",
+        "Ocupación": "Diseñadora Gráfica",
+        "Grupo étnico": "Mestizo",
+        "Género": "Femenino",
+        "Grupo socio-económico": "Clase media",
+        "Nombre del padre": "Francisco González",
+        "Edad (padre)": "56",
+        "Ocupación (padre)": "Empresario",
+        "Nombre de la madre": "Carmen Arévalo",
+        "Edad (madre)": "52",
+        "Ocupación (madre)": "Profesora",
+        "Hermanos, género y edad de cada uno de ellos": "Carlos González - Masculino - 29 años",
+        "Lugar que ocupa entre sus hermanos": "Hermana mayor",
+        "Informante": "No aplica",
+        "Parentesco": "No aplica",
+        "Tipo de atención": "Hospitalizado",
+        "Otro tipo de atención": ""
+      },
+      "createdAt": "2023-10-25T12:55:44.793Z"
+    },
+    {
+      "id": "4567890123",
+      "dataPatient": {
+        "Lugar de atención": "Quito",
+        "Nombres": "Eduardo",
+        "Apellidos": "Torres Cevallos",
+        "Número de cédula": "4567890123",
+        "Correo electrónico (opcional)": "eduardo@example.com",
+        "Lugar de nacimiento": "Quito",
+        "Fecha de nacimiento": "06/22/1987",
+        "Estado Civil": "Casado",
+        "Número de hijos": "1",
+        "Religión": "Ateo",
+        "Ciudad de residencia": "Quito",
+        "Dirección": "La Floresta, Quito, Ecuador.",
+        "Celular": "0456789012",
+        "Instrucción": "Universidad",
+        "Profesión": "Abogado",
+        "Ocupación": "Abogado",
+        "Grupo étnico": "Mestizo",
+        "Género": "Masculino",
+        "Grupo socio-económico": "Clase media",
+        "Nombre del padre": "Manuel Torres",
+        "Edad (padre)": "60",
+        "Ocupación (padre)": "Médico",
+        "Nombre de la madre": "Rosa Cevallos",
+        "Edad (madre)": "56",
+        "Ocupación (madre)": "Enfermera",
+        "Hermanos, género y edad de cada uno de ellos": "Luis Torres - Masculino - 31 años",
+        "Lugar que ocupa entre sus hermanos": "Hermano mayor",
+        "Informante": "No aplica",
+        "Parentesco": "No aplica",
+        "Tipo de atención": "Hospitalizado",
+        "Otro tipo de atención": ""
+      },
+      "createdAt": "2023-10-26T08:10:32.654Z"
+    },
+    {
+      "id": "7890123456",
+      "dataPatient": {
+        "Lugar de atención": "Cuenca",
+        "Nombres": "Carla",
+        "Apellidos": "Vargas Ortega",
+        "Número de cédula": "7890123456",
+        "Correo electrónico (opcional)": "carla@example.com",
+        "Lugar de nacimiento": "Cuenca",
+        "Fecha de nacimiento": "01/12/1993",
+        "Estado Civil": "Soltera",
+        "Número de hijos": "0",
+        "Religión": "Protestante",
+        "Ciudad de residencia": "Cuenca",
+        "Dirección": "Barrio San Blas, Cuenca, Ecuador.",
+        "Celular": "0789012345",
+        "Instrucción": "Universidad",
+        "Profesión": "Arquitecta",
+        "Ocupación": "Arquitecta",
+        "Grupo étnico": "Mestizo",
+        "Género": "Femenino",
+        "Grupo socio-económico": "Clase media",
+        "Nombre del padre": "Javier Vargas",
+        "Edad (padre)": "58",
+        "Ocupación (padre)": "Ingeniero",
+        "Nombre de la madre": "María Ortega",
+        "Edad (madre)": "54",
+        "Ocupación (madre)": "Profesora",
+        "Hermanos, género y edad de cada uno de ellos": "Carlos Vargas - Masculino - 30 años",
+        "Lugar que ocupa entre sus hermanos": "Hermana mayor",
+        "Informante": "No aplica",
+        "Parentesco": "No aplica",
+        "Tipo de atención": "Hospitalizado",
+        "Otro tipo de atención": ""
+      },
+      "createdAt": "2023-10-27T14:45:21.987Z"
+    },
+    {
+      "id": "4567012345",
+      "dataPatient": {
+        "Lugar de atención": "Guayaquil",
+        "Nombres": "Juan",
+        "Apellidos": "Ramírez Castillo",
+        "Número de cédula": "4567012345",
+        "Correo electrónico (opcional)": "juan.r@example.com",
+        "Lugar de nacimiento": "Guayaquil",
+        "Fecha de nacimiento": "05/28/1985",
+        "Estado Civil": "Casado",
+        "Número de hijos": "2",
+        "Religión": "Católica",
+        "Ciudad de residencia": "Guayaquil",
+        "Dirección": "Kennedy Norte, Guayaquil, Ecuador.",
+        "Celular": "0456701234",
+        "Instrucción": "Universidad",
+        "Profesión": "Ingeniero Electrónico",
+        "Ocupación": "Ingeniero Electrónico",
+        "Grupo étnico": "Mestizo",
+        "Género": "Masculino",
+        "Grupo socio-económico": "Clase alta",
+        "Nombre del padre": "Manuel Ramírez",
+        "Edad (padre)": "60",
+        "Ocupación (padre)": "Médico",
+        "Nombre de la madre": "Luisa Castillo",
+        "Edad (madre)": "56",
+        "Ocupación (madre)": "Abogada",
+        "Hermanos, género y edad de cada uno de ellos": "María Ramírez - Femenino - 29 años",
+        "Lugar que ocupa entre sus hermanos": "Hermano mayor",
+        "Informante": "No aplica",
+        "Parentesco": "No aplica",
+        "Tipo de atención": "Hospitalizado",
+        "Otro tipo de atención": ""
+      },
+      "createdAt": "2023-10-28T09:30:17.553Z"
+    },
+    {
+      "id": "8901234567",
+      "dataPatient": {
+        "Lugar de atención": "Machala",
+        "Nombres": "Laura",
+        "Apellidos": "Gómez Mendoza",
+        "Número de cédula": "8901234567",
+        "Correo electrónico (opcional)": "laura.gomez@example.com",
+        "Lugar de nacimiento": "Machala",
+        "Fecha de nacimiento": "09/14/1996",
+        "Estado Civil": "Soltera",
+        "Número de hijos": "0",
+        "Religión": "Ateo",
+        "Ciudad de residencia": "Machala",
+        "Dirección": "Av. 25 de Junio, Machala, Ecuador.",
+        "Celular": "0890123456",
+        "Instrucción": "Universidad",
+        "Profesión": "Psicóloga",
+        "Ocupación": "Psicóloga",
+        "Grupo étnico": "Mestizo",
+        "Género": "Femenino",
+        "Grupo socio-económico": "Clase media",
+        "Nombre del padre": "Andrés Gómez",
+        "Edad (padre)": "58",
+        "Ocupación (padre)": "Ingeniero",
+        "Nombre de la madre": "María Mendoza",
+        "Edad (madre)": "54",
+        "Ocupación (madre)": "Profesora",
+        "Hermanos, género y edad de cada uno de ellos": "Carlos Gómez - Masculino - 31 años",
+        "Lugar que ocupa entre sus hermanos": "Hermana mayor",
+        "Informante": "No aplica",
+        "Parentesco": "No aplica",
+        "Tipo de atención": "Hospitalizado",
+        "Otro tipo de atención": ""
+      },
+      "createdAt": "2023-10-29T11:20:05.346Z"
+    },
+    {
+      "id": "2345678901",
+      "dataPatient": {
+        "Lugar de atención": "Portoviejo",
+        "Nombres": "Miguel",
+        "Apellidos": "López Vera",
+        "Número de cédula": "2345678901",
+        "Correo electrónico (opcional)": "m.lopez@example.com",
+        "Lugar de nacimiento": "Portoviejo",
+        "Fecha de nacimiento": "04/30/1994",
+        "Estado Civil": "Soltero",
+        "Número de hijos": "0",
+        "Religión": "Agnóstico",
+        "Ciudad de residencia": "Portoviejo",
+        "Dirección": "Av. 10 de Agosto, Portoviejo, Ecuador.",
+        "Celular": "0234567890",
+        "Instrucción": "Universidad",
+        "Profesión": "Contador",
+        "Ocupación": "Contador",
+        "Grupo étnico": "Mestizo",
+        "Género": "Masculino",
+        "Grupo socio-económico": "Clase media",
+        "Nombre del padre": "Carlos López",
+        "Edad (padre)": "57",
+        "Ocupación (padre)": "Ingeniero",
+        "Nombre de la madre": "Ana Vera",
+        "Edad (madre)": "53",
+        "Ocupación (madre)": "Profesora",
+        "Hermanos, género y edad de cada uno de ellos": "Luis López - Masculino - 30 años",
+        "Lugar que ocupa entre sus hermanos": "Hermano mayor",
+        "Informante": "No aplica",
+        "Parentesco": "No aplica",
+        "Tipo de atención": "Hospitalizado",
+        "Otro tipo de atención": ""
+      },
+      "createdAt": "2023-10-30T15:55:36.123Z"
+    },
+    {
+      "id": "3456789012",
+      "dataPatient": {
+        "Lugar de atención": "Loja",
+        "Nombres": "Luisa",
+        "Apellidos": "Hernández Mora",
+        "Número de cédula": "3456789012",
+        "Correo electrónico (opcional)": "luisa@example.com",
+        "Lugar de nacimiento": "Loja",
+        "Fecha de nacimiento": "11/08/1989",
+        "Estado Civil": "Casada",
+        "Número de hijos": "1",
+        "Religión": "Católica",
+        "Ciudad de residencia": "Loja",
+        "Dirección": "Barrio El Valle, Loja, Ecuador.",
+        "Celular": "0345678901",
+        "Instrucción": "Universidad",
+        "Profesión": "Ingeniera de Sistemas",
+        "Ocupación": "Ingeniera de Sistemas",
+        "Grupo étnico": "Mestizo",
+        "Género": "Femenino",
+        "Grupo socio-económico": "Clase media",
+        "Nombre del padre": "José Hernández",
+        "Edad (padre)": "59",
+        "Ocupación (padre)": "Empresario",
+        "Nombre de la madre": "Linda Mora",
+        "Edad (madre)": "55",
+        "Ocupación (madre)": "Médica",
+        "Hermanos, género y edad de cada uno de ellos": "Carlos Hernández - Masculino - 28 años",
+        "Lugar que ocupa entre sus hermanos": "Hermana mayor",
+        "Informante": "No aplica",
+        "Parentesco": "No aplica",
+        "Tipo de atención": "Hospitalizado",
+        "Otro tipo de atención": ""
+      },
+      "createdAt": "2023-10-31T08:40:49.236Z"
+    }
+  ],
+  "processes": [
+    {
+      "patient": "1724037864",
+      "processName": "Proceso 1",
+      "date": "2023-10-12T22:48:07.045Z",
+      "id": 1
+    },
+    {
+      "patient": "1724037864",
+      "processName": "Proceso 2",
+      "date": "2023-10-12T22:56:22.381Z",
+      "id": 2
+    },
+    {
+      "patient": "1724037864",
+      "processName": "Proceso 3",
+      "date": "2023-10-29T22:56:32.244Z",
+      "id": 3
+    },
+    {
+      "patient": "1724037864",
+      "processName": "Proceso 4",
+      "date": "2023-10-31T22:56:37.440Z",
+      "id": 4
+    },
+    {
+      "patient": "1724037872",
+      "processName": "Proceso 1",
+      "date": "2023-10-31T22:56:37.440Z",
+      "id": 5
+    },
+    {
+      "patient": "9876123405",
+      "processName": "Proceso 1",
+      "date": "2023-11-02T22:58:08.908Z",
+      "id": 6
+    },
+    {
+      "patient": "9876543210",
+      "processName": "Proceso 1",
+      "date": "2023-11-03T00:27:34.939Z",
+      "id": 7
     }
   ],
   "guideone": [
     {
       "patient": "1724037864",
+      "process": "1",
       "optionsSelected": {
         "Origen": [
           "Paciente",
@@ -111,6 +540,7 @@
   "guidetwo": [
     {
       "patient": "1724037864",
+      "process": "1",
       "dataGuideTwo": {
         "Tipo de primera entrevista": {
           "selected": "Entrevista de psicodiagnóstico"
@@ -165,6 +595,7 @@
   "guidethree": [
     {
       "patient": "1724037864",
+      "process": "1",
       "otherSections": {
         "Demanda explícita": "Demanda Gaby",
         "Demanda implícita": "implicita Gaby",
@@ -191,11 +622,74 @@
         "Diagnóstico descriptivo y formulación dinámica de la personalidad": ""
       },
       "id": "ghnb8Er"
+    },
+    {
+      "patient": "9876123405",
+      "otherSections": {
+        "Demanda explícita": "explicita fernandez lopez pedro",
+        "Demanda implícita": "implicita",
+        "Antecedentes disfuncionales": "disfuncionales fernandez lopez pedro",
+        "Consignar los resultados de las pruebas psicológicas:": "resultados consignados fernandez lopez pedro",
+        "Criterios pronósticos": "criterios fernandez lopez pedro",
+        "Recomendaciones": "recomendaciones fernandez lopez pedro"
+      },
+      "sectionFour": {
+        "Biografía psicológica personal y familiar": "biografia 2 fernandez lopez pedro\nhola",
+        "table": {
+          "Estilos disciplinarios": "estilos",
+          "Tipo de apego": "apego",
+          "Sociabilidad": "sociabilidad fernandez lopez pedro",
+          "Pérdidas afectivas": "afectivas ",
+          "Experiencias de aprendizaje": "aprendizaje",
+          "Sobrestimulación": "sobrestimulacion",
+          "Concienciación": "concienciacion fernandez lopez pedro"
+        }
+      },
+      "sectionSix": {
+        "Diagnóstico descriptivo y formulación dinámica del problema": "",
+        "Diagnóstico descriptivo y formulación dinámica del trastorno": "",
+        "Diagnóstico descriptivo y formulación dinámica de la personalidad": "personalidad fernandez lopez pedro"
+      },
+      "date": "2023-11-03T00:03:22.901Z",
+      "process": "6",
+      "id": "bx6_cgI"
+    },
+    {
+      "patient": "9876543210",
+      "otherSections": {
+        "Demanda explícita": "explicita Gomez Rodriguez Maria\n",
+        "Demanda implícita": "implicita Gomez Rodriguez Maria\n",
+        "Antecedentes disfuncionales": "disfuncionales Gomez Rodriguez Maria\n",
+        "Consignar los resultados de las pruebas psicológicas:": "consignar resultados",
+        "Criterios pronósticos": "criterios Gomez Rodriguez Maria\n",
+        "Recomendaciones": "recomendaciones"
+      },
+      "sectionFour": {
+        "Biografía psicológica personal y familiar": "biografia 1 Gomez Rodriguez Maria\n",
+        "table": {
+          "Estilos disciplinarios": "disciplinarios",
+          "Tipo de apego": "apego",
+          "Sociabilidad": "sociabilidad",
+          "Pérdidas afectivas": "afectivos Gomez Rodriguez Maria",
+          "Experiencias de aprendizaje": "aprendizaje",
+          "Sobrestimulación": "sobrestimulacione",
+          "Concienciación": "concienciacion"
+        }
+      },
+      "sectionSix": {
+        "Diagnóstico descriptivo y formulación dinámica del problema": "problema diagnosis Gomez Rodriguez Maria\n",
+        "Diagnóstico descriptivo y formulación dinámica del trastorno": "",
+        "Diagnóstico descriptivo y formulación dinámica de la personalidad": ""
+      },
+      "date": "2023-11-03T00:29:17.916Z",
+      "process": "7",
+      "id": "DSkkjJV"
     }
   ],
   "guidefour": [
     {
       "patient": "1724037864",
+      "process": "1",
       "dataGuideFour": {
         "Paciente idóneo para tratamiento psicoterapéutico": "Medio",
         "Requiere tratamiento mixto (psicoterapia, biológico, social) Especifique:": {
@@ -226,6 +720,7 @@
   "guidefive": [
     {
       "patient": "1724037864",
+      "process": "1",
       "dataGuideFive": {
         "Diagnóstico descriptivo y formulación dinámica del problema": [],
         "Diagnóstico descriptivo y formulación dinámica del trastorno": [
@@ -251,6 +746,7 @@
   "guidesix": [
     {
       "patient": "1724037864",
+      "process": "1",
       "data": [
         {
           "objective": "Evolucion 1 ajhbsajha abnae ndab awdnb dae",
@@ -275,6 +771,7 @@
   "guideseven": [
     {
       "patient": "1724037864",
+      "process": "1",
       "dataGuideSeven": {
         "dataTable": {
           "Características del consultorio": {
@@ -410,6 +907,7 @@
   "guideeight": [
     {
       "patient": "1724037864",
+      "process": "1",
       "dataGuideEight": {
         "tableOne": {
           "PROCESO": "Asesoramiento",

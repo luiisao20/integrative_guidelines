@@ -1,6 +1,6 @@
 <template>
     <section v-if="dataCopy.length > 0">
-        <h1 class="text-2xl my-4 font-bold text-center">EJECUCIÓN Y APLICACIÓN TÉCNICA</h1>
+        <h1 class="text-2xl font-bold text-center">EJECUCIÓN Y APLICACIÓN TÉCNICA</h1>
         <div class="flex justify-center">
             <table class="m-4">
                 <thead class="text-xs text-gray-700 uppercase shadow-sm shadow-main-default">
@@ -35,11 +35,7 @@ const props = defineProps({
         required: true,
         type: String
     },
-    data: {
-        required: true,
-        type: Object
-    },
-    createdAt: {
+    processid: {
         required: true,
         type: String
     }
@@ -49,7 +45,7 @@ const dataCopy = ref([]);
 
 onBeforeMount(async() => {
     isLoading.value = true;
-    const { data, error } = await useFetch(`guidesix?patient=${props.id}`);
+    const { data, error } = await useFetch(`guidesix?patient=${props.id}&process=${props.processid}`);
 
     dataCopy.value = [ ...data.value ];
 
