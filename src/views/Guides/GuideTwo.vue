@@ -3,13 +3,15 @@
         v-bind="modalAlert"
         @close-mod="modalAlert.showModal = false; opacity = '1'"
         @send-data="sendData"
-        @go-route="router.push(`/${id}/guidetwo`)"
+        @go-route="router.push(`/${id}/process/${processid}/guidetwo`)"
+        :is-loading="isLoading.sending"
     />
     <SideBar
         :options="content"
     />
-    <form class="py-10" :style="{ opacity: opacity }">
+    <form v-if="!isLoading.data" class="py-10" :style="{ opacity: opacity }">
         <h1 class="text-2xl font-bold text-center">ANÁLISIS DE LA PRIMER ENTREVISTA</h1>
+        <h1 class="pt-5"><span class="font-bold">Paciente:</span> {{ patient.Apellidos }} {{ patient.Nombres }}</h1>
         <div :id="content[0].title">
             <CheckBox
                 type-input="radio"
@@ -18,7 +20,8 @@
             />
         </div>
         <h2 class="mt-10 mb-4 text-center font-semibold text-gray-900 dark:text-white">
-            INTERROGANTES AL FINALIZAR LA PRIMERA ENTREVISTA <PopOver id-pop="1" variant="info" text-info="Para cada apartado debes llenar las observaciones y seleccionar 'Sí' o 'No'"/>
+            INTERROGANTES AL FINALIZAR LA PRIMERA ENTREVISTA 
+            <PopOver variant="info" text-info="Para cada apartado debes llenar las observaciones y seleccionar 'Sí' o 'No'"/>
         </h2>
         <div :id="content[1].title">
             <TableForm
@@ -39,10 +42,13 @@
             </ButtonVue>
         </div>
     </form>
+    <div v-else class="flex justify-center">
+        <Spinner class="text-4xl py-20"/>
+    </div>
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue';
+import { reactive, ref, onBeforeMount } from 'vue';
 import CheckBox from '@/guide_components/CheckBox.vue';
 import TableForm from '@/guide_components/TableForm.vue';
 import RadioBox from '@/guide_components/RadioBox.vue';
@@ -51,9 +57,12 @@ import { useModal } from '@/composables/modal';
 import ButtonVue from '@/general_components/ButtonVue.vue';
 import SideBar from '@/guide_components/SideBar.vue';
 import PopOver from '@/general_components/PopOver.vue';
-import axios from 'axios';
 import { router } from '../../routes';
 import { onBeforeRouteLeave } from 'vue-router';
+import { doc, getDoc, addDoc, collection } from 'firebase/firestore';
+import { db } from '@/main.js';
+import { formatDate } from '@/composables/formatDate';
+import Spinner from '../../general_components/Spinner.vue';
 
 const content = [
     {
@@ -164,13 +173,23 @@ const dataGuideTwo = reactive({
 })
 const isEmpty = ref(false);
 const modalMessage = ref('');
-const props = defineProps({
-    id: {
-        required: true,
-        type: String
-    }
-})
+const props = defineProps(['id', 'processid']);
 const isSafeToLeave = ref(false);
+const isLoading = reactive({
+    data: false,
+    sending: false
+});
+const patient = ref({});
+
+onBeforeMount(async() => {
+    isLoading.data = true;
+
+    const patientRef = doc(db, 'patients', `${props.id}`);
+    const docSnap = await getDoc(patientRef);
+    patient.value = { ...docSnap.data().dataPatient };
+
+    isLoading.data = false;
+})
 
 onBeforeRouteLeave(() => {
     if (isSafeToLeave.value) return true
@@ -222,16 +241,19 @@ function checkValues() {
 }
 
 async function sendData() {
+    isLoading.sending = true;
     try {
-        const res = await axios.post('http://localhost:3000/guidetwo', {
+        await addDoc(collection(db, 'guidetwo'), {
             patient: props.id,
-            dataGuideTwo,
-            date: new Date()
+            dataGuideTwo: dataGuideTwo,
+            date: formatDate(new Date()),
+            process: props.processid
         })
         showModalAlert('Eureka!!', false, {variant: 'success', showRoute: true});
         isSafeToLeave.value = true;
     } catch (error) {
         showModalAlert(error, false, {variant: 'danger'})
     }
+    isLoading.sending = false;
 }
 </script>

@@ -8,6 +8,7 @@ import GuideSix from './views/Guides/GuideSix.vue';
 import GuideSeven from './views/Guides/GuideSeven.vue';
 import GuideEight from './views/Guides/GuideEight.vue';
 import Patients from './views/Patients.vue';
+import Login from './views/Login.vue';
 import CreatePatient from './views/Patients/CreatePatient.vue';
 import PatientThree from './views/Patients/PatientThree.vue';
 import PatientData from './views/Patients/PatientData.vue';
@@ -21,8 +22,18 @@ import PatientEight from './views/Patients/PatientEight.vue';
 import PatientsList from './views/PatientsList.vue';
 import PatientProcesses from './views/Patients/PatientProcesses.vue';
 import PatientProcess from './views/Patients/PatientProcess.vue';
+import RegisterUser from './views/Admin/RegisterUser.vue';
 
 const routes = [
+    {
+        path: '/',
+        component: Login,
+        name: 'Login'
+    },
+    {
+        path: '/admin',
+        component: RegisterUser
+    },
     {
         path: '/create/patient',
         component: CreatePatient
@@ -77,51 +88,56 @@ const routes = [
                 component: PatientData,
             },
             {
-                path: 'processes',
-                component: PatientProcesses,
+                path: 'process/:processid',
+                component: PatientProcess,
+                props: true,
                 children: [
                     {
-                        path: ':processid/guideone',
+                        path: 'guideone',
                         component: PatientOne,
                         props: true
                     },
                     {
-                        path: ':processid/guidetwo',
+                        path: 'guidetwo',
                         component: PatientTwo,
                         props: true
                     },
                     {
-                        path: ':processid/guidethree',
+                        path: 'guidethree',
                         component: PatientThree,
                         props: true
                     },
                     {
-                        path: ':processid/guidefour',
+                        path: 'guidefour',
                         component: PatientFour,
                         props: true
                     },
                     {
-                        path: ':processid/guidefive',
+                        path: 'guidefive',
                         component: PatientFive,
                         props: true
                     },
                     {
-                        path: ':processid/guidesix',
+                        path: 'guidesix',
                         component: PatientSix,
                         props: true
                     },
                     {
-                        path: ':processid/guideseven',
+                        path: 'guideseven',
                         component: PatientSeven,
                         props: true
                     },
                     {
-                        path: ':processid/guideeight',
+                        path: 'guideeight',
                         component: PatientEight,
                         props: true
                     }
                 ]
             },
+            {
+                path: 'processes',
+                component: PatientProcesses,
+            }
         ]
     },
     {

@@ -6,20 +6,20 @@
         "Lugar de atención": "Quevedo",
         "Nombres": "Maria Gabriela",
         "Apellidos": "Bravo Arriciaga",
-        "Número de cédula": "1724037872",
+        "Número de cédula": "1724037864",
         "Correo electrónico (opcional)": "",
         "Lugar de nacimiento": "Quito",
         "Fecha de nacimiento": "05/27/1997",
         "Estado Civil": "Soltera",
         "Número de hijos": "1",
-        "Religión": "Ateo",
-        "Ciudad de residencia": "Quevedi",
+        "Religión": "Atea",
+        "Ciudad de residencia": "Quevedo",
         "Dirección": "Parroquia 7 de octubre",
-        "Celular": "0978823665",
-        "Instrucción": "Universidad",
+        "Celular": "0978823635",
+        "Instrucción": "Universitaria",
         "Profesión": "Psicóloga",
         "Ocupación": "Psicóloga",
-        "Grupo étnico": "Mestiza",
+        "Grupo étnico": "Mestizo",
         "Género": "Femenino",
         "Grupo socio-económico": "Clase media",
         "Nombre del padre": "Luis Bravo",
@@ -32,10 +32,27 @@
         "Lugar que ocupa entre sus hermanos": "Hermana menor",
         "Informante": "No aplica",
         "Parentesco": "No aplica",
-        "Tipo de atención": "Hospitalizado",
+        "Tipo de atención": "Consulta privada",
         "Otro tipo de atención": ""
       },
-      "createdAt": "2023-10-21T17:22:58.660Z"
+      "createdAt": "2023-11-06T23:51:36.339Z",
+      "biography": [
+        {
+          "date": "2023-11-06T23:47:52.061Z",
+          "text": "Paciente proviene de un hogar estructurado y funcional donde mantienen un estilo de crianza autoritario. \n Padre: 67 años, ocupación abogado, actualmente jubilado.  Manifiesta que su padre es una persona sencilla, humilde, obediente, seguidor de reglas, limpio, organizado. Mantiene una buena relación afectiva.\nMadre: 64 años, Licenciada en Filosofía actualmente trabaja dando tutorías a estudiantes de secundaria.  Refiere que ella siempre ha sido activa, ordenada, el alma de todo lugar, organizada y trabajadora, orgullosa y creativa.  Su relación es afectiva y cercana.\nHermanos: Sus hermanos siempre le veían como una figura a seguir y se peleaban entre ellos para compartir a su lado.  Mantienen una excelente relación familiar y se encuentran preocupados los unos a los otros por si necesitan algo.  Durante la infancia jugaban siempre los tres hermanos y se desvivían por estar cerca los unos a los otros hasta la actualidad.  En ocasiones se peleaban, pero rápidamente se volvían a reconciliar.\nPaciente menciona que sus padres siempre eran amorosos, “nos consentían y nos demostraban su amor cada día.  Nunca hubo un día en el que nos fuéramos a dormir sin que ellos nos pongan en la cama.  Mi mamá era muy amorosa y nos demostraba su cariño cocinándonos nuestra comida favorita.  Los fines de semana mi papá nos llevaba a todos en su camioneta a pasear y divertirnos.  De vez en cuando se enojaban con nosotros, la manera de castigarnos era retirándonos la Tv. Por una semana.”\nSus padres también siempre les motivaban a que recibieran una educación superior para no tener que depender de jefes.  Al mismo tiempo les gratificaban cada vez que llegaban a casa con buenas notas de la escuela.  Menciona que su grupo de amigos era bastante extensa y abierta debido a la facilidad con la que compartía con ellos siendo el centro de la atención. \nEn cuanto a las perdidas afectivas, lamenta mucho el haber perdido a su buen amigo de la niñez en aquel trágico accidente, lo que siente que aún le afecta y no ha podido superar creando en él una experiencia traumática.  Este tipo de reminiscencias en ocasiones le generan tristeza, ya que su grupo social se ha visto disminuido desde que tuvo sus hijos, ya que prefiere compartir con ellos en lugar de sus amigos.  Paciente concluye diciendo que este tipo de sentimientos afectan su relación actual, ya que siente que en ocasiones no puede mantener una comunicación abierta con su esposa, porque se molesta en lugar de recibir palabras de apoyo y esto hace que se extienda hasta la desautorización frente a sus hijos.\n",
+          "process": null
+        },
+        {
+          "date": "2023-11-07T01:34:43.148Z",
+          "text": "Biografia en el proceso 1",
+          "process": "1"
+        },
+        {
+          "date": "2023-11-07T23:39:21.460Z",
+          "text": "Biografia en el proceso 2",
+          "process": "2"
+        }
+      ]
     },
     {
       "id": "1724037872",
@@ -194,8 +211,13 @@
       "biography": [
         {
           "date": "2023-11-03T00:03:22.901Z",
-          "biography": "biografia 1 fernandez lopez pedro\nhola",
+          "text": "biografia 1 fernandez lopez pedro\nhola",
           "process": "1"
+        },
+        {
+          "date": "2023-11-14T20:21:25.276Z",
+          "text": "Biografia proceso 1 pedro lopez",
+          "process": "6"
         }
       ]
     },
@@ -535,6 +557,96 @@
       },
       "date": "2023-10-20T23:41:56.602Z",
       "id": 1
+    },
+    {
+      "patient": "1724037864",
+      "optionsSelected": {
+        "Origen": [
+          "Paciente",
+          "Profesional",
+          "Familiar"
+        ],
+        "Tipo de demanda": [
+          "Psicoterapia"
+        ],
+        "Paciente": [
+          "Exigencia de status",
+          "Remisión de otros profesionales",
+          "Complacencia a familiares y allegados"
+        ],
+        "Terapeuta": [
+          "Vocación de ayuda",
+          "Adquisición de experiencia",
+          "Fenómenos contra-transferenciales"
+        ],
+        "Familiares, amigos e instituciones": [
+          "Sentimientos de ayuda de amigos",
+          "Afán de ayuda de familiares",
+          "Experiencias previas de familiares"
+        ]
+      },
+      "date": "2023-11-07T21:13:15.227Z",
+      "process": "2",
+      "id": 2
+    },
+    {
+      "patient": "9876123405",
+      "optionsSelected": {
+        "Origen": [
+          "Paciente",
+          "Familiar"
+        ],
+        "Tipo de demanda": [
+          "Asesoramiento",
+          "Psicoterapia"
+        ],
+        "Paciente": [
+          "Otras",
+          "Exigencia de status",
+          "Remisión de otros profesionales"
+        ],
+        "Terapeuta": [
+          "Factores económicos",
+          "Fenómenos contra-transferenciales",
+          "Adquisición de experiencia"
+        ],
+        "Familiares, amigos e instituciones": [
+          "Exigencias o intereses institucionales",
+          "Engaño de familiares",
+          "Exigencias familiares"
+        ]
+      },
+      "date": "2023-11-14T19:41:24.723Z",
+      "process": "6",
+      "id": 3
+    },
+    {
+      "patient": "1724037864",
+      "optionsSelected": {
+        "Origen": [
+          "Paciente",
+          "Familiar"
+        ],
+        "Tipo de demanda": [
+          "Psicoterapia"
+        ],
+        "Paciente": [
+          "Búsqueda de ayuda o supresión de síntomas",
+          "Complacencia a familiares y allegados"
+        ],
+        "Terapeuta": [
+          "Factores económicos",
+          "Fenómenos contra-transferenciales",
+          "Adquisición de experiencia"
+        ],
+        "Familiares, amigos e instituciones": [
+          "Engaño de familiares",
+          "Exigencias familiares"
+        ]
+      },
+      "date": "2023-11-27T00:58:52.511Z",
+      "process": "3",
+      "id": 4
     }
   ],
   "guidetwo": [
@@ -590,70 +702,168 @@
       },
       "date": "2023-10-20T23:47:37.067Z",
       "id": 1
-    }
-  ],
-  "guidethree": [
+    },
     {
       "patient": "1724037864",
-      "process": "1",
-      "otherSections": {
-        "Demanda explícita": "Demanda Gaby",
-        "Demanda implícita": "implicita Gaby",
-        "Antecedentes disfuncionales": "Antecedents Gaby",
-        "Consignar los resultados de las pruebas psicológicas:": "Resultados Gaby",
-        "Criterios pronósticos": "Criterios gaby",
-        "Recomendaciones": "recomendaciones gaby"
-      },
-      "sectionFour": {
-        "Biografía psicológica personal y familiar": "Biografia Gaby",
-        "table": {
-          "Estilos disciplinarios": "Estiulos gaby",
-          "Tipo de apego": "apego gaby",
-          "Sociabilidad": "sociabilidad",
-          "Pérdidas afectivas": "afectivas",
-          "Experiencias de aprendizaje": "aprendizaje",
-          "Sobrestimulación": "sobrestimulación",
-          "Concienciación": "concienciación"
+      "dataGuideTwo": {
+        "Tipo de primera entrevista": {
+          "selected": "Entrevista única"
+        },
+        "tableOne": {
+          "RAPPORT.0.option": "Sí",
+          "PERMISIVIDAD.1.option": "Sí",
+          "APROXIMACIÓN DIAGNÓSTICA DEL PROBLEMA Y/O TRASTORNO.2.option": "No",
+          "APROXIMACIÓN DIAGNÓSTICA DE LA PERSONALIDAD.3.option": "No",
+          "POSIBILIDADES DE INTERVENCIÓN.4.option": "Sí",
+          "EMPATÍA.5.option": "No",
+          "EMPATÍA.6.option": "Sí",
+          "DESINHIBICIÓN EMOCIONAL.7.option": "Sí",
+          "DESINHIBICIÓN EMOCIONAL.8.option": "No",
+          "DESINHIBICIÓN EMOCIONAL.9.option": "No",
+          "APOYO EMOCIONAL.10.option": "No",
+          "ESTRUCTURACIÓN DEL PROCESO.11.option": "No",
+          "ESTRUCTURACIÓN DEL PROCESO.12.option": "Sí",
+          "RESISTENCIA AL PROCESO.13.option": "Sí",
+          "TRANSFERENCIA.14.option": "No",
+          "CONTRATRANSFERENCIA.15.option": "No",
+          "RAPPORT.0.observation": "rapport",
+          "PERMISIVIDAD.1.observation": "permisividad",
+          "APROXIMACIÓN DIAGNÓSTICA DEL PROBLEMA Y/O TRASTORNO.2.observation": "aproximacion",
+          "APROXIMACIÓN DIAGNÓSTICA DE LA PERSONALIDAD.3.observation": "personalidad ",
+          "POSIBILIDADES DE INTERVENCIÓN.4.observation": "intervencion",
+          "EMPATÍA.5.observation": "empatia",
+          "EMPATÍA.6.observation": "empatia 2",
+          "DESINHIBICIÓN EMOCIONAL.7.observation": "deshinibicion emocional",
+          "DESINHIBICIÓN EMOCIONAL.8.observation": "deshinibicion 2",
+          "DESINHIBICIÓN EMOCIONAL.9.observation": "deshinibicion3 ",
+          "APOYO EMOCIONAL.10.observation": "apoyo emocional",
+          "ESTRUCTURACIÓN DEL PROCESO.11.observation": "estructuracion del proceso",
+          "ESTRUCTURACIÓN DEL PROCESO.12.observation": "estructuracion 2",
+          "RESISTENCIA AL PROCESO.13.observation": "resistencia",
+          "TRANSFERENCIA.14.observation": "transferencia",
+          "CONTRATRANSFERENCIA.15.observation": "contratransferencia"
+        },
+        "tableTwo": {
+          "Motivación a recibir ayuda": "Alto",
+          "Capacidad cognitiva": "Medio",
+          "Grado de integración de la personalidad": "Bajo",
+          "Capacidad de respuesta emocional": "Alto",
+          "Flexibilidad": "Medio",
+          "Locus de control interno": "Medio"
         }
       },
-      "sectionSix": {
-        "Diagnóstico descriptivo y formulación dinámica del problema": "",
-        "Diagnóstico descriptivo y formulación dinámica del trastorno": "Trastorno Gaby",
-        "Diagnóstico descriptivo y formulación dinámica de la personalidad": ""
-      },
-      "id": "ghnb8Er"
+      "date": "2023-11-07T21:21:44.491Z",
+      "process": "2",
+      "id": 2
     },
     {
       "patient": "9876123405",
-      "otherSections": {
-        "Demanda explícita": "explicita fernandez lopez pedro",
-        "Demanda implícita": "implicita",
-        "Antecedentes disfuncionales": "disfuncionales fernandez lopez pedro",
-        "Consignar los resultados de las pruebas psicológicas:": "resultados consignados fernandez lopez pedro",
-        "Criterios pronósticos": "criterios fernandez lopez pedro",
-        "Recomendaciones": "recomendaciones fernandez lopez pedro"
-      },
-      "sectionFour": {
-        "Biografía psicológica personal y familiar": "biografia 2 fernandez lopez pedro\nhola",
-        "table": {
-          "Estilos disciplinarios": "estilos",
-          "Tipo de apego": "apego",
-          "Sociabilidad": "sociabilidad fernandez lopez pedro",
-          "Pérdidas afectivas": "afectivas ",
-          "Experiencias de aprendizaje": "aprendizaje",
-          "Sobrestimulación": "sobrestimulacion",
-          "Concienciación": "concienciacion fernandez lopez pedro"
+      "dataGuideTwo": {
+        "Tipo de primera entrevista": {
+          "selected": "Entrevista única"
+        },
+        "tableOne": {
+          "RAPPORT.0.option": "Sí",
+          "PERMISIVIDAD.1.option": "No",
+          "APROXIMACIÓN DIAGNÓSTICA DEL PROBLEMA Y/O TRASTORNO.2.option": "Sí",
+          "APROXIMACIÓN DIAGNÓSTICA DE LA PERSONALIDAD.3.option": "No",
+          "POSIBILIDADES DE INTERVENCIÓN.4.option": "Sí",
+          "EMPATÍA.5.option": "No",
+          "EMPATÍA.6.option": "Sí",
+          "DESINHIBICIÓN EMOCIONAL.7.option": "No",
+          "DESINHIBICIÓN EMOCIONAL.8.option": "Sí",
+          "DESINHIBICIÓN EMOCIONAL.9.option": "No",
+          "APOYO EMOCIONAL.10.option": "Sí",
+          "ESTRUCTURACIÓN DEL PROCESO.11.option": "No",
+          "ESTRUCTURACIÓN DEL PROCESO.12.option": "Sí",
+          "RESISTENCIA AL PROCESO.13.option": "No",
+          "TRANSFERENCIA.14.option": "Sí",
+          "CONTRATRANSFERENCIA.15.option": "No",
+          "RAPPORT.0.observation": "Rapport pedro",
+          "PERMISIVIDAD.1.observation": "permisividad pedro",
+          "APROXIMACIÓN DIAGNÓSTICA DEL PROBLEMA Y/O TRASTORNO.2.observation": "trastorno pedro",
+          "APROXIMACIÓN DIAGNÓSTICA DE LA PERSONALIDAD.3.observation": "personalidad pedro",
+          "POSIBILIDADES DE INTERVENCIÓN.4.observation": "intervención pedro",
+          "EMPATÍA.5.observation": "empatia pedro",
+          "EMPATÍA.6.observation": "empatia 2 ",
+          "DESINHIBICIÓN EMOCIONAL.7.observation": "deshinibicion",
+          "DESINHIBICIÓN EMOCIONAL.8.observation": "emocional pedro",
+          "DESINHIBICIÓN EMOCIONAL.9.observation": "emocional 3 pedro",
+          "APOYO EMOCIONAL.10.observation": "apoyo emocional",
+          "ESTRUCTURACIÓN DEL PROCESO.11.observation": "proceso pedro",
+          "ESTRUCTURACIÓN DEL PROCESO.12.observation": "proceso 2 pedro",
+          "RESISTENCIA AL PROCESO.13.observation": "resistencia al proceso",
+          "TRANSFERENCIA.14.observation": "transferencia pedro",
+          "CONTRATRANSFERENCIA.15.observation": "contratransferencia"
+        },
+        "tableTwo": {
+          "Motivación a recibir ayuda": "Medio",
+          "Capacidad cognitiva": "Medio",
+          "Grado de integración de la personalidad": "Bajo",
+          "Capacidad de respuesta emocional": "Medio",
+          "Flexibilidad": "Bajo",
+          "Locus de control interno": "Bajo"
         }
       },
-      "sectionSix": {
-        "Diagnóstico descriptivo y formulación dinámica del problema": "",
-        "Diagnóstico descriptivo y formulación dinámica del trastorno": "",
-        "Diagnóstico descriptivo y formulación dinámica de la personalidad": "personalidad fernandez lopez pedro"
-      },
-      "date": "2023-11-03T00:03:22.901Z",
+      "date": "2023-11-14T19:46:19.210Z",
       "process": "6",
-      "id": "bx6_cgI"
+      "id": 3
     },
+    {
+      "patient": "1724037864",
+      "dataGuideTwo": {
+        "Tipo de primera entrevista": {
+          "selected": "Entrevista de consulta"
+        },
+        "tableOne": {
+          "RAPPORT.0.option": "Sí",
+          "RAPPORT.0.observation": "Si, el paciente se mostró abierto a la entrevista.",
+          "PERMISIVIDAD.1.option": "Sí",
+          "PERMISIVIDAD.1.observation": "Si, el paciente mostro apertura ante su inquietud hablando libre y claramente acerca del tema.  No hubo resistencia en el discurso.",
+          "APROXIMACIÓN DIAGNÓSTICA DEL PROBLEMA Y/O TRASTORNO.2.option": "Sí",
+          "APROXIMACIÓN DIAGNÓSTICA DEL PROBLEMA Y/O TRASTORNO.2.observation": "Claramente se evidencia la molestia por la que acude a consulta.  Refiere duelo por la muerte de su amigo cuando fue niño.",
+          "APROXIMACIÓN DIAGNÓSTICA DE LA PERSONALIDAD.3.option": "Sí",
+          "APROXIMACIÓN DIAGNÓSTICA DE LA PERSONALIDAD.3.observation": "Inicialmente se mantiene una idea clara de los rasgos de personalidad histriónica.  ",
+          "POSIBILIDADES DE INTERVENCIÓN.4.option": "Sí",
+          "POSIBILIDADES DE INTERVENCIÓN.4.observation": "Si, ya que el paciente es cooperador y deseoso de recibir ayuda.",
+          "EMPATÍA.5.option": "Sí",
+          "EMPATÍA.5.observation": "Si, fui capaz de entender cómo se sentía para acudir en búsqueda de ayuda.",
+          "EMPATÍA.6.option": "Sí",
+          "EMPATÍA.6.observation": "Paciente se sintió comprendido durante la entrevista",
+          "DESINHIBICIÓN EMOCIONAL.7.option": "Sí",
+          "DESINHIBICIÓN EMOCIONAL.7.observation": "Paciente mostró desinhibición durante la entrevista.",
+          "DESINHIBICIÓN EMOCIONAL.8.option": "Sí",
+          "DESINHIBICIÓN EMOCIONAL.8.observation": "Si, a medida que desarrollaba el relato, el paciente demuestra labilidad emocional.",
+          "DESINHIBICIÓN EMOCIONAL.9.option": "No",
+          "DESINHIBICIÓN EMOCIONAL.9.observation": "No fue necesaria la intervención del terapeuta.",
+          "APOYO EMOCIONAL.10.option": "Sí",
+          "APOYO EMOCIONAL.10.observation": "Reflejo de sentimientos, recapitulación, silencio.",
+          "ESTRUCTURACIÓN DEL PROCESO.11.option": "Sí",
+          "ESTRUCTURACIÓN DEL PROCESO.11.observation": "Paciente asiente intervención terapéutica.",
+          "ESTRUCTURACIÓN DEL PROCESO.12.option": "Sí",
+          "ESTRUCTURACIÓN DEL PROCESO.12.observation": "Si, ya que decide empezar terapia.",
+          "RESISTENCIA AL PROCESO.13.option": "No",
+          "RESISTENCIA AL PROCESO.13.observation": "Inicialmente si, pero luego de la breve explicación de como funciona la terapia, paciente se muestra abierto al proceso.",
+          "TRANSFERENCIA.14.option": "Sí",
+          "TRANSFERENCIA.14.observation": "Si se observa transferencia por la presencia del rapport.",
+          "CONTRATRANSFERENCIA.15.option": "No",
+          "CONTRATRANSFERENCIA.15.observation": "No aplica."
+        },
+        "tableTwo": {
+          "Motivación a recibir ayuda": "Medio",
+          "Capacidad cognitiva": "Medio",
+          "Grado de integración de la personalidad": "Medio",
+          "Capacidad de respuesta emocional": "Alto",
+          "Flexibilidad": "Alto",
+          "Locus de control interno": "Medio"
+        }
+      },
+      "date": "2023-11-27T18:43:27.914Z",
+      "process": "JE6v1XrMvMF3eo5yDc5F",
+      "id": 4
+    }
+  ],
+  "guidethree": [
     {
       "patient": "9876543210",
       "otherSections": {
@@ -684,6 +894,99 @@
       "date": "2023-11-03T00:29:17.916Z",
       "process": "7",
       "id": "DSkkjJV"
+    },
+    {
+      "patient": "1724037864",
+      "otherSections": {
+        "Demanda explícita": "explicita gaby bravo",
+        "Demanda implícita": "implicita gaby bravo",
+        "Antecedentes disfuncionales": "disfuncionales",
+        "Consignar los resultados de las pruebas psicológicas:": "resultados de las pruebas",
+        "Criterios pronósticos": "criterios gaby bravo",
+        "Recomendaciones": "recomendaciones"
+      },
+      "sectionFour": {
+        "Biografía psicológica personal y familiar": "Biografia en el proceso 1",
+        "table": {
+          "Estilos disciplinarios": "disciplinarios",
+          "Tipo de apego": "apego",
+          "Sociabilidad": "sociabilidad",
+          "Pérdidas afectivas": "afetivas",
+          "Experiencias de aprendizaje": "aprendizaje gaby bracvo",
+          "Sobrestimulación": "sobrestimulacion",
+          "Concienciación": "concienciacion"
+        }
+      },
+      "sectionSix": {
+        "Diagnóstico descriptivo y formulación dinámica del problema": "dinamica del problema",
+        "Diagnóstico descriptivo y formulación dinámica del trastorno": "trastorno de gaby bravo",
+        "Diagnóstico descriptivo y formulación dinámica de la personalidad": ""
+      },
+      "date": "2023-11-07T01:34:43.149Z",
+      "process": "1",
+      "id": "nE8CUgH"
+    },
+    {
+      "patient": "1724037864",
+      "otherSections": {
+        "Demanda explícita": "Demanda explicita",
+        "Demanda implícita": "implicita",
+        "Antecedentes disfuncionales": "disfuncionales proceso 2",
+        "Consignar los resultados de las pruebas psicológicas:": "resultados del proceso 2",
+        "Criterios pronósticos": "pronosticos",
+        "Recomendaciones": "recomendaciones"
+      },
+      "sectionFour": {
+        "Biografía psicológica personal y familiar": "Biografia en el proceso 2",
+        "table": {
+          "Estilos disciplinarios": "disciplinarios",
+          "Tipo de apego": " apego proceso 2",
+          "Sociabilidad": "sociabilidad proceso 2",
+          "Pérdidas afectivas": "afectivas",
+          "Experiencias de aprendizaje": "aprendizaje",
+          "Sobrestimulación": "sobrestimulacion",
+          "Concienciación": "concienciacion"
+        }
+      },
+      "sectionSix": {
+        "Diagnóstico descriptivo y formulación dinámica del problema": "conclusiones diagnosticas proceso 2",
+        "Diagnóstico descriptivo y formulación dinámica del trastorno": "trastorno proceso 2",
+        "Diagnóstico descriptivo y formulación dinámica de la personalidad": ""
+      },
+      "date": "2023-11-07T23:39:21.460Z",
+      "process": "2",
+      "id": "jh9hWkS"
+    },
+    {
+      "patient": "9876123405",
+      "otherSections": {
+        "Demanda explícita": "explicita pedro lopez",
+        "Demanda implícita": "implicita pedro lopez",
+        "Antecedentes disfuncionales": "disfuncionales pedro lopez",
+        "Consignar los resultados de las pruebas psicológicas:": "resultados consignados pedro lopez",
+        "Criterios pronósticos": "criterios pronosticos ",
+        "Recomendaciones": "recomendaciones pedro lopez"
+      },
+      "sectionFour": {
+        "Biografía psicológica personal y familiar": "Biografia proceso 1 pedro lopez",
+        "table": {
+          "Estilos disciplinarios": "disciplinarios",
+          "Tipo de apego": "apego",
+          "Sociabilidad": "sociabilidad pedro lopez",
+          "Pérdidas afectivas": "afectivas lopez",
+          "Experiencias de aprendizaje": "aprendizaje",
+          "Sobrestimulación": "sobrestimulacion pedro lopez",
+          "Concienciación": "concienciacion"
+        }
+      },
+      "sectionSix": {
+        "Diagnóstico descriptivo y formulación dinámica del problema": "del problema pedro lopez",
+        "Diagnóstico descriptivo y formulación dinámica del trastorno": "trastorno pedro lopez",
+        "Diagnóstico descriptivo y formulación dinámica de la personalidad": ""
+      },
+      "date": "2023-11-14T20:21:25.279Z",
+      "process": "6",
+      "id": "UZD1YNM"
     }
   ],
   "guidefour": [
@@ -715,32 +1018,103 @@
       },
       "date": "2023-10-24T21:56:41.694Z",
       "id": 2
+    },
+    {
+      "patient": "1724037864",
+      "dataGuideFour": {
+        "Paciente idóneo para tratamiento psicoterapéutico": "Alto",
+        "Requiere tratamiento mixto (psicoterapia, biológico, social) Especifique:": {
+          "selected": "Sí",
+          "descr": "Tratamiento normal"
+        },
+        "Requiere intervención:": "Institucional",
+        "¿Qué dificultades se van a presentar en el proceso?": "Cero dificultades"
+      },
+      "date": "2023-11-07T23:52:25.084Z",
+      "process": "2",
+      "id": 3
+    },
+    {
+      "patient": "9876123405",
+      "dataGuideFour": {
+        "Paciente idóneo para tratamiento psicoterapéutico": "Alto",
+        "Requiere tratamiento mixto (psicoterapia, biológico, social) Especifique:": {
+          "selected": "No",
+          "descr": ""
+        },
+        "Requiere intervención:": "Institucional",
+        "¿Qué dificultades se van a presentar en el proceso?": "Dificultades de pedro lopez"
+      },
+      "date": "2023-11-14T20:29:26.227Z",
+      "process": "6",
+      "id": 4
     }
   ],
   "guidefive": [
     {
       "patient": "1724037864",
-      "process": "1",
       "dataGuideFive": {
-        "Diagnóstico descriptivo y formulación dinámica del problema": [],
+        "Diagnóstico descriptivo y formulación dinámica del problema": [
+          {
+            "objective": "Objetivo 1 problema",
+            "technique": "Tecnica 1 problema"
+          }
+        ],
         "Diagnóstico descriptivo y formulación dinámica del trastorno": [
           {
-            "objective": "Hola bb lorem isa sahbdasjhasd ad asd asdhsa",
-            "technique": "como tas Hola bb lorem isa sahbdasjhasd ad asd asdhsa"
-          },
-          {
-            "objective": "Sho bien",
-            "technique": "Y vos"
-          },
-          {
-            "objective": "Chato pelao",
-            "technique": "confirma"
+            "objective": "Objetivo 1 trastorno",
+            "technique": "Tecnica 1 trastorno"
           }
         ],
         "Diagnóstico descriptivo y formulación dinámica de la personalidad": []
       },
-      "date": "2023-10-21T00:45:24.785Z",
+      "date": "2023-11-07T20:54:01.315Z",
+      "process": "1",
       "id": 1
+    },
+    {
+      "patient": "1724037864",
+      "dataGuideFive": {
+        "Diagnóstico descriptivo y formulación dinámica del problema": [
+          {
+            "objective": "Objetivo de proceso 2",
+            "technique": "Tecnica de proceso 2 problema"
+          },
+          {
+            "objective": "Objetivo 2 de proceso 2",
+            "technique": "Tecnica 2 de proceso 2 problema"
+          }
+        ],
+        "Diagnóstico descriptivo y formulación dinámica del trastorno": [
+          {
+            "objective": "Objetivo de proceso 2 trastorno",
+            "technique": "Tecnica de proceso 2 trastorno"
+          }
+        ]
+      },
+      "date": "2023-11-08T00:33:39.288Z",
+      "process": "2",
+      "id": 2
+    },
+    {
+      "patient": "9876123405",
+      "dataGuideFive": {
+        "Diagnóstico descriptivo y formulación dinámica del problema": [
+          {
+            "objective": "objetivo 1 problema",
+            "technique": "tecnica 1 problema"
+          }
+        ],
+        "Diagnóstico descriptivo y formulación dinámica del trastorno": [
+          {
+            "objective": "objetivo 1 trastorno",
+            "technique": "tecnica 1 trastorno pedro lopez"
+          }
+        ]
+      },
+      "date": "2023-11-14T20:41:10.234Z",
+      "process": "6",
+      "id": 3
     }
   ],
   "guidesix": [
@@ -766,6 +1140,37 @@
       ],
       "date": "2023-10-21T01:12:04.837Z",
       "id": 1
+    },
+    {
+      "patient": "1724037864",
+      "data": [
+        {
+          "objective": "Evolucion 1",
+          "technique": "Actividad 1",
+          "date": "11 may 2022"
+        },
+        {
+          "objective": "Evolucion 2 ",
+          "technique": "Actividad 2",
+          "date": "11 abr 2022"
+        }
+      ],
+      "date": "2023-11-08T00:50:03.965Z",
+      "process": "2",
+      "id": 2
+    },
+    {
+      "patient": "9876123405",
+      "data": [
+        {
+          "objective": "Evolucion 1",
+          "technique": "actividad 1",
+          "date": "14 nov 2022"
+        }
+      ],
+      "date": "2023-11-14T20:42:59.003Z",
+      "process": "6",
+      "id": 3
     }
   ],
   "guideseven": [
@@ -902,12 +1307,279 @@
       },
       "date": "2023-10-24T01:00:38.580Z",
       "id": 1
+    },
+    {
+      "patient": "1724037864",
+      "dataGuideSeven": {
+        "dataTable": {
+          "Características del consultorio": {
+            "Privacidad": "Sí",
+            "Tranquilidad": "Sí"
+          },
+          "Grabación de las sesiones": "No",
+          "Tipo de grabación": "",
+          "Efecto Tipo de grabación": "",
+          "POSICIÓN ENTRE PACIENTE Y TERAPEURA": {
+            "selected": "",
+            "other": "Otra poscion"
+          },
+          "Efecto POSICIÓN ENTRE PACIENTE Y TERAPEURA": "Efecto entre paciente y terapeuta"
+        },
+        "ASPECTOS COGNITIVOS": {
+          "Función ejecutiva": "Alto",
+          "Pensamiento teórico-abstracto": "Alto",
+          "Potencialidad analítico-sintética": "Medio",
+          "Creatividad": "Bajo",
+          "Intuición": "Bajo",
+          "Perspicacia": "Medio",
+          "Flexibilidad": "Medio",
+          "Fluidez verbal": "Medio"
+        },
+        "ASPECTOS NO COGNITIVOS": {
+          "Adecuación de sus rasgos de personalidad al cliente": "Medio",
+          "Valores de solidaridad": "Medio",
+          "Equilibrio psíquico": "Bajo",
+          "Capacidad de comunicación y relación interpersonal": "Medio",
+          "Capacidad empática": "Alto",
+          "Integridad ética": "Alto",
+          "Motivación a brindar ayuda": "Bajo",
+          "Autoestima apropiada": "Bajo",
+          "Proactividad": "Alto"
+        },
+        "RAPPORT": {
+          "Demostré inicialmente cordialidad y ausencia de conductas inapropiadas": "Sí",
+          "Inicié la sesión con temas neutros o sucesos conocidos por ambos": "No",
+          "Demostré una actitud amistosa, atenta e interesada con el cliente": "No",
+          "Controlé los fenómenos transferenciales y contratransferenciales": "No",
+          "Sentí agrado, confianza, cooperación, sinceridad e interés del paciente": "Sí"
+        },
+        "EMPATÍA": {
+          "Tuve sintonización con los afectos del paciente": "Sí",
+          "Demostré comprensión de los afectos": "Sí",
+          "Controlé la distancia emocional": "Sí"
+        },
+        "dropDown": {
+          "Mecanismos de defensa o pensamientos distorsionados predominantes": "Resistencia mecanismos proceso 2",
+          "Estrategias de respeto": {
+            "selected": "Sí",
+            "Iniciales para facilitar el rapport": "Sí",
+            "Respetando sus valores y creencias personales": "",
+            "Evitando riesgos en el proceso": ""
+          },
+          "Estrategias de manejo": {
+            "selected": "No",
+            "Interpretación y confrontación para acceder a omisiones y contradicciones": "",
+            "Sustitución de estructuras defensivas por resoluciones objetivas de los problemas y conflictos": "",
+            "Reforzamiento de mecanismos de defensa por tratarse de un proceso breve de terapia": ""
+          }
+        },
+        "NO VERBALES": {
+          "Llegadas anticipadas o tardías a la consulta": "Sí",
+          "Demostraciones excesivas de puntualidad": "Sí",
+          "Arreglo personal especial": "No",
+          "Compostura insinuante durante la entrevista": "No",
+          "Posiciones corporales": "No",
+          "Gesticulaciones socialmente aceptables en flirteo": "Sí",
+          "Manifestaciones vegetativas": "No",
+          "Gestos autodirigidos": "No",
+          "Otros": {
+            "selected": "No",
+            "content": ""
+          }
+        },
+        "VERBALES": {
+          "Expresiones verbales sobre la ansiedad y tranquilidad que le suscitan las consultas": "Sí",
+          "Reiteraciones sobre temas superfluos": "Sí",
+          "Insinuaciones de acercamiento en la distancia social": "Sí",
+          "Verbalizaciones directas de las emociones": "Sí",
+          "Referencia sobre sueños relacionados con el terapeuta": "Sí",
+          "Expresiones verbales seductoras": "Sí",
+          "Otros": {
+            "selected": "Sí",
+            "content": "Otro verbales"
+          }
+        },
+        "MANEJO DE LA TRANSFERENCIA": {
+          "Análisis del terapeuta": {
+            "selected": "Sí"
+          },
+          "Manejo sin discusión ni interpretación de la transferencia": {
+            "selected": "No",
+            "Frecuencia de sesiones": "",
+            "Duración de sesiones": "",
+            "Modificación de los temas de discusión": ""
+          },
+          "Manejo con discusión e interpretación de la transferencia": {
+            "selected": "Sí",
+            "Estrategia utilizada": "Energia usada"
+          },
+          "Derivación del paciente a otro terapeuta": {
+            "selected": "Sí"
+          }
+        },
+        "EXPRESIONES DE CONTRATRANSFERENCIA": {
+          "Afectos positivos y negativos": "Sí",
+          "Disgusto irrazonable": "No",
+          "Incapacidad para simpatizar": "No",
+          "Reacción emocional ante la hostilidad del cliente": "Sí",
+          "Actitudes defensivas ante la crítica del paciente": "No",
+          "Excesiva atracción": "Sí",
+          "Insinuaciones verbales y no verbales": "Sí",
+          "Incomodidad o temor a la entrevista": "No",
+          "Preocupación desmedida por las necesidades del paciente": "No",
+          "Dificultades para brindarle atención": "Sí",
+          "Falta de puntualidad o prolongación de las sesiones": "Sí",
+          "Acercamientos afectivos y corporales": "Sí"
+        },
+        "MANEJO DE LA CONTRATRANSFERENCIA": {
+          "Auto-observación para identificarla": "Sí",
+          "Necesidad de resolver conflictos personales del terapeuta": "Sí",
+          "Consulta profesional con otro colega": "Sí",
+          "Derivación del paciente a otro terapeuta": "Sí"
+        }
+      },
+      "date": "2023-11-08T01:14:40.957Z",
+      "process": "2",
+      "id": 2
+    },
+    {
+      "patient": "9876123405",
+      "dataGuideSeven": {
+        "dataTable": {
+          "Características del consultorio": {
+            "Privacidad": "No",
+            "Tranquilidad": "Sí"
+          },
+          "Grabación de las sesiones": "No",
+          "Tipo de grabación": "",
+          "Efecto Tipo de grabación": "",
+          "POSICIÓN ENTRE PACIENTE Y TERAPEURA": {
+            "selected": "Sin Escritorio",
+            "other": ""
+          },
+          "Efecto POSICIÓN ENTRE PACIENTE Y TERAPEURA": "eefsaaa"
+        },
+        "ASPECTOS COGNITIVOS": {
+          "Función ejecutiva": "Alto",
+          "Pensamiento teórico-abstracto": "Medio",
+          "Potencialidad analítico-sintética": "Medio",
+          "Creatividad": "Bajo",
+          "Intuición": "Medio",
+          "Perspicacia": "Medio",
+          "Flexibilidad": "Bajo",
+          "Fluidez verbal": "Medio"
+        },
+        "ASPECTOS NO COGNITIVOS": {
+          "Adecuación de sus rasgos de personalidad al cliente": "Medio",
+          "Valores de solidaridad": "Medio",
+          "Equilibrio psíquico": "Medio",
+          "Capacidad de comunicación y relación interpersonal": "Bajo",
+          "Capacidad empática": "Bajo",
+          "Integridad ética": "Bajo",
+          "Motivación a brindar ayuda": "Bajo",
+          "Autoestima apropiada": "Bajo",
+          "Proactividad": "Bajo"
+        },
+        "RAPPORT": {
+          "Demostré inicialmente cordialidad y ausencia de conductas inapropiadas": "No",
+          "Inicié la sesión con temas neutros o sucesos conocidos por ambos": "No",
+          "Demostré una actitud amistosa, atenta e interesada con el cliente": "No",
+          "Controlé los fenómenos transferenciales y contratransferenciales": "No",
+          "Sentí agrado, confianza, cooperación, sinceridad e interés del paciente": "Sí"
+        },
+        "EMPATÍA": {
+          "Tuve sintonización con los afectos del paciente": "No",
+          "Demostré comprensión de los afectos": "Sí",
+          "Controlé la distancia emocional": "No"
+        },
+        "dropDown": {
+          "Mecanismos de defensa o pensamientos distorsionados predominantes": "Resitencia",
+          "Estrategias de respeto": {
+            "selected": "No",
+            "Iniciales para facilitar el rapport": "No",
+            "Respetando sus valores y creencias personales": "",
+            "Evitando riesgos en el proceso": ""
+          },
+          "Estrategias de manejo": {
+            "selected": "No",
+            "Interpretación y confrontación para acceder a omisiones y contradicciones": "",
+            "Sustitución de estructuras defensivas por resoluciones objetivas de los problemas y conflictos": "",
+            "Reforzamiento de mecanismos de defensa por tratarse de un proceso breve de terapia": ""
+          }
+        },
+        "NO VERBALES": {
+          "Llegadas anticipadas o tardías a la consulta": "No",
+          "Demostraciones excesivas de puntualidad": "No",
+          "Arreglo personal especial": "Sí",
+          "Compostura insinuante durante la entrevista": "Sí",
+          "Posiciones corporales": "Sí",
+          "Gesticulaciones socialmente aceptables en flirteo": "No",
+          "Manifestaciones vegetativas": "No",
+          "Gestos autodirigidos": "No",
+          "Otros": {
+            "selected": "No",
+            "content": ""
+          }
+        },
+        "VERBALES": {
+          "Expresiones verbales sobre la ansiedad y tranquilidad que le suscitan las consultas": "Sí",
+          "Reiteraciones sobre temas superfluos": "Sí",
+          "Insinuaciones de acercamiento en la distancia social": "No",
+          "Verbalizaciones directas de las emociones": "Sí",
+          "Referencia sobre sueños relacionados con el terapeuta": "No",
+          "Expresiones verbales seductoras": "Sí",
+          "Otros": {
+            "selected": "No",
+            "content": ""
+          }
+        },
+        "MANEJO DE LA TRANSFERENCIA": {
+          "Análisis del terapeuta": {
+            "selected": "No"
+          },
+          "Manejo sin discusión ni interpretación de la transferencia": {
+            "selected": "No",
+            "Frecuencia de sesiones": "",
+            "Duración de sesiones": "",
+            "Modificación de los temas de discusión": ""
+          },
+          "Manejo con discusión e interpretación de la transferencia": {
+            "selected": "No",
+            "Estrategia utilizada": ""
+          },
+          "Derivación del paciente a otro terapeuta": {
+            "selected": "No"
+          }
+        },
+        "EXPRESIONES DE CONTRATRANSFERENCIA": {
+          "Afectos positivos y negativos": "No",
+          "Disgusto irrazonable": "Sí",
+          "Incapacidad para simpatizar": "Sí",
+          "Reacción emocional ante la hostilidad del cliente": "Sí",
+          "Actitudes defensivas ante la crítica del paciente": "Sí",
+          "Excesiva atracción": "Sí",
+          "Insinuaciones verbales y no verbales": "Sí",
+          "Incomodidad o temor a la entrevista": "No",
+          "Preocupación desmedida por las necesidades del paciente": "Sí",
+          "Dificultades para brindarle atención": "No",
+          "Falta de puntualidad o prolongación de las sesiones": "No",
+          "Acercamientos afectivos y corporales": "No"
+        },
+        "MANEJO DE LA CONTRATRANSFERENCIA": {
+          "Auto-observación para identificarla": "No",
+          "Necesidad de resolver conflictos personales del terapeuta": "No",
+          "Consulta profesional con otro colega": "No",
+          "Derivación del paciente a otro terapeuta": "No"
+        }
+      },
+      "date": "2023-11-23T21:25:21.800Z",
+      "process": "6",
+      "id": 3
     }
   ],
   "guideeight": [
     {
       "patient": "1724037864",
-      "process": "1",
       "dataGuideEight": {
         "tableOne": {
           "PROCESO": "Asesoramiento",
@@ -916,67 +1588,213 @@
             "Sintomáticos"
           ],
           "Paciente": {
-            "rate": "2",
-            "observations": "paciente objetivos shgas ahgas as ashbas hgas asashg asbas has ashgas ashbh ashgasg "
+            "rate": "3",
+            "observations": "observacion paciente"
           },
           "Familiares": {
-            "rate": "7",
-            "observations": "familiares objetivos"
+            "rate": "6",
+            "observations": "observacion familia"
+          },
+          "Terapeuta": {
+            "rate": "3",
+            "observations": "observacion terapeuta"
+          }
+        },
+        "interrogations": {
+          "Finalización del proceso": {
+            "option": "No",
+            "why": "why finalizacion"
+          },
+          "Paciente": {
+            "option": "No",
+            "why": "why paciente"
+          },
+          "Familiares": {
+            "option": "No",
+            "why": "why familia"
+          },
+          "Instituciones": {
+            "option": "Sí",
+            "why": "why instituciones"
+          },
+          "Otros": {
+            "option": "No",
+            "why": "why otros"
+          },
+          "Terapeuta": {
+            "option": "Sí",
+            "why": "why terapeuta"
+          },
+          "Tratamiento mixto": {
+            "option": "No",
+            "why": "why tratamiento mixto"
+          },
+          "Derivación del paciente a otro profesional": {
+            "option": "Sí",
+            "why": "why derivacion"
+          },
+          "Deserción del paciente": {
+            "option": "No"
+          }
+        },
+        "techniques": {
+          "Asesoramiento": {
+            "Asesoramiento.0": "Alto",
+            "Asesoramiento.1": "Medio"
+          },
+          "Sintomáticas": {
+            "Sintomáticas.0": "Medio"
+          }
+        }
+      },
+      "date": "2023-11-08T03:33:01.383Z",
+      "process": "2",
+      "id": 3
+    },
+    {
+      "patient": "9876123405",
+      "dataGuideEight": {
+        "tableOne": {
+          "PROCESO": "Asesoramiento",
+          "OBJETIVOS ESTABLECIDOS": [
+            "Asesoramiento",
+            "Sintomáticos"
+          ],
+          "Paciente": {
+            "rate": "4",
+            "observations": "awddaw"
+          },
+          "Familiares": {
+            "rate": "3",
+            "observations": "awddwadaw"
           },
           "Terapeuta": {
             "rate": "7",
-            "observations": "terapeuta objetivos"
+            "observations": "wdaadwadwawd"
+          }
+        },
+        "interrogations": {
+          "Finalización del proceso": {
+            "option": "No",
+            "why": "awdawdawd"
+          },
+          "Paciente": {
+            "option": "No",
+            "why": "awda"
+          },
+          "Familiares": {
+            "option": "No",
+            "why": "wadawd"
+          },
+          "Instituciones": {
+            "option": "No",
+            "why": "awdawdaw"
+          },
+          "Otros": {
+            "option": "No",
+            "why": "adwawd"
+          },
+          "Terapeuta": {
+            "option": "No",
+            "why": "awdadw"
+          },
+          "Tratamiento mixto": {
+            "option": "No",
+            "why": "adwadwawd"
+          },
+          "Derivación del paciente a otro profesional": {
+            "option": "No",
+            "why": "awd"
+          },
+          "Deserción del paciente": {
+            "option": "No"
+          }
+        },
+        "techniques": {
+          "Asesoramiento": {
+            "Asesoramiento.0": "Bajo"
+          },
+          "Sintomáticas": {
+            "Sintomáticas.0": "Medio"
+          }
+        }
+      },
+      "date": "2023-11-23T21:25:55.551Z",
+      "process": "6",
+      "id": 4
+    },
+    {
+      "patient": "1724037864",
+      "dataGuideEight": {
+        "tableOne": {
+          "PROCESO": "Asesoramiento",
+          "OBJETIVOS ESTABLECIDOS": [
+            "Asesoramiento",
+            "Sintomáticos"
+          ],
+          "Paciente": {
+            "rate": "9",
+            "observations": "waddwa"
+          },
+          "Familiares": {
+            "rate": "9",
+            "observations": "awddwwda"
+          },
+          "Terapeuta": {
+            "rate": "2",
+            "observations": "awdddwawd"
           }
         },
         "interrogations": {
           "Finalización del proceso": {
             "option": "Sí",
-            "why": "porque finalizacion proceso hghgasb ashgsah abv sav sav asha shas as"
+            "why": "dawdaw"
           },
           "Paciente": {
             "option": "No",
-            "why": "porque paciente"
+            "why": "dawdaw"
           },
           "Familiares": {
-            "option": "Sí",
-            "why": "porque familaires"
+            "option": "No",
+            "why": "dwaawdawddaw"
           },
           "Instituciones": {
             "option": "No",
-            "why": "porque instituciones"
+            "why": "dawadw"
           },
           "Otros": {
             "option": "Sí",
-            "why": "porque otros"
+            "why": "adwawadw"
           },
           "Terapeuta": {
-            "option": "No",
-            "why": "porque terapeuta"
+            "option": "Sí",
+            "why": "awdaw"
           },
           "Tratamiento mixto": {
-            "option": "Sí",
-            "why": "porque tratamiento"
+            "option": "No",
+            "why": "adwawdawd"
           },
           "Derivación del paciente a otro profesional": {
-            "option": "No",
-            "why": "porque derivacion"
+            "option": "Sí",
+            "why": "adwdawdaw"
           },
           "Deserción del paciente": {
-            "option": "Sí"
+            "option": "No"
           }
         },
         "techniques": {
-          "Asesoramiento": {},
+          "Asesoramiento": {
+            "Asesoramiento.0": "Medio"
+          },
           "Sintomáticas": {
-            "Sintomáticas.0": "Alto",
-            "Sintomáticas.1": "Medio",
-            "Sintomáticas.2": "Medio"
+            "Sintomáticas.0": "Bajo"
           },
           "De personalidad": {}
         }
       },
-      "date": "2023-10-24T16:35:43.028Z",
-      "id": 2
+      "date": "2023-11-23T21:29:52.537Z",
+      "process": "1",
+      "id": 5
     }
   ]
 }

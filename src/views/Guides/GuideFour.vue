@@ -3,10 +3,13 @@
         v-bind="modalAlert"
         @close-mod="modalAlert.showModal = false; opacity = '1'"
         @send-data="sendData"
-        @go-route="router.push(`/${id}/guidefour`)"
+        @go-route="router.push(`/${id}/process/${processid}/guidefour`)"
+        :is-loading="isLoading.sending"
     />
-    <form action="" class="py-10" :style="{ opacity: opacity }">
+
+    <form v-if="!isLoading.data" action="" class="py-10" :style="{ opacity: opacity }">
         <h1 class="text-2xl font-bold text-center pb-4">ANÁLISIS DE LA PRIMER ENTREVISTA</h1>
+        <h1 class="py-5"><span class="font-bold">Paciente:</span> {{ patient.Apellidos }} {{ patient.Nombres }}</h1>
         <RadioBox
             v-model:data="dataGuideFour"
             :content="content.slice(0, 1)"
@@ -27,21 +30,21 @@
             </thead>
             <tbody>
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <td class="px-6 py-4 text-black dark:text-white flex flex-col items-center">
-                    {{ content[1] }}
-                    <input type="text" name="floating_first_name" id="floating_first_name"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
-                        placeholder=" " v-model="dataGuideFour[content[1]].descr" :disabled="dataGuideFour[content[1]].selected === 'No'" />
-                </td>
-                <td class="px-6 py-4 text-center">
-                    <input v-model="dataGuideFour[content[1]].selected"
-                        :id="`default-yes-no-radio-${content[1]}`" type="radio" value="Sí" :name="`default-yes-no-${content[1]}`" class="w-4 h-4 text-main-default bg-gray-100 border-gray-300 focus:ring-main-default dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                </td>
-                <td class="px-6 py-4 text-center">
-                    <input v-model="dataGuideFour[content[1]].selected" @click="dataGuideFour[content[1]].descr = ''"
-                        :id="`default-yes-no-radio-${content[1]}`" type="radio" value="No" :name="`default-yes-no-${content[1]}`" class="w-4 h-4 text-main-default bg-gray-100 border-gray-300 focus:ring-main-default dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                </td>
-            </tr>
+                    <td class="px-6 py-4 text-black dark:text-white flex flex-col items-center">
+                        {{ content[1] }}
+                        <input type="text" name="floating_treatment" id="floating_treatment"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
+                            placeholder=" " v-model="dataGuideFour[content[1]].descr" :disabled="dataGuideFour[content[1]].selected === 'No'" />
+                    </td>
+                    <td class="px-6 py-4 text-center">
+                        <input v-model="dataGuideFour[content[1]].selected"
+                            :id="`default-yes-no-radio-${content[1]}`" type="radio" value="Sí" :name="`default-yes-no-${content[1]}`" class="w-4 h-4 text-main-default bg-gray-100 border-gray-300 focus:ring-main-default dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    </td>
+                    <td class="px-6 py-4 text-center">
+                        <input v-model="dataGuideFour[content[1]].selected" @click="dataGuideFour[content[1]].descr = ''"
+                            :id="`default-yes-no-radio-${content[1]}`" type="radio" value="No" :name="`default-yes-no-${content[1]}`" class="w-4 h-4 text-main-default bg-gray-100 border-gray-300 focus:ring-main-default dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    </td>
+                </tr>
             </tbody>
         </table>
         <RadioBox
@@ -50,10 +53,10 @@
             :normal="false"
         />
         <div class="relative z-0 w-full mb-6 group bg-white">
-            <input v-model="dataGuideFour['¿Qué dificultades se van a presentar en el proceso?']" type="text" name="floating" id="floating"
+            <textarea v-model="dataGuideFour['¿Qué dificultades se van a presentar en el proceso?']" type="text" name="dificulties" id="dificulties"
                 class="block py-2.5 px-4 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
-                placeholder=" " />
-            <label for="floating_adress"
+                rows="5" placeholder=" " ></textarea>
+            <label for="dificulties"
                 class="peer-focus:font-medium pl-4 absolute text-sm text-black dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-main-default peer-focus:dark:text-main-default peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                 {{ content[3] }}</label>
         </div>
@@ -63,17 +66,23 @@
             </ButtonVue>
         </div>
     </form>
+    <div v-else class="flex justify-center">
+        <Spinner class="text-4xl py-20" />
+    </div>
 </template>
 
 <script setup>
 import RadioBox from '@/guide_components/RadioBox.vue';
-import { reactive, ref } from 'vue';
+import { reactive, ref, onBeforeMount } from 'vue';
 import ModalAlert from '@/general_components/ModalAlert.vue';
 import { useModal } from '@/composables/modal';
 import ButtonVue from '@/general_components/ButtonVue.vue';
 import { router } from '../../routes';
-import axios from 'axios';
-import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router';
+import { onBeforeRouteLeave } from 'vue-router';
+import { doc, getDoc, addDoc, collection } from 'firebase/firestore';
+import { db } from '@/main.js';
+import Spinner from '../../general_components/Spinner.vue';
+import { formatDate } from '@/composables/formatDate';
 
 const dataGuideFour = reactive({
     'Paciente idóneo para tratamiento psicoterapéutico': '',
@@ -96,13 +105,20 @@ const content = [
 ]
 const modalMessage = ref('');
 const isEmpty = ref(false);
-const props = defineProps({
-    id: {
-        required: true,
-        type: String
-    }
-})
+const props = defineProps(['id', 'processid'])
 const isSafeToLeave = ref(false);
+const patient = ref({});
+const isLoading = reactive({
+    data: false, sending: false
+});
+
+onBeforeMount(async() => {
+    isLoading.data = true;
+    const patientRef = doc(db, 'patients', `${props.id}`);
+    const docSnap = await getDoc(patientRef);
+    patient.value = { ...docSnap.data().dataPatient };
+    isLoading.data = false;
+})
 
 onBeforeRouteLeave(() => {
     if (isSafeToLeave.value) return true
@@ -149,16 +165,19 @@ function checkValues(){
 }
 
 async function sendData() {
+    isLoading.sending = true;
     try {
-        const res = await axios.post('http://localhost:3000/guidefour', {
+        await addDoc(collection(db, 'guidefour'), {
             patient: props.id,
-            dataGuideFour,
-            date: new Date()
+            dataGuideFour: dataGuideFour,
+            date: formatDate(new Date()),
+            process: props.processid
         })
         showModalAlert('Eureka!!', false, {variant: 'success', showRoute: true});
         isSafeToLeave.value = true;
     } catch (error) {
         showModalAlert(error, false, {variant: 'danger'})
     }
+    isLoading.sending = false;
 }
 </script>

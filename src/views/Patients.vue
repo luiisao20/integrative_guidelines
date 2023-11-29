@@ -1,36 +1,37 @@
 <template>
+    <div v-if="!isLoading">
+        <div class="flex justify-between items-center text-xl py-4">
+            <h1>{{ patient.dataPatient['Apellidos'] }} {{ patient.dataPatient['Nombres'] }}</h1>
+            <h1>{{ patient.dataPatient['Número de cédula'] }}</h1>
+            <h1>{{ age }} años {{ meses }} meses</h1>
+        </div>
     
-    <div v-if="isLoading" class="flex justify-between items-center text-xl py-4">
-        <h1>{{ patient['Apellidos'] }} {{ patient['Nombres'] }}</h1>
-        <h1>{{ patient['Número de cédula'] }}</h1>
-        <h1>{{ age }} años {{ meses }} meses</h1>
+        <SideBar
+            :is-left="true"
+            :navigation="sideBarContent"
+            title-bar="Paciente"
+        />
+        <div class="">
+            <RouterView :id="id" :data="patient" :created-at="createdAt"/>
+        </div>
     </div>
-
-    <SideBar
-        :is-left="true"
-        :navigation="sideBarContent"
-        title-bar="Paciente"
-    />
-    <div class="">
-        <RouterView v-if="isLoading" :id="id" :data="patient" :created-at="createdAt"/>
+    <div v-else class="flex justify-center">
+        <Spinner class="text-4xl text-main-default py-20" />
     </div>
 </template>
 
 <script setup>
 import { onBeforeMount, ref } from 'vue';
-import { useFetch } from '@/composables/fetch';
 import SideBar from '@/guide_components/SideBar.vue';
+import { doc, getDoc } from "firebase/firestore";
+import Spinner from '../general_components/Spinner.vue';
+import { db } from '@/main.js';
 
 const patient = ref({});
 const isLoading = ref(false);
 const age = ref(0);
 const meses = ref(0);
-const props = defineProps({
-    id: {
-        required: true,
-        type: String
-    }
-})
+const props = defineProps(['id', 'processid'])
 const createdAt = ref('');
 const sideBarContent = [
     {
@@ -42,6 +43,7 @@ const sideBarContent = [
         link: `/${props.id}/processes`
     },
 ]
+const docRef = doc(db, 'patients', `${props.id}`);
 
 function getAge(birthday) {
     let hoy = new Date()
@@ -53,19 +55,20 @@ function getAge(birthday) {
         diferenciaMeses < 0 ||
         (diferenciaMeses === 0 && hoy.getDate() < fechaNacimiento.getDate())
     ) {
-        edad--
+        edad--;
+        meses.value = 0;
     }
     return edad
 }
 
 onBeforeMount(async() => {
-    
-    const { data, error } = await useFetch(`clients/${props.id}`);    
-    patient.value = data.value.dataPatient;
-    createdAt.value = data.value.createdAt;
-
-    age.value = getAge(patient.value['Fecha de nacimiento']);
     isLoading.value = true;
+    const docSnap = await getDoc(docRef);
+    patient.value = docSnap.data();
+    createdAt.value = docSnap.data().createdAt;
+
+    age.value = getAge(patient.value.dataPatient['Fecha de nacimiento']);
+    isLoading.value = false;
 })
 
 </script>

@@ -4,6 +4,7 @@
         :style="{ backgroundColor }"
         :class="{ circular: applyCircleClass}"
         v-bind="$attrs"
+        :disabled="isDisabled"
     >
         <slot />
     </button>
@@ -15,6 +16,10 @@ import { useBackgroundColor, backgroundColorProps } from '../composables/backgro
 
 const props = defineProps({
     circle: {
+        default: false,
+        type: Boolean
+    },
+    isDisabled: {
         default: false,
         type: Boolean
     },

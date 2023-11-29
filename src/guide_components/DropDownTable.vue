@@ -27,7 +27,7 @@
                 <th scope="col" class="px-6 py-3">
                 </th>
                 <th scope="col" class="px-2 py-3 text-center">
-                    Sí <PopOver idPop="4" variant="info" textInfo="En caso de escoger 'Sí', deberás llenar llenar al menos un apartado de los que se hayan desplegado"/>
+                    Sí <PopOver variant="info" textInfo="En caso de escoger 'Sí', deberás llenar llenar al menos un apartado de los que se hayan desplegado"/>
                 </th>
                 <th scope="col" class="px-2 py-3 text-center">
                     No

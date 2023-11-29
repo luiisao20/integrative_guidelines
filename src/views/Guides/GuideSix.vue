@@ -3,14 +3,19 @@
         v-bind="modalAlert"
         @close-mod="modalAlert.showModal = false; opacity = '1'"
         @send-data="sendData"
-        @go-route="router.push(`/${id}/guidesix`)"
+        @go-route="router.push(`/${id}/process/${processid}/guidesix`)"
+        :is-loading="isLoading.sending"
     />
     <Modal 
         v-bind="modal"
         @close-mod="modal.showModal = false; opacity = '1'"
     />
-    <section class="py-10" :style="{ opacity: opacity }">
+    <div v-if="isLoading.data" class="flex justify-center">
+        <Spinner class="text-4xl py-20"/>
+    </div>
+    <section v-else class="py-10" :style="{ opacity: opacity }">
         <h1 class="text-2xl font-bold text-center">EVOLUCIÓN</h1>
+        <h1 class="pt-5"><span class="font-bold">Paciente:</span> {{ patient.Apellidos }} {{ patient.Nombres }}</h1>
         <ListAddDelete
             :title="content.title"
             :show-data-from-other-guide="false"
@@ -21,7 +26,7 @@
             :show-date="true"
         />
         <div class="flex flex-row justify-between items-center w-[70%] mx-auto">
-            <ButtonVue class="p-2" variant="main" type="button" @click="showModalAlert('Enviar', true)">
+            <ButtonVue class="p-2" variant="main" type="button" @click="checkValues">
                 Enviar
             </ButtonVue>
             <ButtonVue @click="showInfo" class="p-3" variant="info" type="button">
@@ -33,7 +38,7 @@
 
 <script setup>
 import ListAddDelete from '@/guide_components/ListAddDelete.vue';
-import { ref } from 'vue';
+import { ref, onBeforeMount, reactive } from 'vue';
 import ModalAlert from '@/general_components/ModalAlert.vue';
 import { useModal } from '@/composables/modal';
 import ButtonVue from '@/general_components/ButtonVue.vue';
@@ -43,6 +48,9 @@ import { formatDate } from '@/composables/formatDate';
 import { router } from '../../routes';
 import axios from 'axios';
 import { onBeforeRouteLeave } from 'vue-router';
+import { doc, getDoc, addDoc, collection } from 'firebase/firestore';
+import { db } from '@/main.js';
+import Spinner from '../../general_components/Spinner.vue';
 
 const content = {
     title: 'Ejecución y aplicación técnica',
@@ -51,8 +59,22 @@ const content = {
 const { opacity, modalAlert, showModalAlert, modal, showModal } = useModal();
 const data = ref([]);
 const infoContent = ref({});
-const props = defineProps(['id']);
+const props = defineProps(['id', 'processid']);
 const isSafeToLeave = ref(false);
+const patient = ref({});
+const isLoading = reactive({
+    data: false, sending: false
+})
+
+onBeforeMount(async() => {
+    isLoading.data = true;
+
+    const patientRef = doc(db, 'patients', `${props.id}`);
+    const docSnap = await getDoc(patientRef);
+    patient.value = { ...docSnap.data().dataPatient };
+
+    isLoading.data = false;
+})
 
 onBeforeRouteLeave(() => {
     if (isSafeToLeave.value) return true
@@ -64,6 +86,11 @@ onBeforeRouteLeave(() => {
         }
     }
 })
+
+// window.addEventListener('beforeunload', (event) => {
+//     event.preventDefault();
+//     event.returnValue = '';
+// })
 
 function pushObjTechn(objective, technique, ubication, date){
     console.log(date);
@@ -85,17 +112,25 @@ function showInfo(){
     showModal(infoContent.value, content.title);
 }
 
+function checkValues() {
+    if (data.value.length === 0) showModalAlert('No puedes guardar la guia vacía', false, {variant: 'danger'});
+    else showModalAlert('¿Estás seguro de guardar los datos?', true, {variant: 'info'});
+}
+
 async function sendData() {
+    isLoading.sending = true;
     try {
-        const res = await axios.post('http://localhost:3000/guidesix', {
+        await addDoc(collection(db, 'guidesix'), {
             patient: props.id,
             data: data.value,
-            date: new Date()
+            date: formatDate(new Date()),
+            process: props.processid
         })
         showModalAlert('Eureka!!', false, {variant: 'success', showRoute: true});
         isSafeToLeave.value = true;
     } catch (error) {
         showModalAlert(error, false, {variant: 'danger'})
     }
+    isLoading.sending = false;
 }
 </script>

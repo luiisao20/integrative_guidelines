@@ -1,7 +1,7 @@
 <template>
     <h2 :id="title" class="my-4 text-left font-semibold text-gray-900 dark:text-white">{{ title }}</h2>
     <!-- Aqui va lo que se llene en la guia 3, ojo hay que reemplazar -->
-    <p v-if="showDataFromOtherGuide" class="p-4 text-sm border border-blue-400 rounded-xl w-[80%] mx-auto">{{ content }}</p>
+    <p v-if="showDataFromOtherGuide" class="p-4 text-sm border whitespace-pre-line leading-relaxed border-blue-400 rounded-xl w-[80%] mx-auto">{{ content }}</p>
     <div class="flex flex-row gap-4 items-center">
         <div v-if="showDate" class="relative z-0 w-1/2">
             <DatePretty
@@ -10,7 +10,7 @@
             />
         </div>
         <div class="relative z-0 w-full my-6">
-            <textarea v-model="data.objective" rows="2" name="floating_objectives" id="floating_objectives"
+            <textarea v-model="data.objective" rows="4" name="floating_objectives" id="floating_objectives"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
                 placeholder=" "  ></textarea>
             <label for="floating_brothers"
@@ -18,7 +18,7 @@
                 {{ titleOne }}</label>
         </div>
         <div class="relative z-0 w-full my-6 group">
-            <textarea v-model="data.technique" rows="2" name="floating_techiques" id="floating_techiques"
+            <textarea v-model="data.technique" rows="4" name="floating_techiques" id="floating_techiques"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
                 placeholder=" "  ></textarea>
             <label for="floating_brothers"
@@ -40,7 +40,7 @@
         </div>
         <div class="relative z-0 w-full my-6">
             <p rows="2" name="floating_objectives_filled" id="floating_objectives_filled"
-                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
+                class="block py-2.5 px-0 w-full text-sm whitespace-pre-line text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
                 disabled >{{ item.objective }}</p>
             <label for="floating_brothers"
                 class="peer-focus:font-medium capitalize absolute text-sm text-black dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-main-default peer-focus:dark:text-main-default peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
@@ -48,9 +48,9 @@
         </div>
         <div class="relative z-0 w-full my-6 group">
             <p rows="2" name="floating_techiques" id="floating_techiques"
-                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
+                class="block py-2.5 px-0 w-full text-sm whitespace-pre-line text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
                 disabled >{{ item.technique }}</p>
-            <label for="floating_brothers"
+            <label for="floating_techiques"
                 class="peer-focus:font-medium capitalize absolute text-sm text-black dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-main-default peer-focus:dark:text-main-default peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                 {{ titleTwo }}</label>
         </div>

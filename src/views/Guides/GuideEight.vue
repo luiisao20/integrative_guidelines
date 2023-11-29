@@ -6,21 +6,23 @@
         v-bind="modalAlert"
         @close-mod="modalAlert.showModal = false; opacity = '1'"
         @send-data="sendData"
-        @go-route="router.push(`/${id}/guideeight`)"
+        @go-route="router.push(`/${id}/process/${processid}/guideeight`)"
+        :is-loading="isLoading.sending"
     />
-    <form class="py-10" :style="{ opacity: opacity }" v-if="!isLoading">
-        <h1 :id="content[0].title" class="text-2xl font-bold bg-light p-4 text-center">EVALUACION FINAL DEL PROCESO PSICOTERAPÉUTICO</h1>
+    <h1 :id="content[0].title" class="text-2xl pt-10 font-bold text-center">EVALUACION FINAL DEL PROCESO PSICOTERAPÉUTICO</h1>
+    <form @submit.prevent="confirmData" :style="{ opacity: opacity }" v-if="!isLoading.data">
+        <h1 class="pt-5"><span class="font-bold">Paciente:</span> {{ patient.Apellidos }} {{ patient.Nombres }}</h1>
         <TableObjectives
             :content="content[0].options"
             :data="dataGuideEight.tableOne"
         />
         <h1 class="text-2xl mb-4 font-bold text-center">TÉCNICAS EMPLEADAS Y GRADO DE EFICACIA</h1>
         <div v-for="(item, key) in dataTechniques">
-            <div :id="key" v-if="dataCopy[0].dataGuideFive[item].length > 0">
+            <div :id="key" v-if="dataCopy.dataGuideFive[item] !== undefined">
                 <RadioBox 
                     :techniques="true"
                     :title-table="key"
-                    :content="dataCopy[0].dataGuideFive[item]"
+                    :content="dataCopy.dataGuideFive[item]"
                     :data="dataGuideEight.techniques[key]"
                 />
             </div>
@@ -31,11 +33,14 @@
             :data="dataGuideEight.interrogations"
         />
         <div class="flex justify-end">
-            <ButtonVue class="mt-10 p-2" type="submit" variant="info" @click.prevent="confirmData">
+            <ButtonVue class="my-10 p-2" type="submit" variant="info">
                 Enviar
             </ButtonVue>
         </div>
     </form>
+    <div v-else class="flex justify-center">
+        <Spinner class="text-4xl py-20"/>
+    </div>
 </template>
 
 <script setup>
@@ -48,9 +53,12 @@ import SideBar from '@/guide_components/SideBar.vue';
 import ModalAlert from '@/general_components/ModalAlert.vue';
 import { useModal } from '@/composables/modal';
 import { onBeforeRouteLeave } from 'vue-router';
-import { useFetch } from '@/composables/fetch';
 import { router } from '../../routes';
-import axios from 'axios';
+import { fetchGuide } from '@/composables/fetchGuides';
+import { doc, getDoc, addDoc, collection } from 'firebase/firestore';
+import { db } from '@/main.js';
+import Spinner from '../../general_components/Spinner.vue';
+import { formatDate } from '@/composables/formatDate';
 
 const { opacity, modalAlert, showModalAlert } = useModal();
 const content = [
@@ -166,17 +174,17 @@ const dataGuideEight = reactive({
         }
     },
     techniques: {
-        'Asesoramiento': {},
-        'Sintomáticas': {},
-        'De personalidad': {}
     },
 })
 const isEmpty = ref(false);
 const modalMessage = ref('');
-const isLoading = ref(false);
-const dataCopy = ref([]);
-const props = defineProps(['id']);
+const dataCopy = ref({});
+const patient = ref({});
+const props = defineProps(['id', 'processid']);
 const isSafeToLeave = ref(false);
+const isLoading = reactive({
+    data: false, sending: false
+})
 
 onBeforeRouteLeave(() => {
     if (isSafeToLeave.value) return true
@@ -189,20 +197,27 @@ onBeforeRouteLeave(() => {
     }
 })
 
-window.addEventListener('beforeunload', (event) => {
-    event.preventDefault();
-    event.returnValue = '';
-})
+// window.addEventListener('beforeunload', (event) => {
+//     event.preventDefault();
+//     event.returnValue = '';
+// })
 
 onBeforeMount(async() => {
 
-    isLoading.value = true;
+    isLoading.data = true;
 
-    const { data, error } = await useFetch(`guidefive?patient=${props.id}`);
+    const patientRef = doc(db, 'patients', `${props.id}`);
+    const docSnap = await getDoc(patientRef);
+    const { data, go } = await fetchGuide('guidefive', props.id, props.processid);
 
-    dataCopy.value = [ ...data.value ];
+    dataCopy.value = { ...data.data() };
+    patient.value = docSnap.data().dataPatient;
 
-    isLoading.value = false;
+    for (const key in dataTechniques){
+        if (dataCopy.value.dataGuideFive[dataTechniques[key]] !== undefined) dataGuideEight.techniques[key] = {}
+    }
+
+    isLoading.data = false;
 })
 
 function checkValues(){
@@ -230,9 +245,7 @@ function checkValues(){
     }
 
     for (const key in dataGuideEight.techniques) {
-        console.log(key);
-        console.log(dataCopy.value[0].dataGuideFive[dataTechniques[key]]);
-        if (Object.keys(dataGuideEight.techniques[key]).length !== dataCopy.value[0].dataGuideFive[dataTechniques[key]].length ){
+        if (Object.keys(dataGuideEight.techniques[key]).length !== dataCopy.value.dataGuideFive[dataTechniques[key]].length){
             isEmpty.value = true;
             modalMessage.value = 'Por cada técnica debes elegir una opción';
             return
@@ -263,16 +276,20 @@ function confirmData(){
 }
 
 async function sendData() {
+    isLoading.sending = true;
     try {
-        const res = await axios.post('http://localhost:3000/guideeight', {
+
+        await addDoc(collection(db, 'guideeight'), {
             patient: props.id,
-            dataGuideEight,
-            date: new Date()
+            dataGuideEight: dataGuideEight,
+            date: formatDate(new Date()),
+            process: props.processid
         })
         showModalAlert('Eureka!!', false, {variant: 'success', showRoute: true});
         isSafeToLeave.value = true;
     } catch (error) {
         showModalAlert(error, false, {variant: 'danger'})
     }
+    isLoading.sending = false;
 }
 </script>

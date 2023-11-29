@@ -29,11 +29,11 @@
                     </td>
                     <td class="px-6 py-4 w-[200px]">
                         <div class="relative z-0 w-full mb-2 group" v-if="item.subtitle !== 'Deserción del paciente'">
-                            <input
-                                v-model="data[item.subtitle].why"
+                            <textarea
+                                v-model="data[item.subtitle].why" rows="2"
                                 name="floating_why_interrogatives" id="floating_why_interrogatives"
                                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
-                                placeholder=" "/>
+                                placeholder=" "></textarea>
                         </div>
                     </td>
                 </tr>
@@ -43,7 +43,7 @@
                     </td>
                 </tr>
                 <tr v-if="item.options.length > 0" v-for="(subitem, subindex) in item.options" :key="subindex" class="bg-white border-b w-full dark:bg-gray-800 dark:border-gray-700">
-                    <td class="px-6">
+                    <td class="px-6 text-black">
                         {{ subitem }}
                     </td>
                     <td class="px-6 text-center">
@@ -54,11 +54,11 @@
                     </td>
                     <td class="px-6">
                         <div class="relative z-0 mb-2 group w-full">
-                            <input
-                                v-model="data[subitem].why"
+                            <textarea
+                                v-model="data[subitem].why" rows="2"
                                 name="floating_why_interrogatives" id="floating_why_interrogatives"
                                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
-                                placeholder=" "/>
+                                placeholder=" "></textarea>
                         </div>
                     </td>
                 </tr>
@@ -68,6 +68,8 @@
 </template>
 
 <script setup>
+import { text } from '@fortawesome/fontawesome-svg-core';
+
 
 const props = defineProps({
     content: {

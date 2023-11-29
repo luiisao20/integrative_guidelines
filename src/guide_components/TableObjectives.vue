@@ -57,11 +57,11 @@
                 </td>
                 <td colspan="4" class="px-6 py-4 text-center text-black">
                     <div class="relative z-0 w-full mb-2 group">
-                        <input v-model="data[item].observations"
-                            name="floating_efect_records" id="floating_efect_records"
+                        <textarea v-model="data[item].observations" rows="2"
+                            name="floating-observations" id="floating-observations"
                             class="block py-2.5 px-0 w-full text-sm text-black-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
-                            placeholder=" "/>
-                        <label for="floating_efect_records"
+                            placeholder=" "></textarea>
+                        <label for="floating-observations"
                             class="peer-focus:font-medium absolute text-sm text-black dark:text-black-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] left-0 peer-focus:text-main-default peer-focus:dark:text-main-default peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                             Observaciones</label>
                     </div>

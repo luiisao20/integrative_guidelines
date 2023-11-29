@@ -294,6 +294,21 @@ const infoEvlouc = [
     },
 ];
 
+const infoExists = [
+    {
+        type: 'h',
+        subContent: 'Este mensaje se genera cuando se intenta registrar a un paciente que ya figura en nuestra base de datos.'
+    },
+    {
+        type: 'li',
+        subContent: 'Le instamos a verificar la precisión del número de cédula proporcionado.'
+    },
+    {
+        type: 'li',
+        subContent: 'Si es necesario llevar a cabo un nuevo registro, le recomendamos añadir al número de cédula los sufijos "01", "02", y así sucesivamente, hasta que el presente cuadro de diálogo deje de aparecer.'
+    }
+];
+
 function getInfoContent(id){
     let infoContent = null;
     switch (id){
@@ -329,6 +344,9 @@ function getInfoContent(id){
             break;
         case 'guide-six':
             infoContent = infoEvlouc;
+            break;
+        case 'patient-exists':
+            infoContent = infoExists;
             break;
     };
     return infoContent;

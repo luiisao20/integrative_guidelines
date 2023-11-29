@@ -22,6 +22,7 @@
             placeholder="Busca por número de cédula">
     </div>
 </form>
+
 <PageNavigation
     :list-length="patientsList.length"
     :current-step="currentStep"
@@ -126,7 +127,9 @@ import { onBeforeMount, ref, reactive } from 'vue';
 import { formatDate } from '@/composables/formatDate';
 import removeAccents from 'remove-accents';
 import PageNavigation from '../general_components/PageNavigation.vue';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
+const auth = getAuth();
 const isLoading = ref(false);
 const patientsList = ref([]);
 const packs = ref([]);
@@ -186,9 +189,7 @@ onBeforeMount(async() => {
         for (let i = 0; i < patientsList.value.length; i += stepTo) {
             const pack = patientsList.value.slice(i, i + stepTo);
             packs.value.push(pack);
-            
         }
-
     } catch (error) {
         console.log(error);
     }

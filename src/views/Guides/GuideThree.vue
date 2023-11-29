@@ -7,14 +7,16 @@
         v-bind="modalAlert"
         @close-mod="modalAlert.showModal = false; opacity = '1'"
         @send-data="sendData"
-        @go-route="router.push(`/${id}/processes/${processid}`)"
+        @go-route="router.push(`/${id}/process/${processid}/guidethree`)"
+        :is-loading="isLoading.sending"
     />
     <SideBar 
         :options="demands"
         title="text"
     />
-    <form class="pt-10" :style="{ opacity: opacity }">
+    <form @submit.prevent="showData" v-if="!isLoading.data" class="pt-10" :style="{ opacity: opacity }">
         <h1 class="text-2xl font-bold text-center">FICHA INTEGRATIVA DE EVALUACIÓN PSICOLÓGICA FIEPS</h1>
+        <h1 class="py-5"><span class="font-bold">Paciente:</span> {{ patient.Apellidos }} {{ patient.Nombres }}</h1>
         <!-- Sección 2 y 3 -->
         <div v-for="(item, index) in demands.slice(0, 3)" :id="item.text" :key="index">
             <TextArea
@@ -30,6 +32,8 @@
                 :item="demands[3]"
                 :data="dataGuideThree.sectionFour"
                 @show-info="showInfo"
+                :biography="dataCopy"
+                :processid="processName"
             />
         </div>
         <h2 :id="demands[4].text" class="text-xl mt-10 normal-case font-bold">Resultados de pruebas psicológicas</h2>
@@ -59,10 +63,13 @@
                 @showModalInfo="showInfo"
             />
         </div>
-        <ButtonVue class="p-4 mb-10" variant="secondary" type="button" @click="showData">
+        <ButtonVue class="p-4 mb-10" variant="secondary" type="submit">
             Enviar
         </ButtonVue>
     </form>
+    <div v-else class="flex justify-center">
+        <Spinner class="text-4xl py-20"/>
+    </div>
 </template>
 
 <script setup>
@@ -71,14 +78,16 @@ import TextArea from '@/guide_components/TextArea.vue';
 import Modal from '@/general_components/Modal.vue';
 import ModalAlert from '@/general_components/ModalAlert.vue';
 import { useModal } from '@/composables/modal';
-import { ref, reactive } from 'vue';
+import { ref, reactive, onBeforeMount } from 'vue';
 import { getInfoContent } from '@/composables/infoDemands.js';
 import ButtonVue from '@/general_components/ButtonVue.vue';
 import SideBar from '@/guide_components/SideBar.vue';
-import axios from 'axios';
 import { onBeforeRouteLeave } from 'vue-router';
-import { useFetch } from '@/composables/fetch';
 import { router } from '../../routes';
+import { doc, getDoc, addDoc, collection, updateDoc } from 'firebase/firestore';
+import { db } from '@/main.js';
+import { formatDate } from '@/composables/formatDate';
+import Spinner from '../../general_components/Spinner.vue';
 
 const { opacity, modal, showModal, modalAlert, showModalAlert } = useModal();
 const infoContent = ref({});
@@ -153,9 +162,31 @@ const demands = [
     },
 ]
 const isEmpty = ref(false);
+const isLoading = reactive({
+    data: false, sending: false
+});
 const messageAlert = ref('');
 const isSafeToLeave = ref(false);
-const props = defineProps(['id', 'processid'])
+const props = defineProps(['id', 'processid']);
+const processName = ref('');
+const dataCopy = ref([]);
+const patient = ref({});
+
+onBeforeMount(async() => {
+    isLoading.data = true;
+
+    const patientRef = doc(db, 'patients', `${props.id}`);
+    const docSnap = await getDoc(patientRef);
+
+    const processRef = doc(db, 'processes', `${props.processid}`);
+    const processSnap = await getDoc(processRef);
+
+    patient.value = { ...docSnap.data().dataPatient };
+    dataCopy.value = [ ...docSnap.data().biography ];
+    processName.value = processSnap.data().processName;
+
+    isLoading.data = false
+})
 
 onBeforeRouteLeave(() => {
     if (isSafeToLeave.value) return true
@@ -229,40 +260,37 @@ function checkValues(){
 }
 
 async function sendData(){
+    isLoading.sending = true;
 
     try {      
-        
-        const { data, error } = await useFetch(`clients/${props.id}`);
-        const existingData = data.value
-
+        const patientRef = doc(db, 'patients', `${props.id}`);
         const newBiography = {
             date: new Date(),
-            biography: dataGuideThree.sectionFour['Biografía psicológica personal y familiar'],
+            text: dataGuideThree.sectionFour['Biografía psicológica personal y familiar'],
             process: props.processid
         }
+        dataCopy.value.push(newBiography);
 
-        if (!existingData.biography || !Array.isArray(existingData.biography)) existingData.biography = [];
-
-        existingData.biography.push(newBiography);
-
-        const res = await axios.post('http://localhost:3000/guidethree', {
+        await addDoc(collection(db, 'guidethree'), {
             patient: props.id,
             otherSections: dataGuideThree.otherSections,
             sectionFour: dataGuideThree.sectionFour,
             sectionSix: dataGuideThree.sectionSix,
-            date: new Date(),
+            date: formatDate(new Date()),
             process: props.processid
         })
-        const resSecond = await axios.patch(`http://localhost:3000/clients/${props.id}`, {
-            biography: existingData.biography
-            
+
+        await updateDoc(patientRef, {
+            biography: dataCopy.value
         })
+
         showModalAlert('Eureka!!', false, {variant: 'success', showRoute: true});
         isSafeToLeave.value = true;
     } catch (error) {
         showModalAlert(error.message, false);
         console.log(error);
     }
+    isLoading.sending = false;
 }
 
 function showData(){
@@ -274,7 +302,7 @@ function showData(){
     if (isEmpty.value) {
         showModalAlert(messageAlert.value, false, {variant: 'danger'});
     } else {
-        showModalAlert('¿Estás seguro de guardar un nuevo paciente?', true, {variant: 'info'});
+        showModalAlert('¿Estás seguro de guardar los datos?', true, {variant: 'info'});
     }
 }
 function showInfo(item){

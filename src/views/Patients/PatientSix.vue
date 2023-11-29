@@ -1,34 +1,47 @@
 <template>
-    <section v-if="dataCopy.length > 0">
+    <ModalAlert
+        v-bind="modalAlert"
+        @close-mod="modalAlert.showModal = false; opacity = '1'"
+    />
+    <div :style="{ opacity: opacity }">
         <h1 class="text-2xl font-bold text-center">EJECUCIÓN Y APLICACIÓN TÉCNICA</h1>
-        <div class="flex justify-center">
-            <table class="m-4">
-                <thead class="text-xs text-gray-700 uppercase shadow-sm shadow-main-default">
-                    <tr>
-                        <th scope="col" class="px-6 py-3">Fecha</th>
-                        <th scope="col" class="px-6 py-3">Evolución</th>
-                        <th scope="col" class="px-6 py-3">Actividad</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="border-b shadow-sm shadow-light" v-for="subitem in dataCopy[0].data">
-                        <td class="px-6 py-2">{{ subitem.date }}</td>
-                        <td class="px-6 py-2">{{ subitem.objective }}</td>
-                        <td class="px-6 py-2">{{ subitem.technique }}</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div v-if="isEmpty">
+            <CreateGuide @go-guide="goGuide"/>
         </div>
-    </section>
-    <div>
-        <CreateGuide guide="six" :id="id" />
+        <div v-else-if="isLoading" class="flex justify-center">
+            <Spinner class="text-4xl py-10"/>
+        </div>
+        <section v-else>
+            <div class="flex justify-center">
+                <table class="m-4">
+                    <thead class="text-sm text-gray-700 uppercase shadow-sm shadow-main-default">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">Fecha</th>
+                            <th scope="col" class="px-6 py-3">Evolución</th>
+                            <th scope="col" class="px-6 py-3">Actividad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b text-sm shadow-sm shadow-light" v-for="subitem in dataCopy.data">
+                            <td class="px-6 py-2">{{ subitem.date }}</td>
+                            <td class="px-6 py-2 whitespace-pre-line leading-relaxed">{{ subitem.objective }}</td>
+                            <td class="px-6 py-2 whitespace-pre-line leading-relaxed">{{ subitem.technique }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
     </div>
 </template>
 
 <script setup>
 import { onBeforeMount, ref } from 'vue';
-import { useFetch } from '@/composables/fetch';
+import { fetchGuide } from '@/composables/fetchGuides';
+import { router } from '@/routes';
+import { useModal } from '@/composables/modal';
+import ModalAlert from '@/general_components/ModalAlert.vue';
 import CreateGuide from '../../general_components/CreateGuide.vue';
+import Spinner from '../../general_components/Spinner.vue';
 
 const props = defineProps({
     id: {
@@ -38,16 +51,29 @@ const props = defineProps({
     processid: {
         required: true,
         type: String
+    },
+    data: {
+        type: Object
     }
 })
 const isLoading = ref(false);
-const dataCopy = ref([]);
+const isEmpty = ref(false);
+const dataCopy = ref({});
+const { opacity, modalAlert, showModalAlert } = useModal();
+
+async function goGuide() {
+    const res = await fetchGuide('guidefive', props.id, props.processid);
+
+    if (res.go) router.push(`/create/guidesix/${props.id}/${props.processid}`);
+    else showModalAlert('Para crear la guía 6, es necesaria la guía 5', false, { variant: 'danger'});
+}
 
 onBeforeMount(async() => {
     isLoading.value = true;
-    const { data, error } = await useFetch(`guidesix?patient=${props.id}&process=${props.processid}`);
+    const { data, error } = await fetchGuide('guidesix', props.id, props.processid);
 
-    dataCopy.value = [ ...data.value ];
+    if (data) dataCopy.value = { ...data.data() };
+    else isEmpty.value = true;
 
     isLoading.value = false;
 })

@@ -1,15 +1,23 @@
 <template>
-    <section v-if="dataCopy.length > 0">
-
+    <ModalAlert 
+        v-bind="modalAlert"
+        @close-mod="modalAlert.showModal = false; opacity = '1'"
+    />
+    <div v-if="isEmpty">
+        <CreateGuide @go-guide="goGuide" :id="id" :process-id="processid"/>
+    </div>
+    <div v-else-if="isLoading" class="flex justify-center">
+        <Spinner class="text-4xl py-20"/>
+    </div>
+    <section v-else :style="{ opacity: opacity }">
         <div class="flex justify-center gap-4">
             <h3 class="text-center font-semibold text-gray-900 dark:text-white">
                 Tipo de primera entrevista:
             </h3>        
             <h3 class="text-center text-gray-900 dark:text-white">
-                {{ dataCopy[0].dataGuideTwo['Tipo de primera entrevista'].selected }}
+                {{ dataCopy.dataGuideTwo['Tipo de primera entrevista'].selected }}
             </h3>
         </div>
-
         <div class="shadow-md shadow-light rounded-xl m-4">
             <table class="text-sm text-left text-gray-500 rounded-2xl dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400">
@@ -33,24 +41,23 @@
                             <p>{{ item.subtitle }}</p>
                         </td>
                         <td class="px-6 py-4 text-center">
-                            {{ dataCopy[0].dataGuideTwo.tableOne[`${item.title}.${index}.option`] }}
+                            {{ dataCopy.dataGuideTwo.tableOne[`${item.title}.${index}.option`] }}
                         </td>
                         <td class="px-6 py-4">
                             <p class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer">
-                                {{ dataCopy[0].dataGuideTwo.tableOne[`${item.title}.${index}.observation`] }}
+                                {{ dataCopy.dataGuideTwo.tableOne[`${item.title}.${index}.observation`] }}
                             </p>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-
         <div class="shadow-sm shadow-light w-[80%] mx-auto rounded-xl">
             <h3 class="text-center py-4 font-semibold text-gray-900 dark:text-white">
                 CARACTERÍSTICAS DEL PACIENTE
             </h3> 
             <div class="p-4">
-                <div v-for="(item, key) in dataCopy[0].dataGuideTwo.tableTwo" class="flex justify-between pl-10 gap-4 my-4 text-sm">
+                <div v-for="(item, key) in dataCopy.dataGuideTwo.tableTwo" class="flex justify-between pl-10 gap-4 my-4 text-sm">
                     <p class="text-center font-semibold text-gray-900 dark:text-white">
                         {{ key }}:
                     </p>        
@@ -61,15 +68,16 @@
             </div>
         </div>
     </section>
-    <div>
-        <CreateGuide guide="two" :id="id" />
-    </div>
 </template>
 
 <script setup>
 import { onBeforeMount, ref } from 'vue';
-import { useFetch } from '@/composables/fetch';
+import { router } from '@/routes';
+import { useModal } from '@/composables/modal';
+import ModalAlert from '@/general_components/ModalAlert.vue';
+import { fetchGuide } from '@/composables/fetchGuides.js';
 import CreateGuide from '../../general_components/CreateGuide.vue';
+import Spinner from '../../general_components/Spinner.vue';
 
 const props = defineProps({
     id: {
@@ -79,10 +87,14 @@ const props = defineProps({
     processid: {
         required: true,
         type: String
+    },
+    data: {
+        type: Object
     }
 })
 const isLoading = ref(false);
-const dataCopy = ref([]);
+const isEmpty = ref(false);
+const dataCopy = ref({});
 const content = [
     {
         title: 'Tipo de primera entrevista',
@@ -175,12 +187,23 @@ const content = [
         ]
     }
 ]
+const { opacity, modalAlert, showModalAlert } = useModal();
+
+async function goGuide() {
+
+    const { data, go } = await fetchGuide('guideone', props.id, props.processid);
+
+    if (go) router.push(`/create/guidetwo/${props.id}/${props.processid}`);
+    else showModalAlert('Para crear la guía 2, es necesario la guía 1', false, { variant: 'danger'});
+}
 
 onBeforeMount(async() => {
     isLoading.value = true;
-    const { data, error } = await useFetch(`guidetwo?patient=${props.id}&process=${props.processid}`);
 
-    dataCopy.value = [ ...data.value ];
+    const { data, go } = await fetchGuide('guidetwo', props.id, props.processid);
+
+    if (data) dataCopy.value = { ...data.data() };
+    else isEmpty.value = true
 
     isLoading.value = false;
 })

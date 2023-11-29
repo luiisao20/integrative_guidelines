@@ -30,7 +30,7 @@
         <div class="relative z-0 w-full mb-6 group">
             <input  v-model="dataUser['Número de cédula']" type="text" name="floating_id" id="floating_id"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
-                placeholder=" " maxlength="10" />
+                placeholder=" " :maxlength="maxlength" />
             <label for="floating_id"
                 class="peer-focus:font-medium absolute text-sm text-black dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-main-default peer-focus:dark:text-main-default peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                 Número de cédula</label>
@@ -115,10 +115,10 @@
                 <option class="text-black">Consulta privada</option>
                 <option value="other" class="text-black">Otros ¿Cuál?</option>
             </select>
-            <PopOver id-pop="1" variant="info" text-info="En caso de escoger 'Otros', deberás escribir el tipo de atención en el apartado 'Otro tipo de atención'" /> 
+            <PopOver variant="info" text-info="En caso de escoger 'Otros', deberás escribir el tipo de atención en el apartado 'Otro tipo de atención'" /> 
         </div>
         <div class="relative z-0 w-full mb-6 group">
-            <input  v-model="dataUser['Otro tipo de atención']" :disabled="dataUser.attentionType !== 'other'" type="text" name="floating_attentionType" id="floating_attentionType"
+            <input  v-model="dataUser['Otro tipo de atención']" :disabled="dataUser['Tipo de atención'] !== 'other'" type="text" name="floating_attentionType" id="floating_attentionType"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
                 placeholder=" " />
             <label for="floating_attentionType"
@@ -133,12 +133,15 @@
 <script setup>
 import DatePretty from '../general_components/DatePretty.vue';
 import PopOver from '../general_components/PopOver.vue';
-import { onBeforeRouteUpdate } from 'vue-router';
 
 const props = defineProps({
     dataUser: {
         required: true,
         type: Object
+    },
+    maxlength: {
+        default: '10',
+        type: String
     }
 })
 const packs = [
