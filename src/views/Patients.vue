@@ -1,6 +1,6 @@
 <template>
-    <div v-if="!isLoading">
-        <div class="flex justify-between items-center text-xl py-4">
+    <div v-if="!isLoading" class="static">
+        <div class="flex flex-col fixed top-18 w-1/5 right-4 justify-between gap-4 text-xl py-4">
             <h1>{{ patient.dataPatient['Apellidos'] }} {{ patient.dataPatient['Nombres'] }}</h1>
             <h1>{{ patient.dataPatient['Número de cédula'] }}</h1>
             <h1>{{ age }} años {{ meses }} meses</h1>
@@ -21,11 +21,13 @@
 </template>
 
 <script setup>
-import { onBeforeMount, ref } from 'vue';
+import { onBeforeMount, ref, watchEffect, onBeforeUnmount } from 'vue';
 import SideBar from '@/guide_components/SideBar.vue';
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import Spinner from '../general_components/Spinner.vue';
 import { db } from '@/main.js';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { router } from '@/routes';
 
 const patient = ref({});
 const isLoading = ref(false);
@@ -39,11 +41,25 @@ const sideBarContent = [
         link: `/${props.id}/data`
     },
     {
-        title: 'Procesos',
+        title: 'Psicodiagnóstico',
+        link: `/${props.id}/psychodiagnosis`
+    },
+    {
+        title: 'Consentimiento informado',
+        link: `/${props.id}/consent`
+    },
+    {
+        title: 'Biografía Piscológica',
+        link: `/${props.id}/biography`
+    },
+    {
+        title: 'Psicoterapia',
         link: `/${props.id}/processes`
     },
 ]
 const docRef = doc(db, 'patients', `${props.id}`);
+const auth = getAuth();
+const unsubscribe = ref(null);
 
 function getAge(birthday) {
     let hoy = new Date()
@@ -61,16 +77,30 @@ function getAge(birthday) {
     return edad
 }
 
-onBeforeMount(async() => {
-    isLoading.value = true;
-    const docSnap = await getDoc(docRef);
-    patient.value = docSnap.data();
-    createdAt.value = docSnap.data().createdAt;
-
-    age.value = getAge(patient.value.dataPatient['Fecha de nacimiento']);
-    isLoading.value = false;
+watchEffect(async() => {
+    unsubscribe.value = onSnapshot(docRef, (doc) => {
+        const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
+            patient.value = doc.data();
+    });
 })
 
+onBeforeUnmount(() => {
+    unsubscribe.value();
+})
+
+onBeforeMount(() => {
+    isLoading.value = true;
+
+    onAuthStateChanged(auth, async(user) => {
+        const docSnap = await getDoc(docRef);
+        patient.value = docSnap.data();
+        createdAt.value = docSnap.data().createdAt;
+        if (patient.value.therapist !== user.email) router.push('/patientslist');
+        age.value = getAge(patient.value.dataPatient['Fecha de nacimiento']);
+        isLoading.value = false;
+    })
+
+})
 </script>
 
 <style scoped>

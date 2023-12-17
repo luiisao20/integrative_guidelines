@@ -6,9 +6,9 @@
     <div :style="{ opacity: opacity }">
         <h1 class="text-2xl font-bold text-center">EJECUCIÓN Y APLICACIÓN TÉCNICA</h1>
         <div v-if="isEmpty">
-            <CreateGuide @go-guide="goGuide"/>
+            <CreateGuide @go-guide="goGuide" :is-loading="isLoading.guide"/>
         </div>
-        <div v-else-if="isLoading" class="flex justify-center">
+        <div v-else-if="isLoading.data" class="flex justify-center">
             <Spinner class="text-4xl py-10"/>
         </div>
         <section v-else>
@@ -17,8 +17,8 @@
                     <thead class="text-sm text-gray-700 uppercase shadow-sm shadow-main-default">
                         <tr>
                             <th scope="col" class="px-6 py-3">Fecha</th>
-                            <th scope="col" class="px-6 py-3">Evolución</th>
-                            <th scope="col" class="px-6 py-3">Actividad</th>
+                            <th scope="col" class="px-6 py-3 w-[40%]">Evolución</th>
+                            <th scope="col" class="px-6 py-3 w-[40%]">Actividad</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -35,7 +35,7 @@
 </template>
 
 <script setup>
-import { onBeforeMount, ref } from 'vue';
+import { onBeforeMount, ref, reactive } from 'vue';
 import { fetchGuide } from '@/composables/fetchGuides';
 import { router } from '@/routes';
 import { useModal } from '@/composables/modal';
@@ -56,25 +56,29 @@ const props = defineProps({
         type: Object
     }
 })
-const isLoading = ref(false);
+const isLoading = reactive({
+    data: false, guide: false
+});
 const isEmpty = ref(false);
 const dataCopy = ref({});
 const { opacity, modalAlert, showModalAlert } = useModal();
 
 async function goGuide() {
+    isLoading.guide = true;
     const res = await fetchGuide('guidefive', props.id, props.processid);
 
     if (res.go) router.push(`/create/guidesix/${props.id}/${props.processid}`);
     else showModalAlert('Para crear la guía 6, es necesaria la guía 5', false, { variant: 'danger'});
+    isLoading.guide = false;
 }
 
 onBeforeMount(async() => {
-    isLoading.value = true;
+    isLoading.data = true;
     const { data, error } = await fetchGuide('guidesix', props.id, props.processid);
 
     if (data) dataCopy.value = { ...data.data() };
     else isEmpty.value = true;
 
-    isLoading.value = false;
+    isLoading.data = false;
 })
 </script>

@@ -4,6 +4,7 @@
             <tr class="text-xs text-black uppercase bg-gray-50 dark:bg-gray-700 dark:text-black-400">
                 <th scope="col" colspan="6" class="px-6 py-3">
                     {{ content[0].title }}
+                    <PopOver variant="info" text-info="Toda la tabla tiene que ser llenada" />
                 </th>
             </tr>
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -22,6 +23,7 @@
             <tr class="text-xs text-black uppercase bg-gray-50 dark:bg-gray-700 dark:text-black-400">
                 <th scope="col" colspan="6" class="px-6 py-3">
                     {{ content[1].title }}
+                    <PopOver variant="info" text-info="Puedes escojer una o varias opciones" />
                 </th>
             </tr>
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -72,6 +74,8 @@
 </template>
 
 <script setup>
+import PopOver from '@/general_components/PopOver.vue';
+
 const props = defineProps({
     content: {
         required: true,

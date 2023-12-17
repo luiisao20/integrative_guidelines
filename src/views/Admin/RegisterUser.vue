@@ -46,13 +46,14 @@
 
 <script setup>
 import PasswordInput from '../../general_components/PasswordInput.vue';
-import { reactive, ref } from 'vue';
+import { reactive, ref, onBeforeMount } from 'vue';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useModal } from '@/composables/modal';
 import ModalAlert from '@/general_components/ModalAlert.vue';
 import { db } from '@/main.js';
 import { doc, setDoc } from "firebase/firestore"; 
 import Spinner from '../../general_components/Spinner.vue';
+import { router } from '@/routes';
 
 const dataUser = reactive({
     email: '',
@@ -64,6 +65,13 @@ const dataUser = reactive({
 const isLoading = ref(false);
 const { opacity, modalAlert, showModalAlert } = useModal();
 const auth = getAuth();
+const props = defineProps({
+    data: { type: Object }
+});
+
+onBeforeMount(() => {
+    if (!props.data.data().admin) router.push('/');
+})
 
 function checkValues() {
     const checkEmail = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
@@ -71,8 +79,6 @@ function checkValues() {
 
     if (dataUser.password !== dataUser.confirmPassword || dataUser.name.toString().trim() === '' || dataUser.lastName.toString().trim() === ''
         || ! new RegExp(checkEmail).test(dataUser.email) || ! new RegExp(checkPassword).test(dataUser.password)) {
-            console.log(dataUser.password !== dataUser.confirmPassword);
-            console.log(dataUser.name.toString().trim() === '');
             showModalAlert('Existe un error en los datos del usuario.', false, { variant: 'danger' });
         }
     else showModalAlert('¿Guardar usuario?', true);
@@ -88,10 +94,16 @@ function createUser() {
             await setDoc(doc(db, 'users', `${dataUser.email}`), {
                 name: dataUser.name,
                 lastName: dataUser.lastName,
-                createdAt: new Date()
+                createdAt: new Date(),
+                description: null,
+                profilePic: null,
+                admin: false,
+                maxPatients: 0,
+                beginDate: null,
+                finishDate: null
             });
 
-            showModalAlert('Eureka!', false, { variant: 'success' });
+            showModalAlert('Usuario registrado', false, { variant: 'success' });
         })
         .catch((error) => {
             const errorCode = error.code;

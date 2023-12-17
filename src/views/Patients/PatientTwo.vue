@@ -3,10 +3,10 @@
         v-bind="modalAlert"
         @close-mod="modalAlert.showModal = false; opacity = '1'"
     />
-    <div v-if="isEmpty">
-        <CreateGuide @go-guide="goGuide" :id="id" :process-id="processid"/>
+    <div v-if="isEmpty" :style="{ opacity: opacity }">
+        <CreateGuide @go-guide="goGuide" :id="id" :process-id="processid" :is-loading="isLoading.guide"/>
     </div>
-    <div v-else-if="isLoading" class="flex justify-center">
+    <div v-else-if="isLoading.data" class="flex justify-center">
         <Spinner class="text-4xl py-20"/>
     </div>
     <section v-else :style="{ opacity: opacity }">
@@ -71,7 +71,7 @@
 </template>
 
 <script setup>
-import { onBeforeMount, ref } from 'vue';
+import { onBeforeMount, ref, reactive } from 'vue';
 import { router } from '@/routes';
 import { useModal } from '@/composables/modal';
 import ModalAlert from '@/general_components/ModalAlert.vue';
@@ -92,7 +92,9 @@ const props = defineProps({
         type: Object
     }
 })
-const isLoading = ref(false);
+const isLoading = reactive({
+    data: false, guide: false
+});
 const isEmpty = ref(false);
 const dataCopy = ref({});
 const content = [
@@ -190,21 +192,22 @@ const content = [
 const { opacity, modalAlert, showModalAlert } = useModal();
 
 async function goGuide() {
-
+    isLoading.guide = true;
     const { data, go } = await fetchGuide('guideone', props.id, props.processid);
-
     if (go) router.push(`/create/guidetwo/${props.id}/${props.processid}`);
     else showModalAlert('Para crear la guía 2, es necesario la guía 1', false, { variant: 'danger'});
+    isLoading.guide = false;
+
 }
 
 onBeforeMount(async() => {
-    isLoading.value = true;
+    isLoading.data = true;
 
     const { data, go } = await fetchGuide('guidetwo', props.id, props.processid);
 
     if (data) dataCopy.value = { ...data.data() };
     else isEmpty.value = true
 
-    isLoading.value = false;
+    isLoading.data = false;
 })
 </script>

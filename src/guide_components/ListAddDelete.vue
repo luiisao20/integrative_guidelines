@@ -1,6 +1,5 @@
 <template>
     <h2 :id="title" class="my-4 text-left font-semibold text-gray-900 dark:text-white">{{ title }}</h2>
-    <!-- Aqui va lo que se llene en la guia 3, ojo hay que reemplazar -->
     <p v-if="showDataFromOtherGuide" class="p-4 text-sm border whitespace-pre-line leading-relaxed border-blue-400 rounded-xl w-[80%] mx-auto">{{ content }}</p>
     <div class="flex flex-row gap-4 items-center">
         <div v-if="showDate" class="relative z-0 w-1/2">
@@ -15,7 +14,8 @@
                 placeholder=" "  ></textarea>
             <label for="floating_brothers"
                 class="peer-focus:font-medium capitalize absolute text-sm text-black dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-main-default peer-focus:dark:text-main-default peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                {{ titleOne }}</label>
+                {{ titleOne }}
+            </label>
         </div>
         <div class="relative z-0 w-full my-6 group">
             <textarea v-model="data.technique" rows="4" name="floating_techiques" id="floating_techiques"
@@ -44,7 +44,10 @@
                 disabled >{{ item.objective }}</p>
             <label for="floating_brothers"
                 class="peer-focus:font-medium capitalize absolute text-sm text-black dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-main-default peer-focus:dark:text-main-default peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                {{ titleOne }}</label>
+                {{ titleOne }}
+                <PopOver variant="info" text-info="En caso de querer borrar un apartado, da clic en el botón rojo"/>
+
+            </label>
         </div>
         <div class="relative z-0 w-full my-6 group">
             <p rows="2" name="floating_techiques" id="floating_techiques"
@@ -63,6 +66,7 @@
 <script setup>
 import { reactive } from 'vue';
 import DatePretty from '@/general_components/DatePretty.vue';
+import PopOver from '@/general_components/PopOver.vue';
 
 const props = defineProps({
     content: {

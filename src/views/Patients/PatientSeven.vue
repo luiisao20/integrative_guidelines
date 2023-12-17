@@ -6,9 +6,9 @@
     <div :style="{ opacity: opacity }">
         <h1 class="text-2xl font-bold text-center">FENÓMENOS DEL VÍNCULO TERAPÉUTICO</h1>
         <div v-if="isEmpty">
-            <CreateGuide @go-guide="goGuide"/>
+            <CreateGuide @go-guide="goGuide" :is-loading="isLoading.guide"/>
         </div>
-        <div v-else-if="isLoading" class="flex justify-center">
+        <div v-else-if="isLoading.data" class="flex justify-center">
             <Spinner class="text-4xl py-10"/>
         </div>
         <section v-else>
@@ -48,7 +48,7 @@
                 </div>
             </div>
             <div>
-                <div v-for="(item, index) in keysOder" class="text-sm">
+                <div v-for="(item, index) in keysOder" :key="index" class="text-sm">
                     <h2 v-if="titles[item] !== undefined" class="my-4 text-center text-xl font-semibold text-gray-900 dark:text-white">
                         {{ titles[item] }}
                     </h2>
@@ -104,7 +104,7 @@
 </template>
 
 <script setup>
-import { onBeforeMount, ref } from 'vue';
+import { onBeforeMount, ref, reactive } from 'vue';
 import { fetchGuide } from '@/composables/fetchGuides';
 import { router } from '@/routes';
 import ModalAlert from '@/general_components/ModalAlert.vue';
@@ -125,7 +125,9 @@ const props = defineProps({
         type: Object
     }
 })
-const isLoading = ref(false);
+const isLoading = reactive({
+    data: false, guide: false
+});
 const isEmpty = ref(false);
 const dataCopy = ref([]);
 const content = [
@@ -158,19 +160,37 @@ const keysOder = [
 const { opacity, modalAlert, showModalAlert } = useModal();
 
 async function goGuide() {
+    isLoading.guide = true;
     const res = await fetchGuide('guidesix', props.id, props.processid);
 
     if (res.go) router.push(`/create/guideseven/${props.id}/${props.processid}`);
     else showModalAlert('Para crear la guía 7, es necesaria la guía 6', false, {variant: 'danger'});
+    isLoading.guide = false;
+}
+
+function orderValues(obj) {
+    const allKeys = Object.keys(obj);
+    allKeys.sort();
+    let newObj = {};
+    for(let key of allKeys) newObj[key] = obj[key];
+    return newObj
 }
 
 onBeforeMount(async() => {
-    isLoading.value = true;
+    isLoading.data = true;
     const { data, go } = await fetchGuide('guideseven', props.id, props.processid);
 
-    if (data) dataCopy.value = { ...data.data() };
+    if (data) {
+        dataCopy.value = { ...data.data() };
+
+        for(const key in dataCopy.value.dataGuideSeven){
+            if(key !== 'dataTable') {
+                dataCopy.value.dataGuideSeven[key] = orderValues(dataCopy.value.dataGuideSeven[key]);
+            }
+        }
+    }
     else isEmpty.value = true;
 
-    isLoading.value = false;
+    isLoading.data = false;
 })
 </script>

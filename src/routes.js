@@ -7,8 +7,12 @@ import GuideFive from './views/Guides/GuideFive.vue';
 import GuideSix from './views/Guides/GuideSix.vue';
 import GuideSeven from './views/Guides/GuideSeven.vue';
 import GuideEight from './views/Guides/GuideEight.vue';
+import CreateDiagnosis from './views/Guides/CreateDiagnosis.vue';
 import Patients from './views/Patients.vue';
 import Login from './views/Login.vue';
+import Home from './views/Home.vue';
+import Test from './views/Test.vue';
+import Profile from './views/Profile.vue';
 import CreatePatient from './views/Patients/CreatePatient.vue';
 import PatientThree from './views/Patients/PatientThree.vue';
 import PatientData from './views/Patients/PatientData.vue';
@@ -22,7 +26,17 @@ import PatientEight from './views/Patients/PatientEight.vue';
 import PatientsList from './views/PatientsList.vue';
 import PatientProcesses from './views/Patients/PatientProcesses.vue';
 import PatientProcess from './views/Patients/PatientProcess.vue';
+import Psychodiagnosis from './views/Patients/Psychodiagnosis.vue';
+import Diagnosis from './views/Patients/Diagnosis.vue';
+import Biography from './views/Patients/Biography.vue';
+import Consent from './views/Patients/Consent.vue';
 import RegisterUser from './views/Admin/RegisterUser.vue';
+import UserInfo from './views/Profile/UserInfo.vue';
+import Password from './views/Profile/Password.vue';
+import Payments from './views/Profile/Payments.vue';
+import Confidentiality from './views/Profile/Confidentiality.vue';
+import Mail from './views/Profile/Mail.vue';
+import UsersList from './views/Admin/UsersList.vue';
 
 const routes = [
     {
@@ -31,12 +45,55 @@ const routes = [
         name: 'Login'
     },
     {
-        path: '/admin',
-        component: RegisterUser
+        path: '/home',
+        component: Home,
+    },
+    {
+        path: '/test',
+        component: Test,
+    },
+    {
+        path: '/profile',
+        component: Profile,
+        children: [
+            {
+                path: 'info',
+                component: UserInfo,
+            },
+            {
+                path: 'password',
+                component: Password,
+            },
+            {
+                path: 'payments',
+                component: Payments,
+            },            
+            {
+                path: 'mail',
+                component: Mail,
+            },
+            {
+                path: 'register',
+                component: RegisterUser
+            },
+            {
+                path: 'users',
+                component: UsersList,
+            },
+            {
+                path: 'confidentiality',
+                component: Confidentiality,
+            },
+        ]
     },
     {
         path: '/create/patient',
         component: CreatePatient
+    },
+    {
+        path: '/create/psychodiagnosis/:id',
+        component: CreateDiagnosis,
+        props: true
     },
     {
         path: '/create/guidethree/:id/:processid',
@@ -137,6 +194,23 @@ const routes = [
             {
                 path: 'processes',
                 component: PatientProcesses,
+            },
+            {
+                path: 'psychodiagnosis',
+                component: Psychodiagnosis
+            },
+            {
+                path: 'biography',
+                component: Biography
+            },
+            {
+                path: 'consent',
+                component: Consent
+            },
+            {
+                path: 'diagnosis/:diagnosisid',
+                component: Diagnosis,
+                props: true,
             }
         ]
     },

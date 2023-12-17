@@ -9,7 +9,7 @@
             <Spinner class="text-4xl py-10"/>
         </div>
         <div v-else-if="isEmpty">
-            <CreateGuide @go-guide="goGuide"/>
+            <CreateGuide @go-guide="goGuide" :is-loading="isLoading.guide"/>
         </div>
         <section v-else>
             <div v-for="(item, key) in dataCopy.dataGuideFour" class="w-[80%] mx-auto">
@@ -56,17 +56,19 @@ const props = defineProps({
     }
 })
 const isLoading = reactive({
-    data: false, sending: false
+    data: false, guide: false
 });
 const dataCopy = ref({});
 const isEmpty = ref(false);
 const { opacity, modalAlert, showModalAlert } = useModal();
 
 async function goGuide() {
-    const { data, go } = await fetchGuide('guidetwo', props.id, props.processid);
+    isLoading.guide = true;
+    const { data, go } = await fetchGuide('guidethree', props.id, props.processid);
 
     if (go) router.push(`/create/guidefour/${props.id}/${props.processid}`);
     else showModalAlert('Para crear la guía 4, es necesaria la guía 3', false, {variant: 'danger'});
+    isLoading.guide = false;
 }
 
 onBeforeMount(async() => {

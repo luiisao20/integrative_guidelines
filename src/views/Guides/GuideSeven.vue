@@ -1,7 +1,9 @@
 <template>
     <ModalAlert
         v-bind="modalAlert"
-        @close-mod="modalAlert.showModal = false; opacity = '1'"
+        @close-mod="modalAlert.showModal = false; 
+                    opacity = '1';
+                    if(goBack) {router.push(`/${id}/process/${processid}/guideseven`)};"
         @send-data="sendData"
         @go-route="router.push(`/${id}/process/${processid}/guideseven`)"
         :is-loading="isLoading.sending"
@@ -94,6 +96,7 @@ import { doc, getDoc, addDoc, collection } from 'firebase/firestore';
 import { db } from '@/main.js';
 import Spinner from '../../general_components/Spinner.vue';
 import { formatDate } from '@/composables/formatDate';
+import { fetchGuide } from '@/composables/fetchGuides';
 
 const content = [
     {
@@ -386,6 +389,7 @@ const dataGuideSeven = reactive({
 })
 const props = defineProps(['id', 'processid']);
 const isEmpty = ref(false);
+const goBack = ref(false);
 const modalMessage = ref('');
 const keysExcluded = ['dataTable', 'dropDown', 'MANEJO DE LA TRANSFERENCIA'];
 const isSafeToLeave = ref(false);
@@ -396,6 +400,14 @@ const isLoading = reactive({
 
 onBeforeMount(async() => {
     isLoading.data = true;
+    const res = await fetchGuide('guideeight', props.id, props.processid);
+
+    // if (res.go) {
+    //     showModalAlert('Esta guía ya está creada, no puedes sobreescribirla', false, {variant: 'danger'});
+    //     goBack.value = true;
+    //     isSafeToLeave.value = true;
+    //     return
+    // }
     const patientRef = doc(db, 'patients', `${props.id}`);
     const docSnap = await getDoc(patientRef);
     patient.value = { ...docSnap.data().dataPatient };
@@ -535,7 +547,7 @@ function checkValues(){
     if (isEmpty.value) {
         showModalAlert(modalMessage.value, false, {variant: 'danger'});
     } else {
-        showModalAlert('Eureka', true);
+        showModalAlert('¿Estás seguro de enviar los datos?', true);
     }
 }
 
@@ -548,7 +560,8 @@ async function sendData() {
             date: formatDate(new Date()),
             process: props.processid
         })
-        showModalAlert('Eureka!!', false, {variant: 'success', showRoute: true});
+        showModalAlert('¡Datos guardados! Visita la guía dando click en "Ir"', false, {variant: 'success', showRoute: true});
+        goBack.value = true;
         isSafeToLeave.value = true;
     } catch (error) {
         showModalAlert(error, false, {variant: 'danger'})

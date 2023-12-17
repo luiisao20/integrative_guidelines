@@ -6,16 +6,16 @@
     <div :style="{ opacity: opacity }">
         <h1 class="text-2xl font-bold text-center">PLANIFICACIÓN DEL PROCESO</h1>
         <div v-if="isEmpty">
-            <CreateGuide @go-guide="goGuide"/>
+            <CreateGuide @go-guide="goGuide" :is-loading="isLoading.guide"/>
         </div>
-        <div v-else-if="isLoading" class="flex justify-center">
+        <div v-else-if="isLoading.data" class="flex justify-center">
             <Spinner class="text-4xl py-10"/>
         </div>
         <section v-else>
-            <div v-for="(item, key) in dataCopy.dataGuideFive" :key="key">
-                <div v-if="item.length > 0" class="p-2 text-sm">
-                    <h2 class="font-bold text-base p-4">{{ key }}: </h2>
-                    <p class="text-left whitespace-pre-line leading-relaxed px-8">{{ dataThreeCopy[key] }}</p>
+            <div v-for="(item, index) in content" :key="index">
+                <div v-if="dataThreeCopy[item].length > 0" class="p-2 text-sm">
+                    <h2 class="font-bold text-base p-4">{{ item }}</h2>
+                    <p class="text-left whitespace-pre-line leading-relaxed px-8">{{ dataThreeCopy[item] }}</p>
                     <div class="flex justify-center">
                         <table class="m-4">
                             <thead class="text-xs text-gray-700 uppercase shadow-sm shadow-main-default">
@@ -25,7 +25,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="border-b shadow-sm shadow-light" v-for="subitem in item">
+                                <tr class="border-b shadow-sm shadow-light" v-for="subitem in dataCopy.dataGuideFive[item]">
                                     <td class="px-6 py-2">{{ subitem.objective }}</td>
                                     <td class="px-6 py-2">{{ subitem.technique }}</td>
                                 </tr>
@@ -40,7 +40,6 @@
 
 <script setup>
 import { onBeforeMount, ref, reactive } from 'vue';
-import { useFetch } from '@/composables/fetch';
 import { fetchGuide } from '@/composables/fetchGuides';
 import { router } from '@/routes';
 import ModalAlert from '@/general_components/ModalAlert.vue';
@@ -61,21 +60,30 @@ const props = defineProps({
         type: Object
     }
 })
-const isLoading = ref(false);
+const isLoading = reactive({
+    data: false, guide: false
+});
+const content = [
+    'Diagnóstico descriptivo y formulación dinámica del problema',
+    'Diagnóstico descriptivo y formulación dinámica de la personalidad',
+    'Diagnóstico descriptivo y formulación dinámica del trastorno'
+]
 const isEmpty = ref(false);
 const dataCopy = ref([]);
 const dataThreeCopy = ref([]);
 const { opacity, modalAlert, showModalAlert } = useModal();
 
 async function goGuide() {
+    isLoading.guide = true;
     const { data, go } = await fetchGuide('guidefour', props.id, props.processid);
 
     if (go) router.push(`/create/guidefive/${props.id}/${props.processid}`);
     else showModalAlert('Para crear la guía 5, es necesaria la guía 4', false, {variant: 'danger'});
+    isLoading.guide = false;
 }
 
 onBeforeMount(async() => {
-    isLoading.value = true;
+    isLoading.data = true;
 
     const { data, error } = await fetchGuide('guidefive', props.id, props.processid);
     const res = await fetchGuide('guidethree', props.id, props.processid)
@@ -85,7 +93,7 @@ onBeforeMount(async() => {
         dataCopy.value = data.data();
     } else isEmpty.value = true;
 
-    isLoading.value = false;
+    isLoading.data = false;
 
 })
 </script>

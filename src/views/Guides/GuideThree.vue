@@ -5,7 +5,9 @@
     />
     <ModalAlert
         v-bind="modalAlert"
-        @close-mod="modalAlert.showModal = false; opacity = '1'"
+        @close-mod="modalAlert.showModal = false; 
+                    opacity = '1';
+                    if(goBack) {router.push(`/${id}/process/${processid}/guidethree`)};"
         @send-data="sendData"
         @go-route="router.push(`/${id}/process/${processid}/guidethree`)"
         :is-loading="isLoading.sending"
@@ -23,27 +25,16 @@
                 :text-value="dataGuideThree.otherSections"
                 :item="item"
                 @showModalInfo="showInfo"
+                :is-loading="isLoading.info"
             />
         </div>
-        <!-- Sección 4 -->
-        <div :id="demands[3].text">
-            <SectionFour 
-                @update="getInfoSectFour"
-                :item="demands[3]"
-                :data="dataGuideThree.sectionFour"
-                @show-info="showInfo"
-                :biography="dataCopy"
-                :processid="processName"
-            />
-        </div>
-        <h2 :id="demands[4].text" class="text-xl mt-10 normal-case font-bold">Resultados de pruebas psicológicas</h2>
         <!-- Sección 5 -->
-        <div>
+        <div :id="demands[4].text" >
             <TextArea
-                section="title"
                 :text-value="dataGuideThree.otherSections"
                 :item="demands[4]"
                 @showModalInfo="showInfo"
+                :is-loading="isLoading.info"
             />
         </div>
         <h2 class="text-xl mt-10 normal-case font-bold">Conclusiones diagnósticas</h2>
@@ -52,6 +43,7 @@
             <TextArea
                 :text-value="dataGuideThree.sectionSix"
                 :item="item"
+                :is-loading="isLoading.info"
                 @showModalInfo="showInfo"
             />
         </div>
@@ -60,6 +52,7 @@
             <TextArea
                 :text-value="dataGuideThree.otherSections"
                 :item="item"
+                :is-loading="isLoading.info"
                 @showModalInfo="showInfo"
             />
         </div>
@@ -73,7 +66,6 @@
 </template>
 
 <script setup>
-import SectionFour from '@/guide_components/SectionFour.vue';
 import TextArea from '@/guide_components/TextArea.vue';
 import Modal from '@/general_components/Modal.vue';
 import ModalAlert from '@/general_components/ModalAlert.vue';
@@ -84,10 +76,11 @@ import ButtonVue from '@/general_components/ButtonVue.vue';
 import SideBar from '@/guide_components/SideBar.vue';
 import { onBeforeRouteLeave } from 'vue-router';
 import { router } from '../../routes';
-import { doc, getDoc, addDoc, collection, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, addDoc, collection } from 'firebase/firestore';
 import { db } from '@/main.js';
 import { formatDate } from '@/composables/formatDate';
 import Spinner from '../../general_components/Spinner.vue';
+import { fetchGuide } from '@/composables/fetchGuides';
 
 const { opacity, modal, showModal, modalAlert, showModalAlert } = useModal();
 const infoContent = ref({});
@@ -96,21 +89,9 @@ const dataGuideThree = reactive({
         'Demanda explícita':'',
         'Demanda implícita': '',
         'Antecedentes disfuncionales': '',
-        'Consignar los resultados de las pruebas psicológicas:': '',
+        'Resultados de las pruebas psicológicas': '',
         'Criterios pronósticos': '',
         'Recomendaciones': '',
-    },
-    sectionFour: {
-        'Biografía psicológica personal y familiar': '',
-        table:{
-            'Estilos disciplinarios': '',
-            'Tipo de apego': '',
-            'Sociabilidad': '',
-            'Pérdidas afectivas': '',
-            'Experiencias de aprendizaje': '',
-            'Sobrestimulación': '',
-            'Concienciación': '',
-        }
     },
     sectionSix: {
         'Diagnóstico descriptivo y formulación dinámica del problema': '',
@@ -137,7 +118,6 @@ const demands = [
     },
     {
         code: '5',
-        title: 'Consignar los resultados de las pruebas psicológicas:',
         text: 'Resultados de las pruebas psicológicas'
     },
     {
@@ -163,10 +143,11 @@ const demands = [
 ]
 const isEmpty = ref(false);
 const isLoading = reactive({
-    data: false, sending: false
+    data: false, sending: false, info: false
 });
 const messageAlert = ref('');
 const isSafeToLeave = ref(false);
+const goBack = ref(false);
 const props = defineProps(['id', 'processid']);
 const processName = ref('');
 const dataCopy = ref([]);
@@ -174,6 +155,15 @@ const patient = ref({});
 
 onBeforeMount(async() => {
     isLoading.data = true;
+
+    const res = await fetchGuide('guideeight', props.id, props.processid);
+
+    if (res.go) {
+        showModalAlert('Esta guía ya está creada, no puedes sobreescribirla', false, {variant: 'danger'});
+        goBack.value = true;
+        isSafeToLeave.value = true;
+        return
+    }
 
     const patientRef = doc(db, 'patients', `${props.id}`);
     const docSnap = await getDoc(patientRef);
@@ -185,7 +175,7 @@ onBeforeMount(async() => {
     dataCopy.value = [ ...docSnap.data().biography ];
     processName.value = processSnap.data().processName;
 
-    isLoading.data = false
+    isLoading.data = false;
 })
 
 onBeforeRouteLeave(() => {
@@ -203,10 +193,6 @@ window.addEventListener('beforeunload', (event) => {
     event.preventDefault();
     event.returnValue = '';
 })
-
-function getInfoSectFour(data){
-    dataGuideThree.sectionFour = data;
-}
 
 /**
  * Recorre todo el formulario en busca de campos vacíos y retorna 
@@ -240,51 +226,22 @@ function checkValues(){
             }
         }
     }
-
-    // Section 4
-    if (dataGuideThree.sectionFour['Biografía psicológica personal y familiar'].toString().trim() === ''){
-        isEmpty.value = true;
-        messageAlert.value = 'La biografía psicológica debe estar completada';
-        return;
-    } else {
-        for (const key in dataGuideThree.sectionFour.table) {
-            if (dataGuideThree.sectionFour.table.hasOwnProperty(key)) {
-                if (dataGuideThree.sectionFour.table[key].toString().trim() === "") {
-                    isEmpty.value = true;
-                    messageAlert.value = `El campo "${key}" de la biografia psicológica se encuentra vacío, por favor llénalo`;
-                    return;
-                }
-            }
-        }
-    }
 }
 
 async function sendData(){
     isLoading.sending = true;
 
-    try {      
-        const patientRef = doc(db, 'patients', `${props.id}`);
-        const newBiography = {
-            date: new Date(),
-            text: dataGuideThree.sectionFour['Biografía psicológica personal y familiar'],
-            process: props.processid
-        }
-        dataCopy.value.push(newBiography);
-
+    try {              
         await addDoc(collection(db, 'guidethree'), {
             patient: props.id,
             otherSections: dataGuideThree.otherSections,
-            sectionFour: dataGuideThree.sectionFour,
             sectionSix: dataGuideThree.sectionSix,
             date: formatDate(new Date()),
             process: props.processid
         })
 
-        await updateDoc(patientRef, {
-            biography: dataCopy.value
-        })
-
-        showModalAlert('Eureka!!', false, {variant: 'success', showRoute: true});
+        showModalAlert('¡Datos guardados! Visita la guía dando click en "Ir"', false, {variant: 'success', showRoute: true});
+        goBack.value = true;
         isSafeToLeave.value = true;
     } catch (error) {
         showModalAlert(error.message, false);
@@ -305,8 +262,10 @@ function showData(){
         showModalAlert('¿Estás seguro de guardar los datos?', true, {variant: 'info'});
     }
 }
-function showInfo(item){
-    infoContent.value = getInfoContent(item.code);
+async function showInfo(item){
+    isLoading.info = true;
+    infoContent.value = await getInfoContent(item.code);
     showModal(infoContent.value, item.text);
+    isLoading.info = false;
 }
 </script>

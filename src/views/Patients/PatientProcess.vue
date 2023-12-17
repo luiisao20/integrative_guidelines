@@ -1,13 +1,15 @@
 <template>
     <div v-if="!isLoading">
-        <button @click="router.push(`/${id}/processes`)"
-            class="p-4 flex items-center gap-4 border border-black rounded-xl bg-white">
-            <font-awesome-icon icon="fa-solid fa-arrow-left" /> <p>Regresar</p>
-        </button>
-        <h1 class="text-center text-2xl font-extrabold mb-4">
-            {{ dataCopy.processName }}
-        </h1>
-        <ul class="flex flex-wrap text-sm pl-4 font-medium text-center text-gray-500 dark:border-gray-700 dark:text-gray-400">
+        <div class="flex items-center justify-between mx-20 my-4">
+            <button @click="router.push(`/${id}/processes`)"
+                class="p-4 flex items-center gap-4 border border-black rounded-xl bg-white">
+                <font-awesome-icon icon="fa-solid fa-arrow-left" /> <p>Regresar</p>
+            </button>
+            <h1 class="text-2xl font-extrabold">
+                {{ dataCopy.processName }}
+            </h1>
+        </div>
+        <ul class="flex sticky top-0 bg-background flex-wrap text-sm pl-4 font-medium text-center text-gray-500 dark:border-gray-700 dark:text-gray-400">
             <li class="mr-2" v-for="(item, index) in links" :key="index">
                 <RouterLink @click="showText = false" :to="`/${id}/process/${processid}/${item.link}`"
                     class="inline-block p-2 text-black rounded-t-lg hover:bg-gray-300">{{ item.text }}

@@ -63,10 +63,10 @@
                 <td class="px-6 py-4 text-black dark:text-white flex flex-row gap-4 items-center">
                     {{ item }}
                     <div v-if="item === 'Otros'" class="w-full flex items-center">
-                        <PopOver variant="info" text-info="Tendrás que escribir qué otros indicadores has identificado" />
                         <input v-model="data[`${item}`].content" type="text" name="floating_first_name" id="floating_first_name"
-                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
-                            placeholder=" " :disabled="data[`${item}`].selected === 'No'" />
+                        class="block py-2.5 ml-4 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
+                        placeholder=" " :disabled="data[`${item}`].selected === 'No'" />
+                        <PopOver variant="info" text-info="Tendrás que escribir qué otros indicadores has identificado" />
                     </div>
                 </td>
                 <td class="px-6 py-4 text-center">

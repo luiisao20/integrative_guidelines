@@ -7,9 +7,9 @@
     <div :style="{ opacity, opacity }">
         <h1 class="text-2xl font-bold text-center">EVALUACION FINAL DEL PROCESO PSICOTERAPÉUTICO</h1>
         <div v-if="isEmpty">
-            <CreateGuide @go-guide="goGuide"/>
+            <CreateGuide @go-guide="goGuide" :is-loading="isLoading.guide"/>
         </div>
-        <div v-else-if="isLoading" class="flex justify-center">
+        <div v-else-if="isLoading.data" class="flex justify-center">
             <Spinner class="text-4xl py-10"/>
         </div>
         <section v-else>
@@ -36,23 +36,30 @@
             </div>
             <h1 class="text-xl mt-10 font-bold text-center">TÉCNICAS EMPLEADAS Y GRADO DE EFICACIA</h1>
             <div v-for="(item, index) in keysOrder.slice(5, 8)" :key="index">
-                <table v-if="Object.keys(dataCopy.dataGuideEight.techniques[item]).length > 0" class="my-4 mx-auto w-[80%]">
+                <table v-if="dataCopy.dataGuideEight.techniques[item] !== undefined" class="my-4 mx-auto w-[80%]">
                     <thead class="text-base text-gray-700 uppercase shadow-sm shadow-main-default">
                         <tr>
                             <th scope="col" colspan="2" class="px-6 py-3">{{ item }}</th>
                         </tr>
                     </thead>
-                    <tbody v-for="(subitem, subkey, index) in dataCopy.dataGuideEight.techniques[item]">
+                    <tbody v-for="(subitem, index) in dataFiveCopy[dataTechniques[item]]">
                         <tr class="border-b shadow-sm text-sm shadow-light">
-                            <td class="px-6 py-2">{{ dataFiveCopy[dataTechniques[item]][index].technique }}</td>
-                            <td class="px-6 py-2">{{ subitem }}</td>
+                            <td class="px-6 py-2">{{ subitem.technique }}</td>
+                            <td class="px-6 py-2">{{ dataCopy.dataGuideEight.techniques[item][`${item}.${index}`] }}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <h1 class="mt-10 text-2xl font-bold text-center">Interrogantes al finalizar el proceso</h1>
+            <h1 class="mt-10 mb-4 text-2xl font-bold text-center">Interrogantes al finalizar el proceso</h1>
+            <div class="shadow-sm shadow-light p-2 rounded-xl w-3/4 mx-auto text-sm">
+                <div class="my-2">
+                    <h2 class="mr-10 my-2"><span class="font-bold">{{ keysOrder[8] }}:</span>  {{ dataCopy.dataGuideEight.interrogations[keysOrder[8]].option }}</h2>
+                    <p><span class="font-bold pl-4">¿Por qué?:</span> {{ dataCopy.dataGuideEight.interrogations[keysOrder[8]].why }}</p>
+                </div>
+            </div>
+            <h1 class="mt-10 mb-4 font-bold pl-10">Cumplimiento de expectativas</h1>
             <div class="mx-10 grid grid-cols-2 gap-2 text-sm">
-                <div v-for="(item, index) in keysOrder.slice(8, 17)" :key="index" class="shadow-sm shadow-light p-2 rounded-xl">
+                <div v-for="(item, index) in keysIntrg" :key="index" class="shadow-sm shadow-light p-2 rounded-xl">
                     <div class="my-2">
                         <h2 class="font-bold mr-10 my-2">{{ item }}: </h2>
                         <div class="pl-4">
@@ -62,12 +69,20 @@
                     </div>
                 </div>
             </div>
+            <div class="mx-10 grid grid-cols-2 gap-2 text-sm my-10">
+                <div v-for="(item, index) in keysOrder.slice(14, 17)" :key="index" class="shadow-sm shadow-light p-2 rounded-xl">
+                    <div class="my-2">
+                        <h2 class="mr-10 my-2"><span class="font-bold">{{ item }}:</span> {{ dataCopy.dataGuideEight.interrogations[item].option }}</h2>
+                        <p v-if="dataCopy.dataGuideEight.interrogations[item].why !== ''" class="pl-4"><span class="font-bold">¿Por qué?:</span> {{ dataCopy.dataGuideEight.interrogations[item].why }}</p>
+                    </div>
+                </div>
+            </div>
         </section>
     </div>
 </template>
 
 <script setup>
-import { onBeforeMount, ref } from 'vue';
+import { onBeforeMount, ref, reactive } from 'vue';
 import { fetchGuide } from '@/composables/fetchGuides';
 import { router } from '@/routes';
 import ModalAlert from '@/general_components/ModalAlert.vue';
@@ -88,7 +103,9 @@ const props = defineProps({
         type: Object
     }
 })
-const isLoading = ref(false);
+const isLoading = reactive({
+    data: false, guide: false
+});
 const isEmpty = ref(false);
 const dataCopy = ref([]);
 const dataFiveCopy = ref({});
@@ -104,24 +121,29 @@ const keysOrder = [
     'Finalización del proceso', 'Paciente', 'Familiares', 'Instituciones', 'Otros', 'Terapeuta',
     'Tratamiento mixto', 'Derivación del paciente a otro profesional', 'Deserción del paciente'
 ]
-
+const keysIntrg = ref([]);
 async function goGuide() {
+    isLoading.guide = true;
     const res = await fetchGuide('guideseven', props.id, props.processid);
 
     if (res.go) router.push(`/create/guideeight/${props.id}/${props.processid}`);
     else showModalAlert('Para crear la guía 8, es necesaria la guía 7', false, {variant: 'danger'});
+    isLoading.guide = false;
 }
 
 onBeforeMount(async() => {
-    isLoading.value = true;
+    isLoading.data = true;
     const { data, go } = await fetchGuide('guideeight', props.id, props.processid);
     const res  = await fetchGuide('guidefive', props.id, props.processid);
 
     if (data) {
         dataFiveCopy.value = res.data.data().dataGuideFive;
         dataCopy.value = data.data();
+        keysOrder.slice(9, 14).forEach((key) => {
+            if (dataCopy.value.dataGuideEight.interrogations[key].option !== '') keysIntrg.value.push(key);
+        })
     } else isEmpty.value = true;
 
-    isLoading.value = false;
+    isLoading.data = false;
 })
 </script>

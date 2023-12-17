@@ -95,7 +95,7 @@
             <tr>
                 <th scope="col" colspan="6" class="text-xs font-bold py-4 text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     Posición entre paciente y terapeura 
-                    <PopOver variant="info" textInfo="Escoge un tipo de posición o puedes llenar el apartado 'Otro', además es obligatorio el campo 'Efecto'"/>
+                    <PopOver variant="info" textInfo="Puedes escojer varios tipos de posición, y si necesitas ingresar otro, llena el cuadro de texto 'Otro'"/>
                 </th>
             </tr>
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -156,7 +156,5 @@ function updateSelection(option, isChecked) {
         const index = props.data.dataTable['POSICIÓN ENTRE PACIENTE Y TERAPEURA'].options.indexOf(option);
         props.data.dataTable['POSICIÓN ENTRE PACIENTE Y TERAPEURA'].options.splice(index, 1);
     }
-
-    console.log(props.data.dataTable['POSICIÓN ENTRE PACIENTE Y TERAPEURA'].options);
 }
 </script>

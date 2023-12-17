@@ -4,7 +4,9 @@
     />
     <ModalAlert 
         v-bind="modalAlert"
-        @close-mod="modalAlert.showModal = false; opacity = '1'"
+        @close-mod="modalAlert.showModal = false; 
+                    opacity = '1';
+                    if(goBack) {router.push(`/${id}/process/${processid}/guideeight`)};"
         @send-data="sendData"
         @go-route="router.push(`/${id}/process/${processid}/guideeight`)"
         :is-loading="isLoading.sending"
@@ -16,7 +18,10 @@
             :content="content[0].options"
             :data="dataGuideEight.tableOne"
         />
-        <h1 class="text-2xl mb-4 font-bold text-center">TÉCNICAS EMPLEADAS Y GRADO DE EFICACIA</h1>
+        <h1 class="text-2xl mb-4 font-bold text-center">
+            TÉCNICAS EMPLEADAS Y GRADO DE EFICACIA
+            <PopOver variant="info" text-info="Toda la tabla tiene que ser llenada" />
+        </h1>
         <div v-for="(item, key) in dataTechniques">
             <div :id="key" v-if="dataCopy.dataGuideFive[item] !== undefined">
                 <RadioBox 
@@ -59,6 +64,7 @@ import { doc, getDoc, addDoc, collection } from 'firebase/firestore';
 import { db } from '@/main.js';
 import Spinner from '../../general_components/Spinner.vue';
 import { formatDate } from '@/composables/formatDate';
+import PopOver from '@/general_components/PopOver.vue';
 
 const { opacity, modalAlert, showModalAlert } = useModal();
 const content = [
@@ -177,6 +183,7 @@ const dataGuideEight = reactive({
     },
 })
 const isEmpty = ref(false);
+const goBack = ref(false);
 const modalMessage = ref('');
 const dataCopy = ref({});
 const patient = ref({});
@@ -197,14 +204,22 @@ onBeforeRouteLeave(() => {
     }
 })
 
-// window.addEventListener('beforeunload', (event) => {
-//     event.preventDefault();
-//     event.returnValue = '';
-// })
+window.addEventListener('beforeunload', (event) => {
+    event.preventDefault();
+    event.returnValue = '';
+})
 
 onBeforeMount(async() => {
 
     isLoading.data = true;
+    const res = await fetchGuide('guideeight', props.id, props.processid);
+
+    if (res.go) {
+        showModalAlert('Esta guía ya está creada, no puedes sobreescribirla', false, {variant: 'danger'});
+        goBack.value = true;
+        isSafeToLeave.value = true;
+        return
+    }
 
     const patientRef = doc(db, 'patients', `${props.id}`);
     const docSnap = await getDoc(patientRef);
@@ -217,12 +232,12 @@ onBeforeMount(async() => {
         if (dataCopy.value.dataGuideFive[dataTechniques[key]] !== undefined) dataGuideEight.techniques[key] = {}
     }
 
+
     isLoading.data = false;
 })
 
 function checkValues(){
     const keysExcluded = ['PROCESO', 'OBJETIVOS ESTABLECIDOS'];
-    
     if (dataGuideEight.tableOne.PROCESO === '' || dataGuideEight.tableOne['OBJETIVOS ESTABLECIDOS'].length === 0){
         isEmpty.value = true;
         modalMessage.value = 'El "Proceso" o los "Objetivos establecidos" están vacíos';
@@ -252,12 +267,34 @@ function checkValues(){
         }
     }
 
+    const keysExcludedIntrg = ['Paciente', 'Terapeuta', 'Familiares', 'Instituciones', 'Otros', 'Deserción del paciente'];
+    let countIntrg = 0;
     for (const key in dataGuideEight.interrogations){
-        for (const subkey in dataGuideEight.interrogations[key]){
-            if(dataGuideEight.interrogations[key][subkey].toString().trim() === ''){
+        if (!keysExcludedIntrg.some(value => value === key) || keysExcludedIntrg.slice(0, 2).some(value => value === key)){
+            for (const subkey in dataGuideEight.interrogations[key]){
+                if(dataGuideEight.interrogations[key][subkey].toString().trim() === ''){
+                    isEmpty.value = true;
+                    modalMessage.value = `El campo "${key}" de las Interrogantes al finalizar el proceso tiene que ser llenado`;
+                    return
+                }
+            }
+        } else if (key === 'Deserción del paciente') {
+            if(dataGuideEight.interrogations[key].option.toString().trim() === '' || 
+                (dataGuideEight.interrogations[key].option === 'Sí' && dataGuideEight.interrogations[key].why.toString().trim() === '')){
                 isEmpty.value = true;
                 modalMessage.value = `El campo "${key}" de las Interrogantes al finalizar el proceso tiene que ser llenado`;
                 return
+            }
+        } else {
+            for (const subkey in dataGuideEight.interrogations[key]){
+                if(dataGuideEight.interrogations[key][subkey].toString().trim() === ''){
+                    countIntrg++
+                }
+                if (countIntrg === 6){
+                    isEmpty.value = true;
+                    modalMessage.value = 'Tienes que llenar al menos un cumplimiento de expectativas';
+                    return
+                }
             }
         }
     }
@@ -271,7 +308,7 @@ function confirmData(){
     if (isEmpty.value) {
         showModalAlert(modalMessage.value, false, {variant: 'danger'});
     } else {
-        showModalAlert('Eureka', true);
+        showModalAlert('¿Estás seguro de guardar los datos?', true);
     }
 }
 
@@ -285,7 +322,8 @@ async function sendData() {
             date: formatDate(new Date()),
             process: props.processid
         })
-        showModalAlert('Eureka!!', false, {variant: 'success', showRoute: true});
+        showModalAlert('¡Datos guardados! Visita la guía dando click en "Ir"', false, {variant: 'success', showRoute: true});
+        goBack.value = true;
         isSafeToLeave.value = true;
     } catch (error) {
         showModalAlert(error, false, {variant: 'danger'})

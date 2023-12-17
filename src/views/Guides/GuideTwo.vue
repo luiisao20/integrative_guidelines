@@ -1,7 +1,9 @@
 <template>
     <ModalAlert
         v-bind="modalAlert"
-        @close-mod="modalAlert.showModal = false; opacity = '1'"
+        @close-mod="modalAlert.showModal = false; 
+                    opacity = '1';
+                    if(goBack) {router.push(`/${id}/process/${processid}/guidetwo`)};"
         @send-data="sendData"
         @go-route="router.push(`/${id}/process/${processid}/guidetwo`)"
         :is-loading="isLoading.sending"
@@ -10,7 +12,7 @@
         :options="content"
     />
     <form v-if="!isLoading.data" class="py-10" :style="{ opacity: opacity }">
-        <h1 class="text-2xl font-bold text-center">ANÁLISIS DE LA PRIMER ENTREVISTA</h1>
+        <h1 class="text-2xl font-bold text-center">ANÁLISIS DE LA PRIMERA ENTREVISTA</h1>
         <h1 class="pt-5"><span class="font-bold">Paciente:</span> {{ patient.Apellidos }} {{ patient.Nombres }}</h1>
         <div :id="content[0].title">
             <CheckBox
@@ -63,6 +65,7 @@ import { doc, getDoc, addDoc, collection } from 'firebase/firestore';
 import { db } from '@/main.js';
 import { formatDate } from '@/composables/formatDate';
 import Spinner from '../../general_components/Spinner.vue';
+import { fetchGuide } from '@/composables/fetchGuides';
 
 const content = [
     {
@@ -172,6 +175,7 @@ const dataGuideTwo = reactive({
     }
 })
 const isEmpty = ref(false);
+const goBack = ref(false);
 const modalMessage = ref('');
 const props = defineProps(['id', 'processid']);
 const isSafeToLeave = ref(false);
@@ -183,6 +187,15 @@ const patient = ref({});
 
 onBeforeMount(async() => {
     isLoading.data = true;
+
+    const res = await fetchGuide('guideeight', props.id, props.processid);
+
+    if (res.go) {
+        showModalAlert('Esta guía ya está creada, no puedes sobreescribirla', false, {variant: 'danger'});
+        goBack.value = true;
+        isSafeToLeave.value = true;
+        return
+    }
 
     const patientRef = doc(db, 'patients', `${props.id}`);
     const docSnap = await getDoc(patientRef);
@@ -249,7 +262,8 @@ async function sendData() {
             date: formatDate(new Date()),
             process: props.processid
         })
-        showModalAlert('Eureka!!', false, {variant: 'success', showRoute: true});
+        showModalAlert('¡Datos guardados! Visita la guía dando click en "Ir"', false, {variant: 'success', showRoute: true});
+        goBack.value = true;
         isSafeToLeave.value = true;
     } catch (error) {
         showModalAlert(error, false, {variant: 'danger'})

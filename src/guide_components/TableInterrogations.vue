@@ -25,11 +25,12 @@
                         <input v-model="data[item.subtitle].option" :id="`default-radio-${item}.${index}`" type="radio" value="Sí" :name="`default-${item}.${index}`" class="w-4 h-4 text-main-default bg-gray-100 border-gray-300 focus:ring-main-default dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     </td>
                     <td class="px-6 py-4 text-center">
-                        <input v-model="data[item.subtitle].option" :id="`default-radio-${item}.${index}`" type="radio" value="No" :name="`default-${item}.${index}`" class="w-4 h-4 text-main-default bg-gray-100 border-gray-300 focus:ring-main-default dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <input v-model="data[item.subtitle].option" @input="if(item.subtitle === 'Deserción del paciente') data['Deserción del paciente'].why = '';" :id="`default-radio-${item}.${index}`" type="radio" value="No" :name="`default-${item}.${index}`" class="w-4 h-4 text-main-default bg-gray-100 border-gray-300 focus:ring-main-default dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     </td>
                     <td class="px-6 py-4 w-[200px]">
-                        <div class="relative z-0 w-full mb-2 group" v-if="item.subtitle !== 'Deserción del paciente'">
+                        <div class="relative z-0 w-full mb-2 group" >
                             <textarea
+                                :disabled="data['Deserción del paciente'].option === 'No' && item.subtitle === 'Deserción del paciente'"
                                 v-model="data[item.subtitle].why" rows="2"
                                 name="floating_why_interrogatives" id="floating_why_interrogatives"
                                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
@@ -39,7 +40,8 @@
                 </tr>
                 <tr v-if="item.options.length > 0" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                     <td scope="row" rowspan="6" class="px-6 py-4 text-center font-medium text-gray-900 dark:text-white">
-                        {{ item.subtitle }} 
+                        {{ item.subtitle }}
+                        <PopOver variant="info" text-info="Los apartados de 'Paciente' y 'Terapeuta' son obligatorios llenar, del resto debes llenar uno al menos" />
                     </td>
                 </tr>
                 <tr v-if="item.options.length > 0" v-for="(subitem, subindex) in item.options" :key="subindex" class="bg-white border-b w-full dark:bg-gray-800 dark:border-gray-700">
@@ -68,8 +70,7 @@
 </template>
 
 <script setup>
-import { text } from '@fortawesome/fontawesome-svg-core';
-
+import PopOver from '@/general_components/PopOver.vue';
 
 const props = defineProps({
     content: {

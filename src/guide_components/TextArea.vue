@@ -8,7 +8,7 @@
             {{ item[section] }}</label>
     </div>
     <div v-if="showBtnInfo" class="flex flex-row justify-end">
-        <ButtonVue @click="showModalInfo(item)" class="p-3" variant="main" type="button">
+        <ButtonVue :is-disabled="isLoading" @click="showModalInfo(item)" class="p-3" v-bind:class="{ cursorPointer: isLoading }" variant="main" type="button">
             Más info
         </ButtonVue>
     </div>
@@ -33,6 +33,10 @@ const props = defineProps({
     section: {
         default: 'text',
         type: String
+    },
+    isLoading: {
+        default: false,
+        type: Boolean
     }
 })
 
@@ -43,3 +47,9 @@ function showModalInfo(item){
 }
 
 </script>
+
+<style scoped>
+.cursorPointer {
+    cursor: progress;
+}
+</style>

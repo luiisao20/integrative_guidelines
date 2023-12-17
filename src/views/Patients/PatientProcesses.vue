@@ -6,62 +6,65 @@
         :is-loading="isLoading"
     />
     <div :style="{ opacity: opacity }">
-        <div v-if="!isLoading" class="flex justify-center">
-            <table class="w-[70%] text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                        <th scope="col" class="px-3 py-3 w-1/4 text-center">
-                            Proceso N°
-                        </th>
-                        <th scope="col" class="px-3 py-3 text-center">
-                            Nombre
-                        </th>
-                        <th scope="col" class="px-3 py-3 text-center">
-                            Fecha de creación
-                        </th>
-                        <th scope="col" class="px-3 py-3">
-                        </th>
-                    </tr>
-                </thead>
-                <tbody v-for="(item, index) in dataCopy" :key="index">
-                    <tr class="bg-white text-black border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <th scope="row" class="px-3 py-4 font-bold text-center dark:text-white">
-                            {{ index + 1 }}
-                        </th>
-                        <td class="px-3 py-4 text-center">
-                            {{ item.data().processName }}
-                        </td>
-                        <td class="px-3 py-4 text-center">
-                            {{ formatDate(item.data().date) }}
-                        </td>
-                        <td class="px-6 py-4 text-right">
-                            <button @click="router.push(`process/${item.id}`)"
-                                class="font-medium text-light dark:text-blue-500 hover:underline">
-                                Ir
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <section v-if="!isLoading">
+            <h1 class="font-extrabold text-2xl text-center my-4">Psicoterapia</h1>
+            <div class="flex justify-center">
+                <table class="w-[70%] text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-3 py-3 w-1/4 text-center">
+                                Proceso N°
+                            </th>
+                            <th scope="col" class="px-3 py-3 text-center">
+                                Nombre
+                            </th>
+                            <th scope="col" class="px-3 py-3 text-center">
+                                Fecha de creación
+                            </th>
+                            <th scope="col" class="px-3 py-3">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody v-for="(item, index) in dataCopy" :key="index">
+                        <tr class="bg-white text-black border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <th scope="row" class="px-3 py-4 font-bold text-center dark:text-white">
+                                {{ index + 1 }}
+                            </th>
+                            <td class="px-3 py-4 text-center">
+                                {{ item.data().processName }}
+                            </td>
+                            <td class="px-3 py-4 text-center">
+                                {{ item.data().date }}
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <button @click="router.push(`process/${item.id}`)"
+                                    class="font-medium text-light dark:text-blue-500 hover:underline">
+                                    Ir
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <CreateGuide @show-form="showForm = true" guide="five" :id="id" :text="text"/>
+            </div>
+            <div v-if="showForm">
+                <form @submit.prevent="createProcess">
+                    <div class="relative z-0 w-full mb-6 group">
+                        <input v-model="processName" type="text" name="floating_name" id="floating_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                        <label for="floating_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            Escribe un nombre para el nuevo proceso
+                        </label>
+                    </div>
+                    <ButtonVue type="submit" class="p-4" variant="info">
+                        Crear un nuevo proceso
+                    </ButtonVue>
+                </form>
+            </div>
+        </section>
         <div v-else class="flex justify-center">
             <Spinner class="text-4xl py-10"/>
-        </div>
-        <div>
-            <CreateGuide @show-form="showForm = true" guide="five" :id="id" :text="text"/>
-        </div>
-        <div v-if="showForm">
-            <form @submit.prevent="createProcess">
-                <div class="relative z-0 w-full mb-6 group">
-                    <input v-model="processName" type="text" name="floating_name" id="floating_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                    <label for="floating_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                        Escribe un nombre para el nuevo proceso
-                    </label>
-                </div>
-                <ButtonVue type="submit" class="p-4" variant="info">
-                    Crear un nuevo proceso
-                </ButtonVue>
-            </form>
         </div>
     </div>
 </template>
@@ -122,9 +125,11 @@ async function fecthProcesses() {
 
 onBeforeMount(async() => {
     isLoading.value = true;
-
+    if(!props.data.consent.accept) {
+        showModalAlert('Necesitas llenar el consentimiento informado del paciente para entrar aquí. Cierra este cuadro de diálogo y ve a la pestaña "consentimiento informado"', false, { variant: 'danger' });
+        return
+    }
     await fecthProcesses();
-
     if (dataCopy.value.length > 0) text.value = '¿Crear un nuevo proceso?'
     else text.value = 'No existen datos, ¿Deseas crear un nuevo proceso?'
     isLoading.value = false;
@@ -152,7 +157,7 @@ async function sendData() {
 
         await fecthProcesses();
         
-        showModalAlert('Eureka!!', false, {variant: 'success', showRoute: true});
+        showModalAlert('¡Proceso creado!', false, {variant: 'success', showRoute: true});
     } catch (error) {
         showModalAlert(error, false, {variant: 'danger'})
     }

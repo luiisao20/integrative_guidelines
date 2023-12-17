@@ -1,7 +1,9 @@
 <template>
     <ModalAlert 
         v-bind="modalAlert"
-        @close-mod="modalAlert.showModal = false; opacity = '1'"
+        @close-mod="modalAlert.showModal = false; 
+                    opacity = '1';
+                    if(goBack) {router.push(`/${id}/process/${processid}/guidefive`)};"
         @send-data="sendData"
         @go-route="router.push(`/${id}/process/${processid}/guidefive`)"
         :is-loading="isLoading.sending"
@@ -9,13 +11,17 @@
     <SideBar
         :options="content"
     />
-    <h1 class="text-2xl pt-10 font-bold text-center">PLANIFICACIÓN DEL PROCESO</h1>
     <div v-if="isLoading.data" class="flex justify-center">
         <Spinner class="text-4xl py-20" />
     </div>
     <div v-else :style="{ opacity: opacity }">
+    <h1 class="text-2xl pt-10 font-bold text-center">
+        PLANIFICACIÓN DEL PROCESO
+        <PopOver variant="info" text-info="Para agregar un objetivo y técnica, escribe en los cuadros de texto y da clic en el botón verde. No puedes agregar campos vacíos ni repetidos" />
+    </h1>
+    <div>
         <h1 class="py-5"><span class="font-bold">Paciente:</span> {{ patient.Apellidos }} {{ patient.Nombres }}</h1>
-        <div v-for="item in content">
+        <div v-for="(item, index) in content" :key="index">
             <ListAddDelete
                 v-if="dataCopy[item.title].toString().trim() !== ''"
                 :title="item.title"
@@ -29,6 +35,7 @@
         <ButtonVue class="p-2 mb-10" variant="info" @click="checkValues">
             Enviar
         </ButtonVue>
+    </div>
     </div>
 </template>
 
@@ -46,6 +53,7 @@ import { doc, getDoc, addDoc, collection } from 'firebase/firestore';
 import { db } from '@/main.js';
 import Spinner from '../../general_components/Spinner.vue';
 import { formatDate } from '@/composables/formatDate';
+import PopOver from '@/general_components/PopOver.vue';
 
 const content = [
     {
@@ -70,6 +78,7 @@ const dataCopy = ref({});
 const props = defineProps(['id', 'processid']);
 const isSafeToLeave = ref(false);
 const isEmpty = ref(false);
+const goBack = ref(false);
 const patient = ref({});
 const modalMessage = ref('');
 
@@ -87,7 +96,6 @@ onBeforeRouteLeave(() => {
 function checkValues() {
     isEmpty.value = false;
     modalMessage.value = '';
-    console.log(dataGuideFive);
     for (const key in dataGuideFive) {
         if (dataGuideFive[key].length === 0){
             isEmpty.value = true;
@@ -125,6 +133,15 @@ function pushObjTechn(objective, technique, ubication){
 onBeforeMount(async() => {
     isLoading.data = true;
 
+    const res = await fetchGuide('guideeight', props.id, props.processid);
+
+    if (res.go) {
+        showModalAlert('Esta guía ya está creada, no puedes sobreescribirla', false, {variant: 'danger'});
+        goBack.value = true;
+        isSafeToLeave.value = true;
+        return
+    }
+
     const { data, error } = await fetchGuide('guidethree', props.id, props.processid);
     const patientRef = doc(db, 'patients', `${props.id}`);
     const docSnap = await getDoc(patientRef);
@@ -148,7 +165,8 @@ async function sendData() {
             date: formatDate(new Date()),
             process: props.processid
         })
-        showModalAlert('Eureka!!', false, {variant: 'success', showRoute: true});
+        showModalAlert('¡Datos guardados! Visita la guía dando click en "Ir"', false, {variant: 'success', showRoute: true});
+        goBack.value = true;
         isSafeToLeave.value = true;
     } catch (error) {
         showModalAlert(error, false, {variant: 'danger'})

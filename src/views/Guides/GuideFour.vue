@@ -1,7 +1,9 @@
 <template>
     <ModalAlert 
         v-bind="modalAlert"
-        @close-mod="modalAlert.showModal = false; opacity = '1'"
+        @close-mod="modalAlert.showModal = false; 
+                    opacity = '1';
+                    if(goBack) {router.push(`/${id}/process/${processid}/guidefour`)};"
         @send-data="sendData"
         @go-route="router.push(`/${id}/process/${processid}/guidefour`)"
         :is-loading="isLoading.sending"
@@ -30,11 +32,12 @@
             </thead>
             <tbody>
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                    <td class="px-6 py-4 text-black dark:text-white flex flex-col items-center">
-                        {{ content[1] }}
+                    <td class="px-6 py-4 text-black dark:text-white flex flex-col">
+                        {{ content[1] }} 
+                        <PopOver variant="info" text-info="En caso de seleccionar 'Sí', debes llenar el apartado de texto." />
                         <input type="text" name="floating_treatment" id="floating_treatment"
                             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer"
-                            placeholder=" " v-model="dataGuideFour[content[1]].descr" :disabled="dataGuideFour[content[1]].selected === 'No'" />
+                            placeholder="Especificar" v-model="dataGuideFour[content[1]].descr" :disabled="dataGuideFour[content[1]].selected === 'No'" />
                     </td>
                     <td class="px-6 py-4 text-center">
                         <input v-model="dataGuideFour[content[1]].selected"
@@ -83,6 +86,8 @@ import { doc, getDoc, addDoc, collection } from 'firebase/firestore';
 import { db } from '@/main.js';
 import Spinner from '../../general_components/Spinner.vue';
 import { formatDate } from '@/composables/formatDate';
+import PopOver from '@/general_components/PopOver.vue';
+import { fetchGuide } from '@/composables/fetchGuides';
 
 const dataGuideFour = reactive({
     'Paciente idóneo para tratamiento psicoterapéutico': '',
@@ -105,6 +110,7 @@ const content = [
 ]
 const modalMessage = ref('');
 const isEmpty = ref(false);
+const goBack = ref(false);
 const props = defineProps(['id', 'processid'])
 const isSafeToLeave = ref(false);
 const patient = ref({});
@@ -114,6 +120,15 @@ const isLoading = reactive({
 
 onBeforeMount(async() => {
     isLoading.data = true;
+
+    const res = await fetchGuide('guideeight', props.id, props.processid);
+
+    if (res.go) {
+        showModalAlert('Esta guía ya está creada, no puedes sobreescribirla', false, {variant: 'danger'});
+        goBack.value = true;
+        isSafeToLeave.value = true;
+        return
+    }
     const patientRef = doc(db, 'patients', `${props.id}`);
     const docSnap = await getDoc(patientRef);
     patient.value = { ...docSnap.data().dataPatient };
@@ -173,7 +188,8 @@ async function sendData() {
             date: formatDate(new Date()),
             process: props.processid
         })
-        showModalAlert('Eureka!!', false, {variant: 'success', showRoute: true});
+        showModalAlert('¡Datos guardados! Visita la guía dando click en "Ir"', false, {variant: 'success', showRoute: true});
+        goBack.value = true;
         isSafeToLeave.value = true;
     } catch (error) {
         showModalAlert(error, false, {variant: 'danger'})

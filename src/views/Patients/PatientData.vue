@@ -1,4 +1,5 @@
 <template>
+    <h1 class="font-extrabold text-2xl text-center mt-4">Datos del paciente</h1>
     <div id="element-to-export" class="grid grid-cols-2 gap-4 items-center my-4">
         <div v-for="(item, index) in keysOrder" :key="index" v-bind:class="{ activeAttention: item === 'Lugar de atención', activeBros: item === 'Hermanos, género y edad de cada uno de ellos' }">
             <div v-if="dataCopy[item].trim() !== '' && item !== 'biography'" class="flex justify-between items-center text-sm shadow-sm shadow-light p-2"
@@ -12,16 +13,6 @@
             <p class="text-right">{{ formatDate(createdAt) }}</p>
         </div>
     </div>
-    <div class="py-4">
-        <h2 class="text-xl font-bold">Biografía psicológica personal y familiar</h2>
-        <div v-for="(item, index) in data.biography" :key="index">
-            <div v-if="item.process !== null" class="flex gap-4 justify-center">
-                <h2>{{ formatDate(item.date) }}</h2>
-                <h2>Proceso: {{ item.process }}</h2>
-            </div>
-            <p class="p-4 whitespace-pre-line">{{ item.text }}</p>
-        </div>
-    </div>
     <ButtonVue class="p-4 m-4" @click="exportPDF" >Exportar</ButtonVue>
 </template>
 
@@ -31,7 +22,6 @@ import { onBeforeMount, ref } from 'vue';
 import ButtonVue from '@/general_components/ButtonVue.vue';
 import html2pdf from 'html2pdf.js';
 
-const keysToDelete = ['Nombres', 'Apellidos', 'Número de cédula'];
 const dataCopy = ref({});
 const props = defineProps({
     id: {

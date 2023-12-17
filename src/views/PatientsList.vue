@@ -22,7 +22,10 @@
             placeholder="Busca por número de cédula">
     </div>
 </form>
-
+<div v-if="isLoading" class="flex justify-center">
+    <Spinner class="text-4xl py-20"/>
+</div>
+<div v-else>
 <PageNavigation
     :list-length="patientsList.length"
     :current-step="currentStep"
@@ -32,7 +35,6 @@
     @next="currentStep++"
     @previous="currentStep--"
 />
-
 <div v-for="(items, step) in packs" class="relative overflow-x-auto shadow-md sm:rounded-xl">
     <table v-if="currentStep === step" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -56,11 +58,11 @@
         <tbody v-for="(item, index) in items" :key="index" v-if="search.id === '' && search.word === ''">
             <div>
                 <div class="text-xl py-2 font-bold text-black pl-4"
-                    v-if="items[index - 1] !== undefined &&  items[index].dataPatient.Apellidos.trim()[0] !== items[index - 1].dataPatient.Apellidos.trim()[0]">
-                    {{ items[index].dataPatient.Apellidos.trim()[0] }}
+                    v-if="items[index - 1] !== undefined &&  items[index].data().dataPatient.Apellidos.trim()[0] !== items[index - 1].data().dataPatient.Apellidos.trim()[0]">
+                    {{ items[index].data().dataPatient.Apellidos.trim()[0] }}
                 </div>
                 <div class="text-xl py-2 font-bold text-black pl-4" v-else-if="items[index - 1] === undefined">
-                    {{ items[index].dataPatient.Apellidos.trim()[0] }}
+                    {{ items[index].data().dataPatient.Apellidos.trim()[0] }}
                 </div>
             </div>
             <tr class="bg-white text-black border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -68,13 +70,13 @@
                     {{ item.id }}
                 </th>
                 <td class="px-3 py-4">
-                    {{ item.dataPatient.Apellidos }}
+                    {{ item.data().dataPatient.Apellidos }}
                 </td>
                 <td class="px-3 py-4">
-                    {{ item.dataPatient.Nombres }}
+                    {{ item.data().dataPatient.Nombres }}
                 </td>
                 <td class="px-3 py-4">
-                    {{ formatDate(item.dataPatient['Fecha de nacimiento']) }}
+                    {{ formatDate(item.data().dataPatient['Fecha de nacimiento']) }}
                 </td>
                 <td class="px-6 py-4 text-right">
                     <router-link :to="`/${item.id}/data`"
@@ -90,13 +92,13 @@
                     {{ item.id }}
                 </th>
                 <td class="px-3 py-4">
-                    {{ item.dataPatient.Apellidos }}
+                    {{ item.data().dataPatient.Apellidos }}
                 </td>
                 <td class="px-3 py-4">
-                    {{ item.dataPatient.Nombres }}
+                    {{ item.data().dataPatient.Nombres }}
                 </td>
                 <td class="px-3 py-4">
-                    {{ formatDate(item.dataPatient['Fecha de nacimiento']) }}
+                    {{ formatDate(item.data().dataPatient['Fecha de nacimiento']) }}
                 </td>
                 <td class="px-6 py-4 text-right">
                     <router-link :to="`/${item.id}/data`"
@@ -118,16 +120,20 @@
     @next="currentStep++"
     @previous="currentStep--"
 />
+</div>
 
 </template>
 
 <script setup>
-import { useFetch } from '@/composables/fetch';
 import { onBeforeMount, ref, reactive } from 'vue';
 import { formatDate } from '@/composables/formatDate';
 import removeAccents from 'remove-accents';
 import PageNavigation from '../general_components/PageNavigation.vue';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { query, collection, where, getDocs } from 'firebase/firestore';
+import { db } from '@/main.js';
+import { router } from '@/routes';
+import Spinner from '../general_components/Spinner.vue';
 
 const auth = getAuth();
 const isLoading = ref(false);
@@ -138,9 +144,10 @@ const search = reactive({
     id: ''
 });
 const previous = ref('');
+const email = ref('');
 const indexesToShow = ref([]);
 const currentStep = ref(0);
-const stepTo = 10;
+const stepTo = 5;
 
 function goStep(step){
     currentStep.value = step;
@@ -152,7 +159,7 @@ function filterData() {
     }
 
     patientsList.value.forEach((patient, index) => {
-        const name = removeAccents(patient.dataPatient.Apellidos.toLowerCase() + patient.dataPatient.Nombres.toLowerCase())
+        const name = removeAccents(patient.data().dataPatient.Apellidos.toLowerCase() + patient.data().dataPatient.Nombres.toLowerCase())
         if (((!(new RegExp(search.word, 'i')).test(name)) ||
             !(new RegExp(search.id, 'i')).test(patient.id))
             && !indexesToShow.value.includes(index)) {
@@ -163,18 +170,27 @@ function filterData() {
     previous.value = search.word;
 }
 
-onBeforeMount(async() => {
+onBeforeMount(() => {
     isLoading.value = true;
 
+    onAuthStateChanged(auth, async(user) => {
+        if (user) {
+            email.value = user.email;
+            await loadData()
+        } else router.push('/');
+        isLoading.value = false
+    })
+})
+
+async function loadData() {
     try {        
-        const { data, error } = await useFetch('clients');
-    
-        patientsList.value = data.value;
-    
-        patientsList.value.sort((a, b) => {
-    
-            const nameA = a.dataPatient.Apellidos.toUpperCase() + a.dataPatient.Nombres.toUpperCase();
-            const nameB = b.dataPatient.Apellidos.toUpperCase() + b.dataPatient.Nombres.toUpperCase();
+        const q = query(collection(db, 'patients'), where('therapist', '==', `${email.value}`));
+        const querySnapshot = await getDocs(q);
+        patientsList.value = querySnapshot.docs;
+        
+        patientsList.value.sort((a, b) => {    
+            const nameA = a.data().dataPatient.Apellidos.toUpperCase() + a.data().dataPatient.Nombres.toUpperCase();
+            const nameB = b.data().dataPatient.Apellidos.toUpperCase() + b.data().dataPatient.Nombres.toUpperCase();
             if (nameA < nameB) {
                 return -1;
             }
@@ -193,8 +209,6 @@ onBeforeMount(async() => {
     } catch (error) {
         console.log(error);
     }
-    isLoading.value = false
-
-})
+}
 
 </script>

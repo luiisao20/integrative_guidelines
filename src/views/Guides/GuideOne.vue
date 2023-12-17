@@ -1,7 +1,9 @@
 <template>
     <ModalAlert
         v-bind="modalAlert"
-        @close-mod="modalAlert.showModal = false; opacity = '1'"
+        @close-mod="modalAlert.showModal = false; 
+                    opacity = '1';
+                    if(goBack) {router.push(`/${id}/process/${processid}/guideone`)};"
         @send-data="sendData"
         @go-route="router.push(`/${id}/process/${processid}/guideone`)"
         :is-loading="isLoading.sending"
@@ -14,7 +16,10 @@
         <h1 class="pt-5"><span class="font-bold">Paciente:</span> {{ patient.Apellidos }} {{ patient.Nombres }}</h1>
         <p class="text-sm mt-5">Luego del primer contacto, telefónico o presencial, los datos iniciales de la ficha recogen datos del origen, el tipo de demanda, las demandas y expectativas en los ámbitos señalados</p>
         <p class="text-sm mt-5">Escoge por lo menos una opción en cada apartado</p>
-        <h2 class="mt-10 text-center font-semibold text-gray-900 dark:text-white">DEMANDA PSICOLÓGICA</h2>
+        <h2 class="mt-10 text-center font-semibold text-gray-900 dark:text-white">
+            DEMANDA PSICOLÓGICA
+            <PopOver text-info="Por cada apartado puedes escojer una o más opciones" variant="info"/>
+        </h2>
         <div class="flex flex-row gap-10 mt-2">
             <div :id="item.title" class="w-1/2" v-for="(item, index) in content.slice(0, 2)" :key="index">
                 <CheckBox
@@ -56,6 +61,8 @@ import { addDoc, collection, doc, getDoc } from 'firebase/firestore';
 import { db } from '@/main.js';
 import { formatDate } from '@/composables/formatDate';
 import Spinner from '../../general_components/Spinner.vue';
+import PopOver from '@/general_components/PopOver.vue';
+import { fetchGuide } from '@/composables/fetchGuides.js';
 
 const content = [
     {
@@ -101,7 +108,8 @@ const content = [
             'Exigencias familiares',
             'Engaño de familiares',
             'Exigencias o intereses institucionales',
-            'Otras'
+            'Otras',
+            'Ninguna'
         ]
     },
 
@@ -118,6 +126,7 @@ const messageAlert = ref('');
 const { opacity, modalAlert, showModalAlert } = useModal();
 const props = defineProps(['id', 'processid']);
 const isSafeToLeave = ref(false);
+const goBack = ref(false);
 const isLoading = reactive({
     data: false,
     sending: false
@@ -126,6 +135,14 @@ const patient = ref({});
 
 onBeforeMount(async() => {
     isLoading.data = true;
+    const res = await fetchGuide('guideone', props.id, props.processid);
+
+    if (res.go) {
+        showModalAlert('Esta guía ya está creada, no puedes sobreescribirla', false, {variant: 'danger'});
+        goBack.value = true;
+        isSafeToLeave.value = true;
+        return
+    }
 
     const patientRef = doc(db, 'patients', `${props.id}`);
     const docSnap = await getDoc(patientRef);
@@ -152,7 +169,6 @@ window.addEventListener('beforeunload', (event) => {
 
 function checkValues(){
     isEmpty.value = false;
-    console.log(optionsSelected);
     for (const key in optionsSelected){
         if (optionsSelected[key].length === 0){
             messageAlert.value = `Tienes que escoger al menos una opción por en el campo "${key}"`
@@ -177,7 +193,8 @@ async function sendData(){
             date: formatDate(new Date()),
             process: props.processid
         })
-        showModalAlert('Eureka!!', false, {variant: 'success', showRoute: true});
+        showModalAlert('¡Datos guardados! Visita la guía dando click en "Ir"', false, {variant: 'success', showRoute: true});
+        goBack.value = true;
         isSafeToLeave.value = true;
     } catch (error) {
         showModalAlert(error, false, {variant: 'danger'})

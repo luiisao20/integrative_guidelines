@@ -7,9 +7,9 @@
         <h1 class="text-2xl font-bold text-center">FICHA INTEGRATIVA DE EVALUACIÓN PSICOLÓGICA FIEPS</h1>
 
         <div v-if="isEmpty">
-            <CreateGuide @go-guide="goGuide"/>
+            <CreateGuide @go-guide="goGuide" :is-loading="isLoading.guide"/>
         </div>
-        <div v-else-if="isLoading" class="flex justify-center">
+        <div v-else-if="isLoading.data" class="flex justify-center">
             <Spinner class="text-4xl py-10"/>
         </div>
         <div v-else class="px-4">
@@ -19,29 +19,8 @@
                     <p class="leading-relaxed px-4 pt-4 text-sm whitespace-pre-line">{{ guideThreeData.otherSections[item] }}</p>
                 </div>
             </div>
-            <div>
-                <div class="p-4">
-                    <h2 class="font-bold">{{ content[3] }}: </h2>
-                    <p class="leading-relaxed px-4 pt-4 text-sm whitespace-pre-line">{{ guideThreeData.sectionFour['Biografía psicológica personal y familiar'] }}</p>
-                </div>
-                <div class="px-8 flex justify-center">
-                    <table class="w-full">
-                        <tbody>
-                            <tr v-for="(subitem, key) in guideThreeData.sectionFour.table" :key="key">
-                                <td class="font-bold py-4 text-left">
-                                    {{ key }}
-                                </td>
-                                <td class="pl-8 text-sm">
-                                    {{ subitem }}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <h2 class="text-xl text-center my-4 normal-case font-bold">Resultados de pruebas psicológicas</h2>
             <div class="p-4">
-                <h2 class="font-bold">{{ content[4] }} </h2>
+                <h2 class="font-bold">{{ content[4] }}:</h2>
                 <p class="leading-relaxed px-4 pt-4 text-sm whitespace-pre-line">{{ guideThreeData.otherSections[content[4]] }}</p>
             </div>
             <h2 class="text-xl text-center my-4 normal-case font-bold">Conclusiones diagnósticas</h2>
@@ -70,7 +49,9 @@ import { router } from '../../routes';
 import CreateGuide from '../../general_components/CreateGuide.vue';
 import Spinner from '../../general_components/Spinner.vue';
 
-const isLoading = ref(false);
+const isLoading = reactive({
+    data: false, guide: false
+});
 const props = defineProps({
     id: {
         required: true,
@@ -90,14 +71,13 @@ const content = [
         'Demanda implícita',
         'Antecedentes disfuncionales',
         'Biografía psicológica personal y familiar',
-        'Consignar los resultados de las pruebas psicológicas:',
+        'Resultados de las pruebas psicológicas',
         'Diagnóstico descriptivo y formulación dinámica del problema',
         'Diagnóstico descriptivo y formulación dinámica del trastorno',
         'Diagnóstico descriptivo y formulación dinámica de la personalidad',
         'Criterios pronósticos',
         'Recomendaciones',
 ]
-const dataCopy = ref([]);
 const guideThreeData = reactive({
     otherSections: {},
     sectionFour: {},
@@ -107,25 +87,24 @@ const isEmpty = ref(false);
 const { opacity, modalAlert, showModalAlert } = useModal();
 
 async function goGuide(){
-    const { data, go } = await fetchGuide('guidetwo', props.id, props.processid);
+    isLoading.guide = true;
+    const res = await fetchGuide('guidetwo', props.id, props.processid);
 
-    if (go) router.push(`/create/guidethree/${props.id}/${props.processid}`);
+    if (res.go) router.push(`/create/guidethree/${props.id}/${props.processid}`);
     else showModalAlert('Para crear la guía 3, es necesario la guía 2', false, { variant: 'danger'});
+    isLoading.guide = false;
 }
 
 onBeforeMount(async() => {
-    isLoading.value = true;
+    isLoading.data = true;
 
-    const { data, go } = await fetchGuide('guidethree', props.id, props.processid);
+    const res = await fetchGuide('guidethree', props.id, props.processid);
 
-    if (data) {
-        guideThreeData.otherSections = data.data().otherSections;
-        guideThreeData.sectionFour = data.data().sectionFour;
-        guideThreeData.sectionSix = data.data().sectionSix;
+    if (res.data) {
+        guideThreeData.otherSections = res.data.data().otherSections;
+        guideThreeData.sectionSix = res.data.data().sectionSix;
     } else isEmpty.value = true;
 
-    console.log(dataCopy.value);
-
-    isLoading.value = false;
+    isLoading.data = false;
 })
 </script>
