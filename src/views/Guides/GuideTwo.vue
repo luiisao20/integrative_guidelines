@@ -50,7 +50,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, onBeforeMount } from 'vue';
+import { reactive, ref, onBeforeMount, onBeforeUnmount } from 'vue';
 import CheckBox from '@/guide_components/CheckBox.vue';
 import TableForm from '@/guide_components/TableForm.vue';
 import RadioBox from '@/guide_components/RadioBox.vue';
@@ -188,7 +188,7 @@ const patient = ref({});
 onBeforeMount(async() => {
     isLoading.data = true;
 
-    const res = await fetchGuide('guideeight', props.id, props.processid);
+    const res = await fetchGuide('guidetwo', props.id, props.processid);
 
     if (res.go) {
         showModalAlert('Esta guía ya está creada, no puedes sobreescribirla', false, {variant: 'danger'});
@@ -200,8 +200,12 @@ onBeforeMount(async() => {
     const patientRef = doc(db, 'patients', `${props.id}`);
     const docSnap = await getDoc(patientRef);
     patient.value = { ...docSnap.data().dataPatient };
-
+    window.addEventListener('beforeunload', stopLoad, true);
     isLoading.data = false;
+})
+
+onBeforeUnmount(() => {
+    window.removeEventListener('beforeunload', stopLoad, true);
 })
 
 onBeforeRouteLeave(() => {
@@ -215,10 +219,10 @@ onBeforeRouteLeave(() => {
     }
 })
 
-window.addEventListener('beforeunload', (event) => {
+function stopLoad(event) {
     event.preventDefault();
     event.returnValue = '';
-})
+}
 
 function checkValues() {
     isEmpty.value = false;

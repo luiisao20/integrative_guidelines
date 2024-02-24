@@ -79,7 +79,7 @@ async function saveDescription() {
 
 function saveProfilePic() {
     isLoading.value = true;
-    const storageRef = refStrg(storage, `${props.data.id}/${pic.value.name}`);
+    const storageRef = refStrg(storage, `${props.data.id}/prfilepic/${pic.value.name}`);
 
     uploadBytes(storageRef, pic.value).then((snapshot) => {
         saveInDb()

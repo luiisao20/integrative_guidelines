@@ -10,7 +10,7 @@
         </div>
         <div class="flex justify-between items-center shadow-sm shadow-light p-2 text-sm">
             <h2 class="font-bold">Fecha de ingreso:</h2>
-            <p class="text-right">{{ formatDate(createdAt) }}</p>
+            <p class="text-right">{{ createdAt }}</p>
         </div>
     </div>
     <ButtonVue class="p-4 m-4" @click="exportPDF" >Exportar</ButtonVue>

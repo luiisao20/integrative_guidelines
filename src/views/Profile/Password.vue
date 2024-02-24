@@ -12,7 +12,7 @@
                 Mantén tu cuenta segura y protegida mediante la gestión de tu contraseña. Cambia tu contraseña regularmente para garantizar la seguridad de tus datos.
             </p>
             <p class="text-lg font-normal text-black lg:text-xl dark:text-gray-400">
-                La contraseña debe tener mínimo 8 caracteres, una letra mayúscula, una minúscula, un número y un carácter especial.
+                La contraseña debe tener mínimo 8 caracteres, una letra mayúscula, una minúscula, un número y un carácter especial (= >?:;'{}).
             </p>
         </div>
         <form @submit.prevent="checkPass" class="space-y-4 md:space-y-6 w-1/2 mx-auto" action="#">

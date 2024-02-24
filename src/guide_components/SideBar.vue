@@ -1,7 +1,7 @@
 <template>
     
     <!-- drawer component -->
-    <div v-bind:class="{ left: isLeft }" class="fixed md:visible top-14 right-0 z-40 w-64 h-screen p-4 overflow-y-auto dark:bg-gray-800">
+    <div v-bind:class="{ left: isLeft }" class="fixed md:visible top-14 right-0 bottom-10 z-40 w-64 h-screen p-2 overflow-y-auto dark:bg-gray-800">
         <!-- Por hacer un boton que muestre el menu en caso de estar en pequeña pantalla -->
         <!-- <div class="text-center fixed">
             <button class="text-black visible md:invisible bg-white hover:bg-gray-600 hover:text-white hover:border-2 hover:border-main-default focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button" data-drawer-target="drawer-navigation" data-drawer-show="drawer-navigation" aria-controls="drawer-navigation">

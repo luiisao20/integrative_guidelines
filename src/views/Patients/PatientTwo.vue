@@ -10,6 +10,9 @@
         <Spinner class="text-4xl py-20"/>
     </div>
     <section v-else :style="{ opacity: opacity }">
+        <h2 class="mb-4 text-center text-2xl font-bold dark:text-white">
+            INTERROGANTES AL FINALIZAR LA PRIMERA ENTREVISTA 
+        </h2>
         <div class="flex justify-center gap-4">
             <h3 class="text-center font-semibold text-gray-900 dark:text-white">
                 Tipo de primera entrevista:
@@ -35,8 +38,8 @@
                 </thead>
                 <tbody class="text-xs">
                     <tr v-for="(item, index) in content[1].options" :key="index"
-                        class="w-1/2 dark:bg-gray-800 dark:border-gray-700">
-                        <td class="px-6 py-4 text-black dark:text-white">
+                        class="w-1/2 text-black dark:bg-gray-800 dark:border-gray-700 odd:bg-blue-400 odd:text-white">
+                        <td class="px-6 py-4 dark:text-white">
                             <h3 class="font-bold">{{ item.title }}</h3>
                             <p>{{ item.subtitle }}</p>
                         </td>
@@ -44,7 +47,7 @@
                             {{ dataCopy.dataGuideTwo.tableOne[`${item.title}.${index}.option`] }}
                         </td>
                         <td class="px-6 py-4">
-                            <p class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer">
+                            <p class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-main-default peer">
                                 {{ dataCopy.dataGuideTwo.tableOne[`${item.title}.${index}.observation`] }}
                             </p>
                         </td>

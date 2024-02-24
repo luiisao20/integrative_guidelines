@@ -50,7 +50,7 @@
 
 <script setup>
 import TableObjectives from '@/guide_components/TableObjectives.vue'
-import { reactive, ref, onBeforeMount } from 'vue';
+import { reactive, ref, onBeforeMount, onBeforeUnmount } from 'vue';
 import ButtonVue from '@/general_components/ButtonVue.vue';
 import TableInterrogations from '@/guide_components/TableInterrogations.vue';
 import RadioBox from '@/guide_components/RadioBox.vue';
@@ -130,15 +130,15 @@ const dataGuideEight = reactive({
         'PROCESO': '',
         'OBJETIVOS ESTABLECIDOS': [],
         'Paciente': {
-            rate: '',
+            rate: '0',
             observations: ''
         }, 
         'Familiares': {
-            rate: '',
+            rate: '0',
             observations: ''
         }, 
         'Terapeuta': {
-            rate: '',
+            rate: '0',
             observations: ''
         }
     },
@@ -204,11 +204,6 @@ onBeforeRouteLeave(() => {
     }
 })
 
-window.addEventListener('beforeunload', (event) => {
-    event.preventDefault();
-    event.returnValue = '';
-})
-
 onBeforeMount(async() => {
 
     isLoading.data = true;
@@ -232,9 +227,19 @@ onBeforeMount(async() => {
         if (dataCopy.value.dataGuideFive[dataTechniques[key]] !== undefined) dataGuideEight.techniques[key] = {}
     }
 
+    window.addEventListener('beforeunload', stopLoad, true);
 
     isLoading.data = false;
 })
+
+onBeforeUnmount(() => {
+    window.removeEventListener('beforeunload', stopLoad, true);
+})
+
+function stopLoad(event) {
+    event.preventDefault();
+    event.returnValue = '';
+}
 
 function checkValues(){
     const keysExcluded = ['PROCESO', 'OBJETIVOS ESTABLECIDOS'];
@@ -247,7 +252,7 @@ function checkValues(){
     let count = 0;
     for (const key in dataGuideEight.tableOne){
         if (!keysExcluded.some(value => value === key)){
-            if (dataGuideEight.tableOne[key].rate.toString().trim() === '' && dataGuideEight.tableOne[key].observations.toString().trim() === ''){
+            if (dataGuideEight.tableOne[key].rate.toString().trim() === '0' && dataGuideEight.tableOne[key].observations.toString().trim() === ''){
                 count++
             }
 

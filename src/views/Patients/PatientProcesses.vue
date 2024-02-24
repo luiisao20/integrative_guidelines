@@ -23,6 +23,9 @@
                             </th>
                             <th scope="col" class="px-3 py-3">
                             </th>
+                            <th scope="col" class="px-3 py-3">
+                                Eliminar
+                            </th>
                         </tr>
                     </thead>
                     <tbody v-for="(item, index) in dataCopy" :key="index">
@@ -40,6 +43,11 @@
                                 <button @click="router.push(`process/${item.id}`)"
                                     class="font-medium text-light dark:text-blue-500 hover:underline">
                                     Ir
+                                </button>
+                            </td>
+                            <td class="px-3 py-4 text-center">
+                                <button :disabled="isDeleting" v-bind:class="{ loading: isDeleting }" class="text-danger text-2xl cursor-pointer" @click="deleteProcess(item.id)">
+                                    <font-awesome-icon class="rotate-45" icon="fa-solid fa-circle-plus"/>
                                 </button>
                             </td>
                         </tr>
@@ -76,7 +84,7 @@ import { useModal } from '@/composables/modal';
 import ModalAlert from '@/general_components/ModalAlert.vue';
 import { formatDate } from '@/composables/formatDate';
 import { router } from '../../routes';
-import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
+import { addDoc, collection, getDocs, query, where, doc, getDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '@/main.js';
 import Spinner from '../../general_components/Spinner.vue';
 import CreateGuide from '../../general_components/CreateGuide.vue';
@@ -98,6 +106,7 @@ const props = defineProps({
 const { opacity, modalAlert, showModalAlert } = useModal();
 const showForm = ref(false);
 const isLoading = ref(true);
+const isDeleting = ref(false);
 const processName = ref('');
 const text = ref('');
 const dataCopy = ref([]);
@@ -163,4 +172,24 @@ async function sendData() {
     }
     isLoading.value = false;
 }
+
+async function deleteProcess(id) {
+    isDeleting.value = true;
+    const q = query(collection(db, 'guideone'), where('process', '==', id));
+    const docSnapshot = await getDocs(q);
+    if(docSnapshot.docs.length > 0) {
+        showModalAlert('Sólo es posible eliminar procesos sin datos creados', false, { variant: 'danger' });
+    } else {
+        await deleteDoc(doc(db, 'processes', id));
+        showModalAlert('¡El proceso se ha eliminado correctamente!', false, { variant: 'success' });
+        await fecthProcesses();
+    }
+    isDeleting.value = false;
+}
 </script>
+
+<style scoped>
+.loading {
+    cursor: progress;
+}
+</style>

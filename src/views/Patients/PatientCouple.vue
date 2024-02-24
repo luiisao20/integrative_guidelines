@@ -8,7 +8,7 @@
         <Spinner class="text-4xl" />
     </div>
     <div v-else :style="{ opacity: opacity }">
-        <h1 class="font-extrabold text-2xl text-center mt-4">Psicodiagnóstico</h1>
+        <h1 class="font-extrabold text-2xl text-center mt-4">Terapia de pareja</h1>
         <div class="grid grid-cols-2 gap-4 items-center my-4">
             <div v-for="(item, index) in content" :key="index">
                 <div class="flex justify-between items-center shadow-sm shadow-light p-2 text-sm">
@@ -34,13 +34,13 @@
                 <tbody v-for="(item, index) in dataCopy" :key="index">
                     <tr class="bg-white text-black border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <td class="px-3 py-4 text-center">
-                            {{ item.data().data.Consulta }}
+                            {{ item.data().data.Proceso }}
                         </td>
                         <td class="px-3 py-4 text-center">
-                            {{ item.data().createdAt }}
+                            {{ item.data().date }}
                         </td>
                         <td class="px-6 py-4 text-right">
-                            <button @click="router.push(`diagnosis/${item.id}`)"
+                            <button @click="router.push(`coupleview/${item.id}`)"
                                 class="font-medium text-light dark:text-blue-500 hover:underline">
                                 Ir
                             </button>
@@ -48,61 +48,55 @@
                     </tr>
                 </tbody>
             </table>
-            <div v-else>
-                <h1>No existen consultas creadas para este paciente.</h1>
-            </div>
         </section>
-        <ButtonVue class="p-4" variant="info" @click="createConsult">
+        <button class="bg-light text-white p-4 rounded-xl" @click="createConsult">
             Crear una nueva consulta
-        </ButtonVue>
+        </button>
     </div>
 </template>
 
 <script setup>
-import ButtonVue from '@/general_components/ButtonVue.vue';
-import { router } from '../../routes';
 import { onBeforeMount, ref } from 'vue';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '@/main.js';
-import Spinner from '../../general_components/Spinner.vue';
+import { router } from '@/routes';
 import { useModal } from '@/composables/modal';
 import ModalAlert from '@/general_components/ModalAlert.vue';
+import Spinner from '../../general_components/Spinner.vue';
 
 const props = defineProps({
     id: {
-        required: true,
-        type: String
+        required: true, type: String
     },
     data: {
-        required: true,
-        type: Object
+        required: true, type: Object
     },
     createdAt: {
-        required: true,
-        type: String
+        required: true, type: String
     }
-});
+})
 const content = [
-    'Lugar de atención', 'Unicódigo',
-    'Apellidos', 'Nombres', 'Género', 'Número de cédula',
+    'Ocupación', 'Instrucción',
+    'Ciudad de residencia', 'Dirección', 
+    'Celular', 'Estado Civil', 'Número de hijos'
 ]
-const dataCopy = ref([]);
 const isLoading = ref(false);
-const { modalAlert, showModalAlert, opacity } = useModal();
-
-function createConsult() {
-    if (props.data.consent.accept) router.push(`/create/psychodiagnosis/${props.id}`);
-    else {
-        showModalAlert('Para crear una nueva consulta necesitas llenar el consentimiento informado del paciente', false, { variant: 'danger' })
-    }
-}
+const dataCopy = ref([]);
+const { opacity, showModalAlert, modalAlert } = useModal();
 
 onBeforeMount(async() => {
     isLoading.value = true;
-    const diagnRef = collection(db, 'psychodiagnosis');
-    const q = query(diagnRef, where('patient', '==', `${props.id}`));
+    const coupleRef = collection(db, 'couples');
+    const q = query(coupleRef, where('patient', '==', props.id));
     const querySnapshot = await getDocs(q);
     dataCopy.value = [ ...querySnapshot.docs ];
     isLoading.value = false;
 })
+
+function createConsult() {
+    if (props.data.consent.accept) router.push(`/create/couple/${props.id}`);
+    else {
+        showModalAlert('Para crear una nueva consulta necesitas llenar el consentimiento informado del paciente', false, { variant: 'danger' })
+    }
+}
 </script>

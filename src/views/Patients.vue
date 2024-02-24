@@ -49,12 +49,16 @@ const sideBarContent = [
         link: `/${props.id}/consent`
     },
     {
-        title: 'Biografía Piscológica',
+        title: 'Biografía Psicológica',
         link: `/${props.id}/biography`
     },
     {
         title: 'Psicoterapia',
         link: `/${props.id}/processes`
+    },
+    {
+        title: 'terapia de pareja',
+        link: `/${props.id}/couple`
     },
 ]
 const docRef = doc(db, 'patients', `${props.id}`);

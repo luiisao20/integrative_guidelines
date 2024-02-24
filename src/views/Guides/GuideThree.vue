@@ -28,6 +28,11 @@
                 :is-loading="isLoading.info"
             />
         </div>
+        <div class="my-4">
+            <a @click="goBiography" class="cursor-pointer hover:underline hover:underline-offset-2 border border-y-2 border-light border-x-0 py-2">
+                Visitar la biografía psicológica
+            </a>
+        </div>
         <!-- Sección 5 -->
         <div :id="demands[4].text" >
             <TextArea
@@ -70,7 +75,7 @@ import TextArea from '@/guide_components/TextArea.vue';
 import Modal from '@/general_components/Modal.vue';
 import ModalAlert from '@/general_components/ModalAlert.vue';
 import { useModal } from '@/composables/modal';
-import { ref, reactive, onBeforeMount } from 'vue';
+import { ref, reactive, onBeforeMount, onBeforeUnmount } from 'vue';
 import { getInfoContent } from '@/composables/infoDemands.js';
 import ButtonVue from '@/general_components/ButtonVue.vue';
 import SideBar from '@/guide_components/SideBar.vue';
@@ -150,13 +155,12 @@ const isSafeToLeave = ref(false);
 const goBack = ref(false);
 const props = defineProps(['id', 'processid']);
 const processName = ref('');
-const dataCopy = ref([]);
 const patient = ref({});
 
 onBeforeMount(async() => {
     isLoading.data = true;
 
-    const res = await fetchGuide('guideeight', props.id, props.processid);
+    const res = await fetchGuide('guidethree', props.id, props.processid);
 
     if (res.go) {
         showModalAlert('Esta guía ya está creada, no puedes sobreescribirla', false, {variant: 'danger'});
@@ -172,10 +176,13 @@ onBeforeMount(async() => {
     const processSnap = await getDoc(processRef);
 
     patient.value = { ...docSnap.data().dataPatient };
-    dataCopy.value = [ ...docSnap.data().biography ];
     processName.value = processSnap.data().processName;
-
+    window.addEventListener('beforeunload', stopLoad, true);
     isLoading.data = false;
+})
+
+onBeforeUnmount(() => {
+    window.removeEventListener('beforeunload', stopLoad, true);
 })
 
 onBeforeRouteLeave(() => {
@@ -189,10 +196,15 @@ onBeforeRouteLeave(() => {
     }
 })
 
-window.addEventListener('beforeunload', (event) => {
+function stopLoad(event) {
     event.preventDefault();
     event.returnValue = '';
-})
+}
+
+function goBiography() {
+    const routeData = router.resolve(`/${props.id}/biography`);
+    window.open(routeData.href, '_blank');
+}
 
 /**
  * Recorre todo el formulario en busca de campos vacíos y retorna 

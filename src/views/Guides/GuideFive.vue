@@ -41,7 +41,7 @@
 
 <script setup>
 import ListAddDelete from '@/guide_components/ListAddDelete.vue';
-import { reactive, onBeforeMount, ref } from 'vue';
+import { reactive, onBeforeMount, ref, onBeforeUnmount } from 'vue';
 import ModalAlert from '@/general_components/ModalAlert.vue';
 import { useModal } from '@/composables/modal';
 import ButtonVue from '@/general_components/ButtonVue.vue';
@@ -111,10 +111,10 @@ function checkValues() {
     }
 }
 
-window.addEventListener('beforeunload', (event) => {
+function stopLoad (event) {
     event.preventDefault();
     event.returnValue = '';
-})
+}
 
 function pushObjTechn(objective, technique, ubication){
 
@@ -130,10 +130,14 @@ function pushObjTechn(objective, technique, ubication){
     }
 }
 
+onBeforeUnmount(() => {
+    window.removeEventListener('beforeunload', stopLoad, true);
+})
+
 onBeforeMount(async() => {
     isLoading.data = true;
 
-    const res = await fetchGuide('guideeight', props.id, props.processid);
+    const res = await fetchGuide('guidefive', props.id, props.processid);
 
     if (res.go) {
         showModalAlert('Esta guía ya está creada, no puedes sobreescribirla', false, {variant: 'danger'});
@@ -152,6 +156,8 @@ onBeforeMount(async() => {
     for (const key in dataCopy.value){
         if (dataCopy.value[key].length > 0) dataGuideFive[key] = [];
     }
+
+    window.addEventListener('beforeunload', stopLoad, true);
 
     isLoading.data = false;
 })

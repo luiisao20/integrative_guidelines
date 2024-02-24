@@ -9,13 +9,15 @@
                 <h2 class="font-bold">{{ item }}: </h2>
                 <p class="leading-relaxed px-4 pt-4 text-sm whitespace-pre-line">{{ dataCopy.data[item] }}</p>
             </div>
-            <div v-else-if="item === 'Hábitos'">
-                <h2 class="font-bold">{{ item }}: </h2>
-                <div v-for="(item, key) in dataCopy.data[item].text" class="mx-20 text-sm my-4">
-                    <p><span class="font-bold">{{ key }}:</span> {{ item }}</p>
+            <div v-else-if="item === 'Hábitos' ">
+                <div v-if="dataCopy.data[item].selected.length > 0">
+                    <h2 class="font-bold">{{ item }}: </h2>
+                    <div v-for="(item, key) in dataCopy.data[item].text" class="mx-20 text-sm my-4">
+                        <p><span class="font-bold">{{ key }}:</span> {{ item }}</p>
+                    </div>
                 </div>
             </div>
-            <div v-else-if="Array.isArray(dataCopy.data[item])">
+            <div v-else-if="Array.isArray(dataCopy.data[item]) && dataCopy.data[item].length > 0">
                 <h2 class="font-bold">{{ item }}: </h2>
                 <table v-if="item === 'Evaluación Psicométrica'" class="my-10 mx-auto w-[80%]">
                     <thead class="text-xs text-gray-700 uppercase shadow-sm shadow-main-default">
@@ -50,7 +52,7 @@
                     </tbody>
                 </table>
             </div>
-            <div v-else-if="(typeof dataCopy.data[item] === 'object')" class="flex gap-10">
+            <div v-else-if="(typeof dataCopy.data[item] === 'object') && dataCopy.data[item].selected" class="flex gap-10">
                 <h2 class="font-bold">{{ item }}: </h2>
                 <a v-if="item !== 'Tratamiento'" @click="goFile(dataCopy.data[item].content)" class="hover:underline hover:underline-offset-2 cursor-pointer text-main-default">Ver el informe</a>
                 <button @click="goProcess(dataCopy.data[item].content)" v-else class="hover:underline hover:underline-offset-2 text-main-lighter">
@@ -101,7 +103,6 @@ function goFile(url) {
 }
 
 function goProcess(process) {
-    console.log(process);
     const routeData = router.resolve(`/${props.id}/process/${process}`);
     window.open(routeData.href, '_blank');
 }

@@ -20,7 +20,10 @@
                             <PasswordInput v-model:password="user.password" />
                         </div>
                         <div class="flex items-center justify-between">
-                            <a href="#" class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">¿Olvidaste tu contraseña?</a>
+                            <button type="button" :disabled="isLoadingReset" @click="recoverPassword" class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">
+                                <span v-if="isLoadingReset"> <Spinner class="text-lg" /> Cargando</span>
+                                <span v-else>¿Olvidaste tu contraseña?</span>
+                            </button>
                         </div>
                         <button type="submit" class="w-full text-white bg-main-default hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                             <p v-if="!isLoading">Ingresar</p>
@@ -34,10 +37,10 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue';
+import { reactive, ref, onBeforeMount } from 'vue';
 import { router } from '../routes';
 import PasswordInput from '../general_components/PasswordInput.vue';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, sendPasswordResetEmail, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import Spinner from '../general_components/Spinner.vue';
 import { useModal } from '@/composables/modal';
 import ModalAlert from '@/general_components/ModalAlert.vue';
@@ -48,7 +51,14 @@ const user = reactive({
     password: ''
 })
 const isLoading = ref(false);
+const isLoadingReset = ref(false);
 const { opacity, modalAlert, showModalAlert } = useModal();
+
+onBeforeMount(() => {
+    onAuthStateChanged(auth, (user) => {
+        if(user) router.push('/home');
+    })
+})
 
 function logIn() {
     isLoading.value = true;
@@ -60,7 +70,7 @@ function logIn() {
                 // Signed in 
                 const user = userCredential.user;
                 // ...
-                router.push('/patientslist');
+                router.push('/home');
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -71,6 +81,23 @@ function logIn() {
             .finally(() => {
                 isLoading.value = false;
             })
+    }
+}
+
+function recoverPassword() {
+    auth.languageCode = 'es';
+    if(user.email.toString().trim() === ''){
+        showModalAlert('Para reiniciar tu contraseña, por favor ingresa tu correo electrónico en el formulario de inicio', false, { variant: 'danger' });
+    } else {
+        isLoadingReset.value = true;
+        sendPasswordResetEmail(auth, user.email).then(() => {
+            console.log('hola2');
+            showModalAlert('Se ha enviado un link a su correo electrónico', false, {variant: 'info'})
+        }).catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            if(errorMessage === 'Firebase: Error (auth/user-not-found).') showModal(`No existe un usuario con este correo registrado: ${user.mail}`, false);
+        }).finally(() => isLoadingReset.value = false);
     }
 }
 </script>

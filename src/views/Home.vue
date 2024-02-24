@@ -9,7 +9,7 @@
       <figcaption class="flex items-center justify-center mt-6 space-x-3 rtl:space-x-reverse">
           <div class="flex items-center divide-x-2 rtl:divide-x-reverse divide-gray-500 dark:divide-gray-700">
               <cite class="pe-3 font-medium text-gray-900 dark:text-white">Dra. Glenda Arriciaga Vaca</cite>
-              <cite class="ps-3 text-sm text-gray-500 dark:text-gray-400">Piscoterapeuta Integrativa</cite>
+              <cite class="ps-3 text-sm text-gray-500 dark:text-gray-400">Psicoterapeuta Integrativa</cite>
           </div>
       </figcaption>
   </figure>
@@ -17,7 +17,7 @@
   <div class="flex items-center justify-center gap-10">
     <img src="../pictures/dr.png" class="w-[200px]" alt="">
     <blockquote class="mb-3">
-      <p class="text-xl italic font-semibold text-gray-900 dark:text-white">"Las Guías del proceso psicoterapéutico, son instrumentos para monitorizarlo con el augurio de favorecer una práctica organizada y sistematizada que supere la improvisación"</p>
+      <p class="text-xl italic font-semibold text-gray-900 dark:text-white">"Las Guías del proceso psicoterapéutico son instrumentos para monitorizarlo con el augurio de favorecer una práctica organizada y sistematizada que supere la improvisación"</p>
       <p class="pl-10 pt-4">Dr. Lucio Balarezo Chiriboga, Gestor del MIFP</p>
     </blockquote>
   </div>

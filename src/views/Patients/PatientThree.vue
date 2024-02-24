@@ -19,6 +19,11 @@
                     <p class="leading-relaxed px-4 pt-4 text-sm whitespace-pre-line">{{ guideThreeData.otherSections[item] }}</p>
                 </div>
             </div>
+            <div class="my-4">
+                <a @click="goBiography" class="cursor-pointer hover:underline hover:underline-offset-2 border border-y-2 border-light border-x-0 py-2">
+                    Visitar la biografía psicológica
+                </a>
+            </div>
             <div class="p-4">
                 <h2 class="font-bold">{{ content[4] }}:</h2>
                 <p class="leading-relaxed px-4 pt-4 text-sm whitespace-pre-line">{{ guideThreeData.otherSections[content[4]] }}</p>
@@ -85,6 +90,11 @@ const guideThreeData = reactive({
 })
 const isEmpty = ref(false);
 const { opacity, modalAlert, showModalAlert } = useModal();
+
+function goBiography() {
+    const routeData = router.resolve(`/${props.id}/biography`);
+    window.open(routeData.href, '_blank');
+}
 
 async function goGuide(){
     isLoading.guide = true;

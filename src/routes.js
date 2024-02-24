@@ -4,9 +4,9 @@ import GuideOne from './views/Guides/GuideOne.vue';
 import GuideTwo from './views/Guides/GuideTwo.vue';
 import GuideFour from './views/Guides/GuideFour.vue';
 import GuideFive from './views/Guides/GuideFive.vue';
-import GuideSix from './views/Guides/GuideSix.vue';
 import GuideSeven from './views/Guides/GuideSeven.vue';
 import GuideEight from './views/Guides/GuideEight.vue';
+import CreateCouple from './views/Guides/CreateCouple.vue';
 import CreateDiagnosis from './views/Guides/CreateDiagnosis.vue';
 import Patients from './views/Patients.vue';
 import Login from './views/Login.vue';
@@ -23,10 +23,14 @@ import PatientFive from './views/Patients/PatientFive.vue';
 import PatientSix from './views/Patients/PatientSix.vue';
 import PatientSeven from './views/Patients/PatientSeven.vue';
 import PatientEight from './views/Patients/PatientEight.vue';
+import CoupleGuide from './views/Patients/CoupleGuide.vue';
+import CoupleEvolution from './views/Patients/CoupleEvolution.vue';
 import PatientsList from './views/PatientsList.vue';
 import PatientProcesses from './views/Patients/PatientProcesses.vue';
 import PatientProcess from './views/Patients/PatientProcess.vue';
 import Psychodiagnosis from './views/Patients/Psychodiagnosis.vue';
+import PatientCouple from './views/Patients/PatientCouple.vue';
+import CoupleView from './views/Patients/CoupleView.vue';
 import Diagnosis from './views/Patients/Diagnosis.vue';
 import Biography from './views/Patients/Biography.vue';
 import Consent from './views/Patients/Consent.vue';
@@ -121,11 +125,6 @@ const routes = [
         props: true
     },
     {
-        path: '/create/guidesix/:id/:processid',
-        component: GuideSix,
-        props: true
-    },
-    {
         path: '/create/guideseven/:id/:processid',
         component: GuideSeven,
         props: true
@@ -133,6 +132,11 @@ const routes = [
     {
         path: '/create/guideeight/:id/:processid',
         component: GuideEight,
+        props: true
+    },
+    {
+        path: '/create/couple/:id',
+        component: CreateCouple,
         props: true
     },
     {
@@ -211,7 +215,28 @@ const routes = [
                 path: 'diagnosis/:diagnosisid',
                 component: Diagnosis,
                 props: true,
-            }
+            },
+            {
+                path: 'couple',
+                component: PatientCouple
+            },
+            {
+                path: 'coupleview/:coupleid',
+                props: true,
+                component: CoupleView,
+                children: [
+                    {
+                        path: 'coupleguide',
+                        component: CoupleGuide,
+                        props: true
+                    },
+                    {
+                        path: 'coupleevolution',
+                        component: CoupleEvolution,
+                        props: true
+                    },
+                ]
+            },
         ]
     },
     {

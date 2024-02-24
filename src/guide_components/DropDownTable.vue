@@ -41,11 +41,11 @@
                 </td>
                 <td class="px-2 py-4 text-center">
                     <input @input="showSubItems($event.target.value, index)" v-model="data[`${item.subtitle}`].selected"
-                        :id="`subitems-${index}`" type="radio" value="Sí" :name="`subitems-${index}`" class="w-4 h-4 text-main-default bg-gray-100 border-gray-300 focus:ring-main-default dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        :id="`subitems-${index}-${item.subtitle}`" type="radio" value="Sí" :name="`subitems-${index}-${item.subtitle}`" class="w-4 h-4 text-main-default bg-gray-100 border-gray-300 focus:ring-main-default dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 </td>
                 <td class="px-2 py-4 text-center">
                     <input @input="showSubItems($event.target.value, index)" v-model="data[`${item.subtitle}`].selected"
-                        :id="`subitems-${index}`" type="radio" value="No" :name="`subitems-${index}`" class="w-4 h-4 text-main-default bg-gray-100 border-gray-300 focus:ring-main-default dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        :id="`subitems-${index}-${item.subtitle}`" type="radio" value="No" :name="`subitems-${index}-${item.subtitle}`" class="w-4 h-4 text-main-default bg-gray-100 border-gray-300 focus:ring-main-default dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 </td>
             </tr>
             <tr v-for="(subitem, subindex) in item.options" v-if="subItems && inde.some(value => value === index) && Array.isArray(item.options)" :key="subindex" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -54,11 +54,11 @@
                 </td>
                 <td class="px-2 py-4 text-center">
                     <input @input="showValue" v-model="data[`${item.subtitle}`][`${subitem}`]"
-                    :id="`subitem-${index}-${subindex}`" type="radio" value="Sí" :name="`subitem-${index}-${subindex}`" class="w-4 h-4 text-main-default bg-gray-100 border-gray-300 focus:ring-main-default dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    :id="`subitem-${index}-${subindex}-${subitem}`" type="radio" value="Sí" :name="`subitem-${index}-${subindex}-${subitem}`" class="w-4 h-4 text-main-default bg-gray-100 border-gray-300 focus:ring-main-default dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 </td>
                 <td class="px-2 py-4 text-center">
                     <input @input="showValue" v-model="data[`${item.subtitle}`][`${subitem}`]"
-                    :id="`subitem-${index}-${subindex}`" type="radio" value="No" :name="`subitem-${index}-${subindex}`" class="w-4 h-4 text-main-default bg-gray-100 border-gray-300 focus:ring-main-default dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    :id="`subitem-${index}-${subindex}-${subitem}`" type="radio" value="No" :name="`subitem-${index}-${subindex}-${subitem}`" class="w-4 h-4 text-main-default bg-gray-100 border-gray-300 focus:ring-main-default dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 </td>
             </tr>
             <tr v-else-if="subItems && item.options.type === 'text' && inde.some(value => value === index)" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">

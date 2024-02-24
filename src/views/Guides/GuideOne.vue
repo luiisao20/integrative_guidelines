@@ -147,7 +147,7 @@ onBeforeMount(async() => {
     const patientRef = doc(db, 'patients', `${props.id}`);
     const docSnap = await getDoc(patientRef);
     patient.value = { ...docSnap.data().dataPatient };
-
+    window.addEventListener('beforeunload', stopLoad, true);
     isLoading.data = false;
 })
 
@@ -162,10 +162,10 @@ onBeforeRouteLeave(() => {
     }
 })
 
-window.addEventListener('beforeunload', (event) => {
+function stopLoad(event) {
     event.preventDefault();
     event.returnValue = '';
-})
+}
 
 function checkValues(){
     isEmpty.value = false;

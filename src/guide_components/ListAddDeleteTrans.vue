@@ -1,7 +1,7 @@
 <template>
     <div class="flex items-center gap-10 mx-auto justify-center">
-        <h1 class="font-bold flex items-center">
-            <span>{{ title }}</span>
+        <h1 class="font-bold">
+            {{ title }}
             <PopOver v-if="title === 'Evaluación Psicométrica'" text-info="Este campo no es obligatorio" variant="info"/>
         </h1>
         <button type="button" class="text-success" @click="addElement">

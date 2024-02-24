@@ -161,10 +161,10 @@ const { opacity, modalAlert, showModalAlert } = useModal();
 
 async function goGuide() {
     isLoading.guide = true;
-    const res = await fetchGuide('guidesix', props.id, props.processid);
+    const res = await fetchGuide('guidefive', props.id, props.processid);
 
     if (res.go) router.push(`/create/guideseven/${props.id}/${props.processid}`);
-    else showModalAlert('Para crear la guía 7, es necesaria la guía 6', false, {variant: 'danger'});
+    else showModalAlert('Para crear la guía 7, es necesaria la guía 5', false, {variant: 'danger'});
     isLoading.guide = false;
 }
 

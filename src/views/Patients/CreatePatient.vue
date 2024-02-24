@@ -92,6 +92,10 @@ onBeforeRouteLeave(() => {
     }
 })
 
+onBeforeUnmount(() => {
+    window.removeEventListener('beforeunload', stopLoad, true);
+})
+
 async function checkValues() {
     const keysExcluded = ['Otro tipo de atención', 'Correo electrónico (opcional)', 'Unicódigo'];
     // Data User
@@ -118,12 +122,11 @@ async function checkValues() {
 async function showData() {
     isEmpty.value = false;
     messageAlert.value = '';
-    maxlength.value = '10';
     patientExists.value = false;
     patientExistsInTherapist.value = false;
     isLoading.value = true;
 
-    if (!/^\d*$/.test(dataPatient['Número de cédula']) || dataPatient['Número de cédula'].length !== 10){
+    if (!/^\d*$/.test(dataPatient['Número de cédula']) || dataPatient['Número de cédula'].length < 10){
         isEmpty.value = true;
         messageAlert.value = 'El número de cédula es incorrecto, recuerda que necesita 10 dígitos y sólo contiene números.';
     } else if (dataPatient['Tipo de atención'] === 'other' && dataPatient['Otro tipo de atención'].trim() === '' || dataPatient['Tipo de atención'] === 'Tipo de atención') {
@@ -164,10 +167,7 @@ onBeforeMount(() => {
                 return
             }
 
-            window.addEventListener('beforeunload', (event) => {
-                event.preventDefault();
-                event.returnValue = '';
-            })
+            window.addEventListener('beforeunload', stopLoad, true);
 
             const patientsRef = query(collection(db, 'patients'), where('therapist', '==', `${userEmail.value}`));
             const querySnapshot = await getDocs(patientsRef);
@@ -183,6 +183,11 @@ onBeforeMount(() => {
         isLoading.value = false;
     })
 })
+
+function stopLoad(event) {
+    event.preventDefault();
+    event.returnValue = '';
+}
 
 async function sendData(){
     isLoading.value = true;

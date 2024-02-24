@@ -11,7 +11,7 @@ import { router } from './routes';
 // Font Awsome
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faCirclePlus, faCaretRight, 
+import { faCirclePlus, faCaretRight, faTriangleExclamation,
     faEllipsis, faArrowLeft, faEye, faEyeSlash, 
     faDoorOpen, faCircleUp, faCircleDown } from '@fortawesome/free-solid-svg-icons';
 // Firebase config
@@ -27,7 +27,7 @@ const storage = getStorage(app);
 
 library.add(faCirclePlus, faCaretRight, faEllipsis, 
             faArrowLeft, faEye, faEyeSlash, faDoorOpen, 
-            faCircleUp, faCircleDown);
+            faCircleUp, faCircleDown, faTriangleExclamation);
 
 createApp(App).component('font-awesome-icon', FontAwesomeIcon).use(router).mount('#app');
 

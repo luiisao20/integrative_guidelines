@@ -76,7 +76,7 @@
 
 <script setup>
 import RadioBox from '@/guide_components/RadioBox.vue';
-import { reactive, ref, onBeforeMount } from 'vue';
+import { reactive, ref, onBeforeMount, onBeforeUnmount } from 'vue';
 import ModalAlert from '@/general_components/ModalAlert.vue';
 import { useModal } from '@/composables/modal';
 import ButtonVue from '@/general_components/ButtonVue.vue';
@@ -121,7 +121,7 @@ const isLoading = reactive({
 onBeforeMount(async() => {
     isLoading.data = true;
 
-    const res = await fetchGuide('guideeight', props.id, props.processid);
+    const res = await fetchGuide('guidefour', props.id, props.processid);
 
     if (res.go) {
         showModalAlert('Esta guía ya está creada, no puedes sobreescribirla', false, {variant: 'danger'});
@@ -132,6 +132,7 @@ onBeforeMount(async() => {
     const patientRef = doc(db, 'patients', `${props.id}`);
     const docSnap = await getDoc(patientRef);
     patient.value = { ...docSnap.data().dataPatient };
+    window.addEventListener('beforeunload', stopLoad, true);
     isLoading.data = false;
 })
 
@@ -146,10 +147,14 @@ onBeforeRouteLeave(() => {
     }
 })
 
-window.addEventListener('beforeunload', (event) => {
+onBeforeUnmount(() => {
+    window.removeEventListener('beforeunload', stopLoad, true);
+})
+
+function stopLoad(event) {
     event.preventDefault();
     event.returnValue = '';
-})
+}
 
 function checkValues(){
     isEmpty.value = false;

@@ -85,7 +85,7 @@ import ButtonVue from '@/general_components/ButtonVue.vue';
 import DropDownTable from '@/guide_components/DropDownTable.vue';
 import RadioBox from '@/guide_components/RadioBox.vue';
 import TableGuideSeven from '@/guide_components/TableGuideSeven.vue';
-import { reactive, ref, computed, onBeforeMount } from 'vue';
+import { reactive, ref, computed, onBeforeMount, onBeforeUnmount } from 'vue';
 import { useModal } from '@/composables/modal';
 import ModalAlert from '@/general_components/ModalAlert.vue';
 import SideBar from '@/guide_components/SideBar.vue';
@@ -400,19 +400,30 @@ const isLoading = reactive({
 
 onBeforeMount(async() => {
     isLoading.data = true;
-    const res = await fetchGuide('guideeight', props.id, props.processid);
+    const res = await fetchGuide('guideseven', props.id, props.processid);
 
-    // if (res.go) {
-    //     showModalAlert('Esta guía ya está creada, no puedes sobreescribirla', false, {variant: 'danger'});
-    //     goBack.value = true;
-    //     isSafeToLeave.value = true;
-    //     return
-    // }
+    if (res.go) {
+        showModalAlert('Esta guía ya está creada, no puedes sobreescribirla', false, {variant: 'danger'});
+        goBack.value = true;
+        isSafeToLeave.value = true;
+        return
+    }
+
     const patientRef = doc(db, 'patients', `${props.id}`);
     const docSnap = await getDoc(patientRef);
     patient.value = { ...docSnap.data().dataPatient };
+    window.addEventListener('beforeunload', stopLoad, true);
     isLoading.data = false;
 })
+
+onBeforeUnmount(() => {
+    window.removeEventListener('beforeunload', stopLoad, true);
+})
+
+function stopLoad(event) {
+    event.preventDefault();
+    event.returnValue = '';
+}
 
 onBeforeRouteLeave(() => {
     if (isSafeToLeave.value) return true
@@ -423,11 +434,6 @@ onBeforeRouteLeave(() => {
             return false
         }
     }
-})
-
-window.addEventListener('beforeunload', (event) => {
-    event.preventDefault();
-    event.returnValue = '';
 })
 
 /**

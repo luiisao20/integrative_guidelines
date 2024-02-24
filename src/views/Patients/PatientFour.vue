@@ -12,8 +12,8 @@
             <CreateGuide @go-guide="goGuide" :is-loading="isLoading.guide"/>
         </div>
         <section v-else>
-            <div v-for="(item, key) in dataCopy.dataGuideFour" class="w-[80%] mx-auto">
-                <div v-if="key !== '¿Qué dificultades se van a presentar en el proceso?'" class="flex justify-between pl-10 gap-4 my-4 text-sm items-center">
+            <div v-for="(item, key) in dataCopy.dataGuideFour" class="w-[80%] mx-auto odd:bg-gray-300 py-2 px-2 rounded-xl">
+                <div v-if="key !== '¿Qué dificultades se van a presentar en el proceso?'" class="flex justify-between gap-4 text-sm items-center">
                     <p class="font-semibold text-gray-900 dark:text-white w-1/2">
                         {{ key }}
                     </p>        

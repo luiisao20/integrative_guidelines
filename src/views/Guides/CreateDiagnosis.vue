@@ -85,7 +85,10 @@
     
             <div class="my-10">
                 <div class="flex justify-center gap-10">
-                    <h1 class="font-bold text-center">Tratamiento</h1>            
+                    <h1 class="font-bold text-center">
+                        Tratamiento
+                        <PopOver text-info="Este campo no es obligatorio" variant="info" />
+                    </h1>
                     <label class="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" @input="isChecked.treatment = ! isChecked.treatment; 
                                                         data.Tratamiento.selected = isChecked.treatment;
@@ -124,7 +127,10 @@
 
             <div class="my-10">
                 <div class="flex justify-center gap-10">
-                    <h1 class="font-bold text-center">Emisión de Informe Psicológico</h1>
+                    <h1 class="font-bold text-center">
+                        Emisión de Informe Psicológico
+                        <PopOver text-info="Este campo no es obligatorio" variant="info" />
+                    </h1>
                     <label class="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" @input="isChecked.disc = ! isChecked.disc; 
                                                         data['Emisión de Informe Psicológico'].selected = isChecked.disc; 
@@ -143,7 +149,6 @@
                     </div>
                 </Transition>
             </div>
-    
             <button type="submit" class="p-2 bg-light text-white rounded-xl">Enviar</button>
         </form>
     </div>
@@ -217,18 +222,22 @@ async function sendData(){
 
     showModalAlert('¡Esto puede tardar unos minutos!', true, { variant: 'info' });
 
-    try {        
-        for (const item of data['Evaluación Psicométrica']) {
-            const evaluationRef = refStrg(storage, `${props.id}/${data.Consulta}/evaluations/${item.file.name}`);
-            await uploadBytes(evaluationRef, item.file);
-            const resUrl = await getDownloadURL(evaluationRef);
-            item.file = resUrl;
+    try {
+        if(data['Evaluación Psicométrica'].length > 0) {
+            for (const item of data['Evaluación Psicométrica']) {
+                const evaluationRef = refStrg(storage, `${props.id}/${data.Consulta}/evaluations/${item.file.name}`);
+                await uploadBytes(evaluationRef, item.file);
+                const resUrl = await getDownloadURL(evaluationRef);
+                item.file = resUrl;
+            }
         }
-    
-        const reportRef = refStrg(storage, `${props.id}/${data.Consulta}/evaluations/${data['Emisión de Informe Psicológico'].content.name}`);
-        await uploadBytes(reportRef, data['Emisión de Informe Psicológico'].content);
-        const resUrl = await getDownloadURL(reportRef);
-        data['Emisión de Informe Psicológico'].content = resUrl;
+        
+        if (data['Emisión de Informe Psicológico'].selected) {
+            const reportRef = refStrg(storage, `${props.id}/${data.Consulta}/evaluations/${data['Emisión de Informe Psicológico'].content.name}`);
+            await uploadBytes(reportRef, data['Emisión de Informe Psicológico'].content);
+            const resUrl = await getDownloadURL(reportRef);
+            data['Emisión de Informe Psicológico'].content = resUrl;
+        }
     
         const diagnosisRef = doc(collection(db, 'psychodiagnosis'));
         await setDoc(diagnosisRef, {
@@ -239,6 +248,7 @@ async function sendData(){
         exit.value = true;
         showModalAlert('¡Los datos se han guardado exitosamente!', false, { variant: 'success', showRoute: true });
     } catch (error) {
+        console.log(error);
         showModalAlert(error.message, false, { variant: 'danger' });
     }
 
